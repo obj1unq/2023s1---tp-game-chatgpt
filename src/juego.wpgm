@@ -1,8 +1,15 @@
 import wollok.game.*
-import pepita.*
+import jugador.*
+import direccion.*
 
 program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	game.title("Star Wars Game")
+	game.height(15)
+	game.width(30)
+	game.addVisual(personaje)
+	keyboard.up().onPressDo({ personaje.mover(arriba) })
+	keyboard.down().onPressDo({ personaje.mover(abajo) })
+	keyboard.left().onPressDo({ personaje.mover(izquierda) })
+	keyboard.right().onPressDo({ personaje.mover(derecha) })
 	game.start()
 }
