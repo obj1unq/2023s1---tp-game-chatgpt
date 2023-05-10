@@ -1,5 +1,5 @@
+import Direction.*
 import wollok.game.*
-import direccion.*
 
 object personaje {
 
@@ -9,8 +9,8 @@ object personaje {
 	method image() = "heroe-" + direccionDondeMira.toString() + ".png"
 
 	method mover(direccion) {
-		direccion.mover(self)
 		direccionDondeMira = direccion
+		direccion.mover(self)
 	}
 
 }
