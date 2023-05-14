@@ -7,7 +7,7 @@ object personaje {
 	var property position = game.center()
 	var property direccionDondeMira = abajo
 	const property atravesable = true
-	
+	var property estatus = vivo
 
 	method image() = "heroe-" + direccionDondeMira.toString() + ".png"
 
@@ -15,11 +15,25 @@ object personaje {
 		direccionDondeMira = direccion
 		direccion.mover(self)
 	}
-	
-	method disparar(){
+
+	method disparar() {
 		var disparo = new Disparo(position = direccionDondeMira.next(self), direccion = direccionDondeMira)
 		game.addVisual(disparo)
 		disparo.disparar()
+	}
+
+}
+
+object vivo {
+
+	method estado() {
+	}
+
+}
+
+object muerto {
+
+	method estado() {
 	}
 
 }
