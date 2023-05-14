@@ -18,8 +18,8 @@ object pantalla {
 	}
 
 	method mover(personaje, direccion) {
-		if (self.estaDentro(direccion.siguente(personaje)) && not self.hayObjetoAdelante(direccion.siguente(personaje))) {
-			personaje.position(direccion.siguente(personaje))
+		if (self.estaDentro(direccion.next(personaje)) && not self.hayObjetoAdelante(direccion.next(personaje))) {
+			personaje.position(direccion.next(personaje))
 		}
 	}
 

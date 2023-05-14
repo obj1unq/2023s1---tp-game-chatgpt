@@ -19,10 +19,11 @@ object starsWarsGame {
 	}
 
 	method agregarControles() {
-		keyboard.w().onPressDo({ personaje.mover(arriba)})
-		keyboard.s().onPressDo({ personaje.mover(abajo)})
-		keyboard.a().onPressDo({ personaje.mover(izquierda)})
-		keyboard.d().onPressDo({ personaje.mover(derecha)})
+		keyboard.up().onPressDo({ personaje.mover(arriba)})
+		keyboard.down().onPressDo({ personaje.mover(abajo)})
+		keyboard.left().onPressDo({ personaje.mover(izquierda)})
+		keyboard.right().onPressDo({ personaje.mover(derecha)})
+		keyboard.z().onPressDo({personaje.disparar()})
 	}
 
 	method agregarVisuales() {
