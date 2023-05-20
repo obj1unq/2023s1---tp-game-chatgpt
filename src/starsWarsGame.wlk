@@ -30,8 +30,9 @@ object starsWarsGame {
 		game.addVisual(new Caja(position = game.at(10, 5)))
 		game.addVisual(new Caja(position = game.at(7, 5)))
 		game.addVisual(new Caja(position = game.at(7, 13)))
-		game.addVisual(new Disparo(position = game.at(14, 7), direccion = izquierda))
 		game.addVisual(personaje)
+		game.addVisual(enemigo)
+		
 	}
 
 }

@@ -1,5 +1,6 @@
 import wollok.game.*
 import pantalla.*
+import jugador.*
 
 class Caja {
 
@@ -18,30 +19,38 @@ class Disparo {
 	var property danio = null
 	var property direccion
 	var property colision = false
-	const property atravesable = true
-
+	const property atravesable = true	
+	var alcance = 5
+	
+	
 	method image() {
 		return "laser-rojo-" + direccion + ".png"
 	}
-
+	
 	method trayectoria() {
-		if (not self.hayObjetosAtravesables() and pantalla.estaDentro(position)) {
-			self.position(self.direccion().next(self))
+		if ( pantalla.estaDentro(position) and alcance > 0) {	//1ero calcular a dnd ir, para no usar pantalla.estaDentro(position)
+			
+			self.position(direccion.next(self))
+			alcance -= 1
+			
 		} else {
-			// colision = true
-			game.removeTickEvent(self.identity().toString())
-			game.removeVisual(self)
+				game.removeTickEvent(self.identity().toString())
+				game.removeVisual(self)
 		}
+	}
+	
+	method esPositionNull(){
+		return game.colliders(self).isEmpty()
 	}
 
 	method disparar() {
 		game.onTick(25, self.identity().toString(), { self.trayectoria()})
+		game.onCollideDo(self,{enemigo => enemigo.morirPersonaje()})
 	}
 
 	method hayObjetosAtravesables() {
-		const arrayDeObjetosEnCelda = game.getObjectsIn(direccion.next(self)).filter({ objeto => objeto != self })
-		return arrayDeObjetosEnCelda.any({ objeto => not objeto.atravesable() })
+		return game.colliders(self).any({ objeto => not objeto.atravesable() })
 	}
-
+	
 }
 
