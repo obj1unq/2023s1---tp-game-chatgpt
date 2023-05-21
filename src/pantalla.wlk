@@ -3,8 +3,7 @@ import objetosInmoviles.*
 
 object pantalla {
 
-	const property elementos = [ new Caja(position = game.at(10,5)), new Caja(position = game.at(7,5)), new Caja(position = game.at(7,13)) ]
-
+	// const property elementos = [ new Caja(position = game.at(10,5)), new Caja(position = game.at(7,5)), new Caja(position = game.at(7,13)) ]
 	method estaDentro(posicionPersonaje) {
 		return self.estaDentroDeEjeX(posicionPersonaje) && self.estaDentroDeEjeY(posicionPersonaje)
 	}
@@ -18,13 +17,13 @@ object pantalla {
 	}
 
 	method mover(personaje, direccion) {
-		if (self.estaDentro(direccion.next(personaje)) && not self.hayObjetoAdelante(direccion.next(personaje))) {
-			personaje.position(direccion.next(personaje))
+		if (self.estaDentro(direccion.proxima(personaje)) && not self.hayObjetoAdelante(direccion.proxima(personaje))) {
+			personaje.position(direccion.proxima(personaje))
 		}
 	}
 
 	method hayObjetoAdelante(coordenada) {
-		return elementos.any({ elemento => elemento.position() == coordenada })
+		return game.getObjectsIn(coordenada).any({ elemento => elemento.position() == coordenada })
 	}
 
 }
