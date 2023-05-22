@@ -8,15 +8,15 @@ class Personaje {
 	var property position // = game.center()
 	var property direccionDondeMira = abajo
 	const property estado = atravesable
-	const property condicion = vivo
+	var property condicion = vivo
 	var cooldown = false
+	var image
 
 	// TODO: var vida - 
 	method image()
 
 	method mover(direccion) {
-		direccionDondeMira = direccion
-		direccion.mover(self)
+		condicion.mover(direccion, self)
 	}
 
 	method accion()
@@ -29,6 +29,10 @@ class Personaje {
 		cooldown = not cooldown
 	}
 
+	method image(_image) {
+		image = _image
+	}
+
 }
 
 class Heroe inherits Personaje {
@@ -38,7 +42,7 @@ class Heroe inherits Personaje {
 	override method image() = "heroe-" + direccionDondeMira.toString() + ".png"
 
 	override method accion() {
-		self.disparar()
+		condicion.accion(self)
 	}
 
 	method disparar() {
@@ -51,6 +55,11 @@ class Heroe inherits Personaje {
 		}
 	}
 
+	override method eliminar() {
+		super()
+		condicion = muerto
+	}
+
 }
 
 class Enemigo inherits Personaje {
@@ -58,7 +67,7 @@ class Enemigo inherits Personaje {
 	const alcanceDisparo
 
 	override method accion() {
-		self.disparar()
+		condicion.accion(self)
 	}
 
 	method disparar() {
@@ -72,8 +81,8 @@ class Enemigo inherits Personaje {
 	}
 
 	method disparoSecuencial() {
+		// game.onTick(800, self.nroSerialDisparo(), { self.mover([ abajo, arriba, derecha, izquierda ].anyOne())})
 		game.onTick(800, self.nroSerialDisparo(), { self.accion()})
-		game.onTick(800, self.nroSerialDisparo(), { self.mover([ abajo, arriba, derecha, izquierda ].anyOne())})
 	}
 
 	method nroSerialDisparo() {
@@ -81,6 +90,7 @@ class Enemigo inherits Personaje {
 	}
 
 	override method eliminar() {
+		condicion = muerto
 		game.removeTickEvent(self.nroSerialDisparo())
 		super()
 	}

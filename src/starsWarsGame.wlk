@@ -29,7 +29,7 @@ object starsWarsGame {
 		keyboard.down().onPressDo({ personaje.mover(abajo)})
 		keyboard.left().onPressDo({ personaje.mover(izquierda)})
 		keyboard.right().onPressDo({ personaje.mover(derecha)})
-		keyboard.d().onPressDo({ personaje.accion()})
+		keyboard.z().onPressDo({ personaje.accion()})
 	}
 
 	method agregarVisualesEscenario() {

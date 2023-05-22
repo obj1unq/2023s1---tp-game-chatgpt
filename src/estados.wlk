@@ -19,15 +19,28 @@ object noAtravesable {
 
 object vivo {
 
-// method accionPara(personaje) {
-// game.addVisual(personaje)
-// }
+	method mover(direccion, personaje) {
+		personaje.direccionDondeMira(direccion)
+		direccion.mover(personaje)
+	}
+
+	method accion(personaje) {
+		personaje.disparar()
+	}
+
 }
 
 object muerto {
 
-// method accionPara(personaje) {
-// game.removeVisual(personaje)
-// }
+	method mover(direccion, personaje) {
+	}
+
+	method accion(personaje) {
+	}
+
+}
+
+object tumba {
+
 }
 
