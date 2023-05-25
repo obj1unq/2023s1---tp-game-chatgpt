@@ -1,36 +1,29 @@
-import Proyectil.*
 import wollok.game.*
+import pantalla.*
+import EstadoPersonaje.*
 import Direccion.*
-import estados.*
+import Colisionable.*
+import Proyectil.*
 
-class Personaje {
+class Personaje inherits Colisionable {
 
-	var property position // = game.center()
-	var property direccionDondeMira = abajo
-	const property estado = atravesable
-	var property condicion = vivo
 	var cooldown = false
-	var image
-
-	// TODO: var vida - 
-	method image()
-
-	method mover(direccion) {
-		condicion.mover(direccion, self)
-	}
+	var property estado = vivo
+	var property direccionMovimiento
 
 	method accion()
-
-	method eliminar() {
-		game.removeVisual(self)
-	}
 
 	method cooldown(_cooldown) {
 		cooldown = not cooldown
 	}
 
-	method image(_image) {
-		image = _image
+	override method desaparecer() {
+		estado = muerto
+		super()
+	}
+
+	method mover(direccion) {
+		estado.mover(self, direccion)
 	}
 
 }
@@ -39,15 +32,25 @@ class Heroe inherits Personaje {
 
 	const alcanceDisparo
 
-	override method image() = "heroe-" + direccionDondeMira.toString() + ".png"
+	override method image() {
+		return self.estado()
+	}
+
+	override method estado() {
+		return if (estado.equals(muerto)) {
+			"tumba.png"
+		} else {
+			"heroe-" + direccionMovimiento.toString() + ".png"
+		}
+	}
 
 	override method accion() {
-		condicion.accion(self)
+		estado.accion(self)
 	}
 
 	method disparar() {
 		if (not cooldown) {
-			const laser = new Laser(position = direccionDondeMira.proxima(self), direccion = direccionDondeMira, alcance = alcanceDisparo)
+			const laser = new Laser(position = direccionMovimiento.proxima(self), direccionMovimiento = direccionMovimiento, alcance = alcanceDisparo)
 			laser.aparecer()
 			laser.disparar()
 			cooldown = true
@@ -55,9 +58,8 @@ class Heroe inherits Personaje {
 		}
 	}
 
-	override method eliminar() {
-		super()
-		condicion = muerto
+	override method desaparecer() {
+		estado.desaparecer(self)
 	}
 
 }
@@ -67,12 +69,12 @@ class Enemigo inherits Personaje {
 	const alcanceDisparo
 
 	override method accion() {
-		condicion.accion(self)
+		estado.accion(self)
 	}
 
 	method disparar() {
 		if (not cooldown) {
-			const laser = new Laser(position = direccionDondeMira.proxima(self), direccion = direccionDondeMira, alcance = alcanceDisparo)
+			const laser = new Laser(position = direccionMovimiento.proxima(self), direccionMovimiento = direccionMovimiento, alcance = alcanceDisparo)
 			laser.aparecer()
 			laser.disparar()
 			cooldown = true
@@ -89,8 +91,8 @@ class Enemigo inherits Personaje {
 		return self.identity().toString()
 	}
 
-	override method eliminar() {
-		condicion = muerto
+	override method desaparecer() {
+		estado = muerto
 		game.removeTickEvent(self.nroSerialDisparo())
 		super()
 	}
@@ -99,7 +101,7 @@ class Enemigo inherits Personaje {
 
 class Tropper inherits Enemigo {
 
-	override method image() = "tropper-" + direccionDondeMira.toString() + ".png"
+	override method image() = "tropper-" + direccionMovimiento.toString() + ".png"
 
 }
 

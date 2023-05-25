@@ -1,42 +1,33 @@
-import pantalla.*
+import Colisionable.*
 import wollok.game.*
-import estados.*
+import pantalla.*
 
-class Proyectil {
+class Proyectil inherits Colisionable {
 
-	var property position
-	// TODO: var property danio
-	var property direccion
-	const property estado = atravesable
+	var direccionMovimiento
 	var alcance
 
-	method image()
+	override method desaparecer() {
+		game.removeTickEvent(self.nroSerialDisparo())
+		super()
+	}
 
 	method desplazar() {
-		if (pantalla.estaDentro(direccion.proxima(self)) and alcance > 0) {
-			self.position(direccion.proxima(self))
+		if (pantalla.estaDentro(direccionMovimiento.proxima(self)) and alcance > 0) {
+			self.position(direccionMovimiento.proxima(self))
 			alcance -= 1
 		} else {
-			self.eliminar()
+			self.desaparecer()
 		}
 	}
 
 	method disparar() {
-		game.onTick(25, self.nroSerialDisparo(), { self.desplazar()})
-		game.onCollideDo(self, { objeto => objeto.estado().eliminar(self, objeto)})
+		game.onTick(70, self.nroSerialDisparo(), { self.desplazar()})
+		game.onCollideDo(self, { objeto => objeto.desaparecer()})
 	}
 
 	method nroSerialDisparo() {
 		return self.identity().toString()
-	}
-
-	method eliminar() {
-		game.removeTickEvent(self.nroSerialDisparo())
-		game.removeVisual(self)
-	}
-
-	method aparecer() {
-		game.addVisual(self)
 	}
 
 }
@@ -44,7 +35,7 @@ class Proyectil {
 class Laser inherits Proyectil {
 
 	override method image() {
-		return "laser-rojo-" + direccion + ".png"
+		return "laser-rojo-" + direccionMovimiento.toString() + ".png"
 	}
 
 }

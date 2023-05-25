@@ -1,43 +1,43 @@
 import pantalla.*
 
-class Direccion {
+mixin Direccion {
 
-	method mover(personaje) {
-		pantalla.mover(personaje, self)
+	method mover(objeto) {
+		pantalla.mover(objeto, self)
 	}
 
-	method proxima(personaje)
+	method proxima(objeto)
 
 }
 
 object arriba inherits Direccion {
 
-	override method proxima(personaje) {
-		return personaje.position().up(1)
+	override method proxima(objeto) {
+		return objeto.position().up(1)
 	}
 
 }
 
 object abajo inherits Direccion {
 
-	override method proxima(personaje) {
-		return personaje.position().down(1)
+	override method proxima(objeto) {
+		return objeto.position().down(1)
 	}
 
 }
 
 object derecha inherits Direccion {
 
-	override method proxima(personaje) {
-		return personaje.position().right(1)
+	override method proxima(objeto) {
+		return objeto.position().right(1)
 	}
 
 }
 
 object izquierda inherits Direccion {
 
-	override method proxima(personaje) {
-		return personaje.position().left(1)
+	override method proxima(objeto) {
+		return objeto.position().left(1)
 	}
 
 }

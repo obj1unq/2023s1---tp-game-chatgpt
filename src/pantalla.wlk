@@ -1,9 +1,7 @@
 import wollok.game.*
-import objetosInmoviles.*
 
 object pantalla {
 
-	// const property elementos = [ new Caja(position = game.at(10,5)), new Caja(position = game.at(7,5)), new Caja(position = game.at(7,13)) ]
 	method estaDentro(posicionPersonaje) {
 		return self.estaDentroDeEjeX(posicionPersonaje) && self.estaDentroDeEjeY(posicionPersonaje)
 	}
@@ -22,8 +20,8 @@ object pantalla {
 		}
 	}
 
-	method hayObjetoAdelante(coordenada) {
-		return game.getObjectsIn(coordenada).any({ elemento => elemento.position() == coordenada })
+	method hayObjetoAdelante(posicion) {
+		return game.getObjectsIn(posicion).any({ objeto => objeto.position().equals(posicion) })
 	}
 
 }

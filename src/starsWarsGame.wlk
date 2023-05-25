@@ -1,20 +1,20 @@
 import wollok.game.*
 import Personaje.*
 import Direccion.*
-import objetosInmoviles.*
+import Obstaculo.*
 
 object starsWarsGame {
 
 	method iniciar() {
-		const mandalorian = new Heroe(position = game.at(2, 2), alcanceDisparo = 5)
-		const tropper = new Tropper(position = game.center(), alcanceDisparo = 5)
+		const mandalorian = new Heroe(position = game.at(2, 3), alcanceDisparo = 5, direccionMovimiento = abajo)
+		const tropper = new Tropper(position = game.at(3, 4), alcanceDisparo = 5, direccionMovimiento = abajo)
 		self.agregarConfiguracion()
 		self.agregarControles(mandalorian)
 		self.agregarVisualesEscenario()
 		tropper.disparoSecuencial()
-		game.addVisual(mandalorian)
-		game.addVisual(tropper)
 		game.ground("fondo.png")
+		tropper.aparecer()
+		mandalorian.aparecer()
 		game.start()
 	}
 
@@ -33,9 +33,9 @@ object starsWarsGame {
 	}
 
 	method agregarVisualesEscenario() {
-		game.addVisual(new Caja(position = game.at(10, 5)))
-		game.addVisual(new Caja(position = game.at(7, 5)))
-		game.addVisual(new Caja(position = game.at(7, 13)))
+		game.addVisual(new Obstaculo(position = game.at(10, 5)))
+		game.addVisual(new Obstaculo(position = game.at(7, 5)))
+		game.addVisual(new Obstaculo(position = game.at(7, 13)))
 	}
 
 }
