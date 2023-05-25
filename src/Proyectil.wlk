@@ -22,7 +22,7 @@ class Proyectil inherits Colisionable {
 	}
 
 	method disparar() {
-		game.onTick(70, self.nroSerialDisparo(), { self.desplazar()})
+		game.onTick(25, self.nroSerialDisparo(), { self.desplazar()})
 		game.onCollideDo(self, { objeto => objeto.desaparecer()})
 	}
 

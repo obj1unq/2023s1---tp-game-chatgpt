@@ -18,8 +18,7 @@ class Personaje inherits Colisionable {
 	}
 
 	override method desaparecer() {
-		estado = muerto
-		super()
+		estado = muerto	
 	}
 
 	method mover(direccion) {
@@ -50,7 +49,10 @@ class Heroe inherits Personaje {
 
 	method disparar() {
 		if (not cooldown) {
-			const laser = new Laser(position = direccionMovimiento.proxima(self), direccionMovimiento = direccionMovimiento, alcance = alcanceDisparo)
+			const laser = new Laser(position = direccionMovimiento.proxima(self), 
+									direccionMovimiento = direccionMovimiento, 
+									alcance = alcanceDisparo
+			)
 			laser.aparecer()
 			laser.disparar()
 			cooldown = true
@@ -59,7 +61,8 @@ class Heroe inherits Personaje {
 	}
 
 	override method desaparecer() {
-		estado.desaparecer(self)
+		super()
+		game.schedule(2000, {game.stop()})		// TODO falta poner alguna imagen de fin de juego, subtarea?		
 	}
 
 }
@@ -74,7 +77,10 @@ class Enemigo inherits Personaje {
 
 	method disparar() {
 		if (not cooldown) {
-			const laser = new Laser(position = direccionMovimiento.proxima(self), direccionMovimiento = direccionMovimiento, alcance = alcanceDisparo)
+			const laser = new Laser(position = direccionMovimiento.proxima(self), 
+									direccionMovimiento = direccionMovimiento, 
+									alcance = alcanceDisparo
+			)
 			laser.aparecer()
 			laser.disparar()
 			cooldown = true
@@ -83,7 +89,7 @@ class Enemigo inherits Personaje {
 	}
 
 	method disparoSecuencial() {
-		// game.onTick(800, self.nroSerialDisparo(), { self.mover([ abajo, arriba, derecha, izquierda ].anyOne())})
+		game.onTick(800, self.nroSerialDisparo(),{ self.mover([ derecha ].anyOne())}) //{ self.mover([ abajo, arriba, derecha, izquierda ].anyOne())}) TODO eliminar lo del bloque xq es para prueba.
 		game.onTick(800, self.nroSerialDisparo(), { self.accion()})
 	}
 
@@ -92,9 +98,10 @@ class Enemigo inherits Personaje {
 	}
 
 	override method desaparecer() {
-		estado = muerto
-		game.removeTickEvent(self.nroSerialDisparo())
 		super()
+		game.removeTickEvent(self.nroSerialDisparo())
+		game.removeVisual(self)
+		
 	}
 
 }

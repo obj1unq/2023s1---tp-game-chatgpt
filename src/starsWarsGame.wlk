@@ -6,14 +6,20 @@ import Obstaculo.*
 object starsWarsGame {
 
 	method iniciar() {
-		const mandalorian = new Heroe(position = game.at(2, 3), alcanceDisparo = 5, direccionMovimiento = abajo)
-		const tropper = new Tropper(position = game.at(3, 4), alcanceDisparo = 5, direccionMovimiento = abajo)
+		const mandalorian = new Heroe(position = game.at(5, 5), alcanceDisparo = 5, direccionMovimiento = abajo)
+		const tropper = new Tropper(position = game.at(1, 4), alcanceDisparo = 5, direccionMovimiento = derecha)
+		const tropper2 = new Tropper(position = game.at(12, 4), alcanceDisparo = 5, direccionMovimiento = izquierda)
+		
 		self.agregarConfiguracion()
 		self.agregarControles(mandalorian)
 		self.agregarVisualesEscenario()
-		tropper.disparoSecuencial()
+		tropper.disparoSecuencial()		// Dispara cada 25 ms y se mueve aleatoriamente
+		tropper2.disparoSecuencial()	// Dispara cada 25 ms y se mueve aleatoriamente
+		
 		game.ground("fondo.png")
 		tropper.aparecer()
+		tropper2.aparecer()				// TODO si se disparan, se matan, pero sigue disparando
+		
 		mandalorian.aparecer()
 		game.start()
 	}
