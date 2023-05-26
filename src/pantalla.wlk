@@ -7,11 +7,11 @@ object pantalla {
 	}
 
 	method estaDentroDeEjeX(posicionPersonaje) {
-		return posicionPersonaje.x().between(0, game.width() - 1)
+		return posicionPersonaje.x().between(1, game.width() - 2)
 	}
 
 	method estaDentroDeEjeY(posicionPersonaje) {
-		return posicionPersonaje.y().between(0, game.height() - 2)
+		return posicionPersonaje.y().between(2, game.height() - 4)
 	}
 
 	method mover(personaje, direccion) {

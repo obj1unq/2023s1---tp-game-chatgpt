@@ -3,8 +3,8 @@ import Objeto.*
 
 class NoColisionable inherits Objeto {
 
-	override method desaparecer() {
-		game.colliders(self).first().desaparecer()
+	override method desaparecer(proyectil) {
+		game.colliders(self).first().desaparecer(proyectil)
 	}
 
 }

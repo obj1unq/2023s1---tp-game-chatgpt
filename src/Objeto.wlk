@@ -8,7 +8,7 @@ class Objeto {
 		game.addVisual(self)
 	}
 
-	method desaparecer()
+	method desaparecer(proyectil)
 
 	method image()
 
