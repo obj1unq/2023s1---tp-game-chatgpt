@@ -1,5 +1,10 @@
-import starsWarsGame.*
+import Nivel.*
+import wollok.game.*
 
 program juego {
+	game.title("Star Wars Game")
+	game.height(18)
+	game.width(18)
 	starsWarsGame.iniciar()
+// game.start()
 }

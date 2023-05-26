@@ -7,9 +7,9 @@ class Proyectil inherits Colisionable {
 	var direccionMovimiento
 	var alcance
 
-	override method desaparecer(proyectil) {
+	override method desaparecer() {
 		game.removeTickEvent(self.nroSerialDisparo())
-		super(proyectil)
+		super()
 	}
 
 	method desplazar() {
@@ -17,7 +17,7 @@ class Proyectil inherits Colisionable {
 			self.position(direccionMovimiento.proxima(self))
 			alcance -= 1
 		} else {
-			self.desaparecer(self)
+			self.desaparecer()
 		}
 	}
 
@@ -39,7 +39,7 @@ class Laser inherits Proyectil {
 
 	override method disparar() {
 		game.onTick(25, self.nroSerialDisparo(), { self.desplazar()})
-		game.onCollideDo(self, { objeto => objeto.desaparecer(self)})
+		game.onCollideDo(self, { objeto => objeto.desaparecer()})
 	}
 
 }

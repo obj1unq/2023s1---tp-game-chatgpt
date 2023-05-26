@@ -3,7 +3,7 @@ import wollok.game.*
 
 class Colisionable inherits Objeto {
 
-	override method desaparecer(proyectil) {
+	override method desaparecer() {
 		game.removeVisual(self)
 	}
 
