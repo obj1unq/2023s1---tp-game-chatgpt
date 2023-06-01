@@ -35,20 +35,23 @@ class Heroe inherits Personaje {
 	const alcanceDisparo
 
 	override method image() {
-		return "heroe-" + self.estado().toString() + ".png"
+		return "heroe-" + self.estado() + ".png"
 	}
 
 	override method estado() {
 		return if (estado.equals(muerto)) {
-			tumba
+			"tumba"
 		} else {
-			direccionMovimiento
+			direccionMovimiento.toString()
 		}
 	}
 
 	method disparar() {
 		if (not cooldown) {
-			const laser = new Laser(position = direccionMovimiento.proxima(self), direccionMovimiento = direccionMovimiento, alcance = alcanceDisparo, tipo = laserAzul)
+			const laser = new Laser(position = direccionMovimiento.proxima(self), 
+									direccionMovimiento = direccionMovimiento, 
+									alcance = alcanceDisparo, tipo = laserAzul
+									)
 			laser.aparecer()
 			laser.disparar()
 			self.cooldown(true)
@@ -81,7 +84,11 @@ class Enemigo inherits Personaje {
 
 	method disparar() {
 		if (not cooldown) {
-			const laser = new Laser(position = direccionMovimiento.proxima(self), direccionMovimiento = direccionMovimiento, alcance = alcanceDisparo, tipo = laserRojo)
+			const laser = new Laser(position = direccionMovimiento.proxima(self), 
+									direccionMovimiento = direccionMovimiento, 
+									alcance = alcanceDisparo, 
+									tipo = laserRojo
+			)
 			laser.aparecer()
 			laser.disparar()
 			self.cooldown(true)
