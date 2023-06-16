@@ -6,5 +6,4 @@ program juego {
 	game.height(18)
 	game.width(18)
 	starsWarsGame.iniciar()
-	// game.start()
 }
