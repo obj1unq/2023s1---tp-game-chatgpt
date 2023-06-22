@@ -1,9 +1,11 @@
-import Nivel.*
 import wollok.game.*
+import extras.*
 
 program juego {
 	game.title("Star Wars Game")
-	game.height(18)
-	game.width(18)
+	game.height(15)
+	game.width(22)
 	starsWarsGame.iniciar()
+	game.start()
 }
+

@@ -1,13 +1,1 @@
-import wollok.game.*
-import Direccion.*
-import Personaje.*
-import Obstaculo.*
-import NoColisionable.*
-import pantalla.*
-import Nivel.*
-import Colisionable.*
-import Proyectil.*
-
-test "Aparición de enemigo" {
-	assert.that(true)
-}
+// ESTADO DE OBJETOS

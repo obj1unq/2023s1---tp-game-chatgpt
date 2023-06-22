@@ -1,9 +1,19 @@
-import NoColisionable.*
+import wollok.game.*
 
-class Obstaculo inherits NoColisionable {
+class Obstaculo {
 
-	override method image() {
+	var property position
+
+	method image() {
 		return "caja.png"
+	}
+
+	method aparecer() {
+		game.addVisual(self)
+	}
+
+	method desaparecer() {
+		game.colliders(self).first().desaparecer()
 	}
 
 }

@@ -1,135 +1,58 @@
 import wollok.game.*
+import extras.*
 import Direccion.*
 import Personaje.*
 import Obstaculo.*
-
-object starsWarsGame {
-
-	method iniciar() {
-		nivelUno.iniciar()
-	}
-
-}
+import Posicion.*
+import EnemigoFactory.*
+import Visor.*
 
 class Nivel {
 
-	const property personaje
-	const property enemigos = []
-
-	method agregarEnemigos()
-
 	method agregarControles() {
-		keyboard.up().onPressDo({ personaje.mover(arriba)})
-		keyboard.down().onPressDo({ personaje.mover(abajo)})
-		keyboard.left().onPressDo({ personaje.mover(izquierda)})
-		keyboard.right().onPressDo({ personaje.mover(derecha)})
-		keyboard.z().onPressDo({ personaje.accion()})
+		keyboard.up().onPressDo({ heroe.mover(arriba)})
+		keyboard.down().onPressDo({ heroe.mover(abajo)})
+		keyboard.left().onPressDo({ heroe.mover(izquierda)})
+		keyboard.right().onPressDo({ heroe.mover(derecha)})
+		keyboard.z().onPressDo({ heroe.accion()})
 	}
 
-	method agregarVisualesPersonajes()
-
 	method agregarVisualesEscenario()
+
+	method agregarVisualesPersonajes()
 
 	method iniciar()
 
 }
 
-object nivelUno inherits Nivel(personaje = mandalorian) {
+object nivelUno inherits Nivel {
 
-	override method iniciar() {
-		// background.fondo("nivel1")
-		// game.addVisual(background)
-		game.boardGround("background-nivel1.png")
-		self.agregarVisualesEscenario()
-		self.agregarVisualesPersonajes()
-		self.agregarControles()
-		self.agregarEnemigos()
-		game.start()
+	override method agregarVisualesEscenario() {
+		background.fondo("nivel1")
+		background.aparecer()
+		visorVida.aparecer()
+		visorNivel.aparecer()
+		visorPuntos.aparecer()
 	}
 
 	override method agregarVisualesPersonajes() {
-		tropperCadete.aparecer()
-		tropperSargento.aparecer()
-		mandalorian.aparecer()
+		heroe.aparecer()
+		game.onTick(3000, self.nombreGeneradorEnemigos(), { trooperFactory.generar()})
 	}
 
-	override method agregarVisualesEscenario() {
-		game.addVisual(new Obstaculo(position = game.at(1, 2))) // esquina inferior izquierda (1, 2)
-		game.addVisual(new Obstaculo(position = game.at(16, 2))) // esquina superior izquierda (16, 2)
-		game.addVisual(new Obstaculo(position = game.at(16, 15))) // esquina superior derecha (16, 15)
-		game.addVisual(new Obstaculo(position = game.at(1, 15))) // esquina inferior derecha (1, 15)
+	override method iniciar() {
+		mainMenu.finalizar()
+		self.agregarVisualesEscenario()
+		self.agregarVisualesPersonajes()
+		self.agregarControles()
+		heroe.puntos(0)
 	}
 
-	override method agregarEnemigos() {
-		game.onTick(3000, "lala", { trooperFactory.nuevoEnemigo().aparecer()})
-		tropperCadete.disparoSecuencial()
-		tropperSargento.disparoSecuencial()
-	}
-
-}
-
-class EnemigoFactory {
-
-	const property coordenadas = [ self.coordenadaXFija(1), self.coordenadaXFija(16), self.coordenadaYFija(2), self.coordenadaYFija(14) ]
-
-	method numeroAleatorioEntre(num1, num2) {
-		return new Range(start = num1, end = num2).anyOne()
-	}
-
-	method coordenadaXFija(x) {
-		return [ x, self.numeroAleatorioEntre(2,15) ]
-	}
-
-	method coordenadaYFija(y) {
-		return [ self.numeroAleatorioEntre(2,14), y ]
-	}
-
-	method generar() {
-		game.onTick(3000, "Generar Enemigos", { self.nuevoEnemigo().aparecer()})
-	}
-
-	method nuevoEnemigo()
-
-}
-
-object trooperFactory inherits EnemigoFactory {
-
-	var property coordenada = [ self.coordenadaXFija(1), self.coordenadaXFija(16), self.coordenadaYFija(2), self.coordenadaYFija(14) ].anyOne()
-
-	override method nuevoEnemigo() {
-		return new Tropper(position = game.at(coordenada.first(), coordenada.head()), alcanceDisparo = 3, direccionMovimiento = abajo, rango = "cadete")
-	}
-
-	method agregarCordenadasACoordenada(listaDeCoordenadas) {
-		coordenada.add(listaDeCoordenadas)
+	method nombreGeneradorEnemigos() {
+		return self.identity().toString()
 	}
 
 }
 
-object background {
-
-	var property position = game.at(2, 2)
-	var property fondo = null
-
-	method image() {
-		return "background-" + fondo + ".png"
-	}
-
-}
-
-object gameOver {
-
-	method fondo() {
-		background.fondo("yodaGameOver")
-		background.position(game.at(0, 0))
-		game.addVisual(background)
-	}
-
-}
-
-const mandalorian = new Heroe(position = game.at(8, 7), alcanceDisparo = 5, direccionMovimiento = abajo)
-
-const tropperCadete = new Tropper(position = game.at(2, 5), alcanceDisparo = 5, direccionMovimiento = abajo, rango = "cadete")
-
-const tropperSargento = new Tropper(position = game.at(1, 4), alcanceDisparo = 5, direccionMovimiento = abajo, rango = "sargento")
+const caja1 = new Obstaculo(position = new Posicion(x = 5, y = 5))
 

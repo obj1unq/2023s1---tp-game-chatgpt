@@ -1,6 +1,6 @@
-import pantalla.*
+import extras.*
 
-mixin Direccion {
+class Direccion {
 
 	method mover(objeto) {
 		pantalla.mover(objeto, self)

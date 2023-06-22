@@ -1,129 +1,140 @@
 import wollok.game.*
-import pantalla.*
-import EstadoPersonaje.*
 import Direccion.*
-import Colisionable.*
+import EstadoPersonaje.*
+import Posicion.*
 import Proyectil.*
-import Nivel.*
+import extras.*
+import EnemigoFactory.*
 
-class Personaje inherits Colisionable {
+class Personaje {
 
-	var cooldown = false
-	var property estado = vivo
-	var property direccionMovimiento
+	var property position
+	var property direccionDondeMira = abajo
+	var property alcanceDisparo
 
 	method accion() {
-		estado.accion(self)
 	}
 
-	method cooldown(_cooldown) {
-		cooldown = not cooldown
-	}
-
-	override method desaparecer() {
-		self.estado(muerto)
+	method aparecer() {
+		game.addVisual(self)
 	}
 
 	method mover(direccion) {
-		estado.mover(self, direccion)
+		self.direccionDondeMira(direccion)
+		direccion.mover(self)
+	}
+
+	method desaparecer() {
+		game.removeVisual(self)
+	}
+
+	method dispararCon(colorLaser) {
+		const laser = new Laser(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo, color = colorLaser)
+		laser.aparecer()
+		laser.disparar()
+	}
+
+	method esImpactoPorColorDeLaser(colorLaser) {
+		return game.colliders(self).first().color().equals(colorLaser)
 	}
 
 }
 
-class Heroe inherits Personaje {
+object heroe inherits Personaje(position = new Posicion(x = 10, y = 10), alcanceDisparo = 3) {
 
-	const alcanceDisparo
+	var property estado = vivo
+	var property puntos = 0
+	var property vida = 2
 
-	override method image() {
-		return "heroe-" + self.estado() + ".png"
+	override method aparecer() {
+		game.addVisual(self)
+		self.estado(vivo)
 	}
 
-	override method estado() {
-		return if (estado.equals(muerto)) {
-			"tumba"
-		} else {
-			direccionMovimiento.toString()
-		}
+	method image() {
+		return "heroe-" + estado.condicionPara(self) + ".png"
 	}
 
-	method disparar() {
-		if (not cooldown) {
-			const laser = new Laser(position = direccionMovimiento.proxima(self), 
-									direccionMovimiento = direccionMovimiento, 
-									alcance = alcanceDisparo, tipo = laserAzul
-									)
-			laser.aparecer()
-			laser.disparar()
-			self.cooldown(true)
-			game.schedule(800, { self.cooldown(cooldown)})
-		}
+	override method accion() {
+		estado.accion(self, "laserAzul")
 	}
 
 	override method desaparecer() {
-		super()
-		game.schedule(1500, { self.finalizarJuego()}) // DELEGAR RESPONSABILIDAD
-	}
-
-	method finalizarJuego() {
-		game.clear()
-		gameOver.fondo()
-	// game.schedule(3000, { game.stop()})
-	}
-
-/*
- * 	override method desaparecer() {
- * 		super()
- * 	// game.schedule(2000, {game.stop()})		// TODO falta poner alguna imagen de fin de juego, subtarea?		
- * 	}
- */
-}
-
-class Enemigo inherits Personaje {
-
-	const alcanceDisparo
-
-	method disparar() {
-		if (not cooldown) {
-			const laser = new Laser(position = direccionMovimiento.proxima(self), 
-									direccionMovimiento = direccionMovimiento, 
-									alcance = alcanceDisparo, 
-									tipo = laserRojo
-			)
-			laser.aparecer()
-			laser.disparar()
-			self.cooldown(true)
-			game.schedule(800, { self.cooldown(cooldown)})
+		vida -= 1
+		if (vida.equals(0)) {
+			self.estado(muerto)
+			gameOver.finalizarJuego()
 		}
 	}
 
-	method disparoSecuencial() {
-		game.onTick(800, self.nroSerialDisparo(), { self.mover([ arriba, abajo, izquierda, derecha ].anyOne())}) // { self.mover([ abajo, arriba, derecha, izquierda ].anyOne())}) TODO eliminar lo del bloque xq es para prueba.
-		game.onTick(800, self.nroSerialDisparo(), { self.accion()})
+	override method mover(direccion) {
+		estado.mover(self, direccion)
+	}
+
+	method nivel() = 1
+
+	method sumarPuntos(_puntos) {
+		puntos += _puntos
+	}
+
+}
+
+class Tropper inherits Personaje {
+
+	const property rango
+
+	override method aparecer() {
+		super()
+		self.dispararSecuencialmente()
+	}
+
+	method image() = "trooper-" + rango.toString() + "-" + direccionDondeMira.toString() + ".png"
+
+	method dispararSecuencialmente() {
+		game.onTick(800, self.nroSerialMovimiento(), { self.mover([ arriba, abajo, izquierda, derecha ].anyOne())})
+		game.onTick(800, self.nroSerialDisparo(), { self.dispararCon("laserRojo")})
 	}
 
 	method nroSerialDisparo() {
 		return self.identity().toString()
 	}
 
+	method nroSerialMovimiento() {
+		return self.identity().toString()
+	}
+
 	override method desaparecer() {
-		if (not game.colliders(self).first().tipo().equals(laserRojo)) {
-			super()
-			game.removeVisual(self)
+		if (self.esImpactoPorColorDeLaser("laserAzul")) {
 			game.removeTickEvent(self.nroSerialDisparo())
+			game.removeTickEvent(self.nroSerialMovimiento())
+			heroe.sumarPuntos(rango.puntosQueOtorga())
+			super()
 		}
 	}
 
 }
 
-class Tropper inherits Enemigo {
+object cadete {
 
-	const property rango
-
-	override method image() = "tropper-" + rango + "-" + direccionMovimiento.toString() + ".png"
+	method puntosQueOtorga() {
+		return 5
+	}
 
 }
 
-object tumba {
+object sargento {
+
+	method puntosQueOtorga() {
+		return 7
+	}
+
+}
+
+object general {
+
+	method puntosQueOtorga() {
+		return 10
+	}
 
 }
 
