@@ -34,10 +34,6 @@ class Personaje {
 		laser.disparar()
 	}
 
-	method esImpactoPorColorDeLaser(colorLaser) {
-		return game.colliders(self).first().color().equals(colorLaser)
-	}
-
 }
 
 object heroe inherits Personaje(position = new Posicion(x = 10, y = 10), alcanceDisparo = 3) {
@@ -56,7 +52,7 @@ object heroe inherits Personaje(position = new Posicion(x = 10, y = 10), alcance
 	}
 
 	override method accion() {
-		estado.accion(self, "laserAzul")
+		estado.accion(self, laserAzul)
 	}
 
 	override method desaparecer() {
@@ -92,7 +88,7 @@ class Tropper inherits Personaje {
 
 	method dispararSecuencialmente() {
 		game.onTick(800, self.nroSerialMovimiento(), { self.mover([ arriba, abajo, izquierda, derecha ].anyOne())})
-		game.onTick(800, self.nroSerialDisparo(), { self.dispararCon("laserRojo")})
+		game.onTick(800, self.nroSerialDisparo(), { self.dispararCon(laserRojo)})
 	}
 
 	method nroSerialDisparo() {
@@ -104,13 +100,27 @@ class Tropper inherits Personaje {
 	}
 
 	override method desaparecer() {
-		if (self.esImpactoPorColorDeLaser("laserAzul")) {
+		if (self.esImpactoPorColorDeLaser(laserAzul)) {
+			trooperFactory.eliminar(self)
+			console.println("DESAPARECIENDO")
 			game.removeTickEvent(self.nroSerialDisparo())
 			game.removeTickEvent(self.nroSerialMovimiento())
 			heroe.sumarPuntos(rango.puntosQueOtorga())
 			super()
 		}
 	}
+
+	method esImpactoPorColorDeLaser(colorLaser) {
+		return game.colliders(self).first().color().equals(colorLaser)
+	}
+
+}
+
+object laserRojo {
+
+}
+
+object laserAzul {
 
 }
 

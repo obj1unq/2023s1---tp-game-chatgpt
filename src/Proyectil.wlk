@@ -38,7 +38,7 @@ class Laser inherits Proyectil {
 	const property color
 
 	method image() {
-		return color + "-" + direccionDeMovimiento.toString() + ".png"
+		return color.toString() + "-" + direccionDeMovimiento.toString() + ".png"
 	}
 
 	override method disparar() {

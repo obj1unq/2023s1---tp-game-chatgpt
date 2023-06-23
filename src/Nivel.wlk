@@ -37,7 +37,7 @@ object nivelUno inherits Nivel {
 
 	override method agregarVisualesPersonajes() {
 		heroe.aparecer()
-		game.onTick(3000, self.nombreGeneradorEnemigos(), { trooperFactory.generar()})
+		game.onTick(1000, self.nombreGeneradorEnemigos(), { trooperFactory.generar()})
 	}
 
 	override method iniciar() {
@@ -55,4 +55,18 @@ object nivelUno inherits Nivel {
 }
 
 const caja1 = new Obstaculo(position = new Posicion(x = 5, y = 5))
+
+object portal {
+
+	const property position = new Posicion(x = 14, y = 10)
+
+	method image() {
+		return "background-portal.png"
+	}
+
+	method aparecer() {
+		game.addVisual(self)
+	}
+
+}
 

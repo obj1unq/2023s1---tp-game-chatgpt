@@ -57,6 +57,7 @@ object gameOver {
 		game.clear()
 		self.fondo()
 		heroe.vida(2)
+		trooperFactory.personajes().clear()
 	}
 
 	method fondo() {

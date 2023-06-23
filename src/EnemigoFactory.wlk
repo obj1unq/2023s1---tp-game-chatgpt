@@ -8,13 +8,19 @@ class EnemigoFactory {
 	const property personajes = []
 
 	method generar() {
-		self.nuevoEnemigo().aparecer()
-		personajes.add(self)
+		if (personajes.size() < 6) {
+			const nuevoEnemigo = self.nuevoEnemigo()
+			personajes.add(nuevoEnemigo)
+			nuevoEnemigo.aparecer()
+		} else {
+			console.println("IGNORANDO GENERAR " + personajes.size())
+		}
 	}
 
 	method nuevoEnemigo()
 
 	method eliminar(personaje) {
+		console.println("ELIMINAR PERSONAJE")
 		personajes.remove(personaje)
 	}
 

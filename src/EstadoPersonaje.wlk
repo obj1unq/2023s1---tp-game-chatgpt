@@ -1,3 +1,5 @@
+import wollok.game.*
+
 class EstadoPersonaje {
 
 	method accion(personaje, colorLaser) {
@@ -30,4 +32,6 @@ object muerto inherits EstadoPersonaje {
 	override method condicionPara(personaje) = "tumba"
 
 }
+
+const soundDisparo = game.sound("disparo.mp3")
 
