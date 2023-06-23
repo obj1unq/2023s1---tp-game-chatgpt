@@ -102,7 +102,6 @@ class Tropper inherits Personaje {
 	override method desaparecer() {
 		if (self.esImpactoPorColorDeLaser(laserAzul)) {
 			trooperFactory.eliminar(self)
-			console.println("DESAPARECIENDO")
 			game.removeTickEvent(self.nroSerialDisparo())
 			game.removeTickEvent(self.nroSerialMovimiento())
 			heroe.sumarPuntos(rango.puntosQueOtorga())
