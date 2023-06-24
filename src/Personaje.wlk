@@ -74,6 +74,7 @@ class Trooper inherits Personaje {
 	}
 
 	method dispararSecuencialmente() {
+		// / esto es un cambio 
 		game.onTick(800, self.nroSerialMovimiento(), { self.mover([ abajo ].anyOne())})
 		game.onTick(800, self.nroSerialDisparo(), { self.disparar()})
 	}
