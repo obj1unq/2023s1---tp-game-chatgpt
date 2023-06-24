@@ -1,22 +1,33 @@
 import wollok.game.*
 import Direccion.*
-import EstadoPersonaje.*
-import Posicion.*
-import Proyectil.*
-import extras.*
-import EnemigoFactory.*
+import Laser.*
 
 class Personaje {
 
 	var property position
-	var property direccionDondeMira = abajo
-	var property alcanceDisparo
+	var property direccionDondeMira
+	var property alcanceDisparo = 3
 
-	method accion() {
-	}
+	method image() = direccionDondeMira.toString() + ".png"
 
 	method aparecer() {
 		game.addVisual(self)
+	}
+
+	method disparar() {
+		const laser = new LaserAzul(position = position, direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
+		laser.aparecer()
+		laser.disparar()
+	}
+
+	method colision(objeto) {
+	// IMPLEMENTAR DISMUNIR VIDA
+	}
+
+	method esColisionable()
+
+	method desaparecer() {
+		game.removeVisual(self)
 	}
 
 	method mover(direccion) {
@@ -24,71 +35,47 @@ class Personaje {
 		direccion.mover(self)
 	}
 
-	method desaparecer() {
-		game.removeVisual(self)
+}
+
+object mandalorian inherits Personaje(position = game.at(3, 3), direccionDondeMira = abajo) {
+
+	override method image() = "mandalorian-" + super()
+
+	override method esColisionable() = true
+
+	override method aparecer() {
+		super()
+		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
-	method dispararCon(colorLaser) {
-		const laser = new Laser(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo, color = colorLaser)
+	override method colision(objeto) {
+		self.desaparecer()
+	}
+
+}
+
+class Trooper inherits Personaje {
+
+	override method disparar() {
+		const laser = new LaserRojo(position = position, direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
 	}
 
-}
-
-object heroe inherits Personaje(position = new Posicion(x = 10, y = 10), alcanceDisparo = 3) {
-
-	var property estado = vivo
-	var property puntos = 0
-	var property vida = 2
-
-	override method aparecer() {
-		game.addVisual(self)
-		self.estado(vivo)
-	}
-
-	method image() {
-		return "heroe-" + estado.condicionPara(self) + ".png"
-	}
-
-	override method accion() {
-		estado.accion(self, laserAzul)
-	}
-
-	override method desaparecer() {
-		vida -= 1
-		if (vida.equals(0)) {
-			self.estado(muerto)
-			gameOver.finalizarJuego()
-		}
-	}
-
-	override method mover(direccion) {
-		estado.mover(self, direccion)
-	}
-
-	method nivel() = 1
-
-	method sumarPuntos(_puntos) {
-		puntos += _puntos
-	}
-
-}
-
-class Tropper inherits Personaje {
-
-	const property rango
-
 	override method aparecer() {
 		super()
 		self.dispararSecuencialmente()
+		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
-	method image() = "trooper-" + rango.toString() + "-" + direccionDondeMira.toString() + ".png"
+	override method esColisionable() = true
+
+	override method colision(objeto) {
+	}
 
 	method dispararSecuencialmente() {
-		game.onTick(800, self.nroSerialMovimiento(), { self.mover([ arriba, abajo, izquierda, derecha ].anyOne())})
-		game.onTick(800, self.nroSerialDisparo(), { self.dispararCon(laserRojo)})
+		game.onTick(800, self.nroSerialMovimiento(), { self.mover([ abajo ].anyOne())})
+		game.onTick(800, self.nroSerialDisparo(), { self.disparar()})
 	}
 
 	method nroSerialDisparo() {
@@ -99,51 +86,21 @@ class Tropper inherits Personaje {
 		return self.identity().toString()
 	}
 
-	override method desaparecer() {
-		if (self.esImpactoPorColorDeLaser(laserAzul)) {
-			trooperFactory.eliminar(self)
-			game.removeTickEvent(self.nroSerialDisparo())
-			game.removeTickEvent(self.nroSerialMovimiento())
-			heroe.sumarPuntos(rango.puntosQueOtorga())
-			super()
-		}
-	}
-
-	method esImpactoPorColorDeLaser(colorLaser) {
-		return game.colliders(self).first().color().equals(colorLaser)
-	}
+	method esEnemigo() = true
 
 }
 
-object laserRojo {
+class TrooperCadete inherits Trooper {
+
+	override method image() = "trooper-cadete-" + super()
 
 }
 
-object laserAzul {
+class TrooperSargento inherits Trooper {
+
+	override method image() = "trooper-sargento-" + super()
 
 }
 
-object cadete {
-
-	method puntosQueOtorga() {
-		return 5
-	}
-
-}
-
-object sargento {
-
-	method puntosQueOtorga() {
-		return 7
-	}
-
-}
-
-object general {
-
-	method puntosQueOtorga() {
-		return 10
-	}
-
-}
+const cadete = new TrooperCadete(position = game.at(7, 7), direccionDondeMira = abajo)
 

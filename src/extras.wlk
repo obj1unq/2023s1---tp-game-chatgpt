@@ -1,72 +1,4 @@
 import wollok.game.*
-import Posicion.*
-import Nivel.*
-import EnemigoFactory.*
-import Personaje.*
-
-object starsWarsGame {
-
-	method iniciar() {
-		mainMenu.iniciar()
-	}
-
-}
-
-object mainMenu {
-
-	method iniciar() {
-		background.fondo("inicio")
-		game.addVisual(background)
-		self.reproducirMusica()
-		keyboard.any().onPressDo({ nivelUno.iniciar()})
-	}
-
-	method reproducirMusica() {
-		game.schedule(1000, { => sonidoMainMenu.play()})
-	}
-
-	method detenerMusica() {
-		sonidoMainMenu.stop()
-	}
-
-	method finalizar() {
-		game.clear()
-		self.detenerMusica()
-	}
-
-}
-
-object background {
-
-	var property position = new Posicion(x = 0, y = 0)
-	var property fondo = null
-
-	method image() {
-		return "background-" + fondo + ".png"
-	}
-
-	method aparecer() {
-		game.addVisual(self)
-	}
-
-}
-
-object gameOver {
-
-	method finalizarJuego() {
-		game.clear()
-		self.fondo()
-		heroe.vida(2)
-		trooperFactory.personajes().clear()
-	}
-
-	method fondo() {
-		background.fondo("gameOver")
-		background.aparecer()
-		keyboard.r().onPressDo({ nivelUno.iniciar()})
-	}
-
-}
 
 object pantalla {
 
@@ -75,25 +7,22 @@ object pantalla {
 	}
 
 	method estaDentroDeEjeX(posicionObjeto) {
-		return posicionObjeto.x().between(1, game.width() - 2)
+		return posicionObjeto.x().between(0, game.width())
 	}
 
 	method estaDentroDeEjeY(posicionObjeto) {
-		return posicionObjeto.y().between(1, game.height() - 3)
+		return posicionObjeto.y().between(0, game.height())
 	}
 
 	method mover(objeto, direccion) {
-		if (self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))) {
+		if (self.puedeMover(objeto, direccion)) {
 			objeto.position(direccion.proxima(objeto))
 		}
 	}
 
-	method hayObjetoAdelante(posicion) {
-		return not game.getObjectsIn(posicion).isEmpty()
-	}
+	method puedeMover(objeto, direccion) = self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))
+
+	method hayObjetoAdelante(posicion) = game.getObjectsIn(posicion).any{ objeto => not objeto.esColisionable() }
 
 }
-
-// INSTANCIAS
-const sonidoMainMenu = game.sound("musicaIntro.mp3")
 
