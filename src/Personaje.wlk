@@ -1,6 +1,7 @@
 import wollok.game.*
 import Direccion.*
 import Laser.*
+import EstadoPersonaje.*
 
 class Personaje {
 
@@ -14,15 +15,19 @@ class Personaje {
 		game.addVisual(self)
 	}
 
-	method disparar() {
-		const laser = new LaserAzul(position = position, direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
-		laser.aparecer()
-		laser.disparar()
-	}
+//////////////////////////////////////////////////////////
+//  se tranformo este metodo en un metodo abstracto --> 
+	// / trooper tiene una forma de disparar distinta a la de Mando
+	// Mando dispara por medio de su estado Si esta vivo  o Muerto .
+	// method disparar() {
+//		const laser = new LaserAzul(position = position, direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
+//		laser.aparecer()
+//		laser.disparar()
+//	} 
+	// ///////////////////////////////////////////////
+	method disparar()
 
-	method colision(objeto) {
-	// IMPLEMENTAR DISMUNIR VIDA
-	}
+	method colision(objeto)
 
 	method esColisionable()
 
@@ -39,6 +44,8 @@ class Personaje {
 
 object mandalorian inherits Personaje(position = game.at(3, 3), direccionDondeMira = abajo) {
 
+	var property estado = vivo
+
 	override method image() = "mandalorian-" + super()
 
 	override method esColisionable() = true
@@ -50,6 +57,25 @@ object mandalorian inherits Personaje(position = game.at(3, 3), direccionDondeMi
 
 	override method colision(objeto) {
 		self.desaparecer()
+	}
+
+	override method desaparecer() {
+		super()
+		self.estado(muerto)
+	}
+
+	override method mover(direccion) {
+		estado.mover(self, direccion)
+	}
+
+	override method disparar() {
+		estado.disparar(self)
+	}
+
+	method disparo() {
+		const laser = new LaserAzul(position = position, direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
+		laser.aparecer()
+		laser.disparar()
 	}
 
 }
@@ -74,15 +100,21 @@ class Trooper inherits Personaje {
 	}
 
 	method dispararSecuencialmente() {
-		game.onTick(800, self.nroSerialMovimiento(), { self.mover([ abajo ].anyOne())})
-		game.onTick(800, self.nroSerialDisparo(), { self.disparar()})
+		game.onTick(800, self.nroSerialDeTrooper(), { self.mover([ abajo ].anyOne())
+		; self.disparar()
+		})
+//		game.onTick(800, self.nroSerialDeTrooper(), { self.disparar()})  se coloco self.disparar() en el bloque de arriba 
 	}
 
-	method nroSerialDisparo() {
-		return self.identity().toString()
-	}
-
-	method nroSerialMovimiento() {
+// cambiado por nroSerialDeTrooper() 
+//	method nroSerialDisparo() {
+//		return self.identity().toString()
+//	}
+//
+//	method nroSerialMovimiento() {
+//		return self.identity().toString()
+//	}
+	method nroSerialDeTrooper() {
 		return self.identity().toString()
 	}
 
