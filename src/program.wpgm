@@ -1,0 +1,21 @@
+import wollok.game.*
+import Personaje.*
+import Laser.*
+import Inamovible.*
+import Direccion.*
+
+program juego {
+	game.title("Star Wars Game")
+	game.height(15)
+	game.width(15)
+	keyboard.up().onPressDo({ mandalorian.mover(arriba) })
+	keyboard.down().onPressDo({ mandalorian.mover(abajo) })
+	keyboard.left().onPressDo({ mandalorian.mover(izquierda) })
+	keyboard.right().onPressDo({ mandalorian.mover(derecha) })
+	keyboard.z().onPressDo({ mandalorian.disparar() })
+	caja.aparecer()
+	bomba.aparecer()
+	cadete.aparecer()
+	mandalorian.aparecer()
+	game.start()
+}
