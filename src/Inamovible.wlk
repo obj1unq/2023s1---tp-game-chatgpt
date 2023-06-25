@@ -11,6 +11,9 @@ class Caja inherits StarWarsObject {
 	override method colision(objeto) {
 	}
 
+	method interactuarCon(objeto) {
+	}
+
 	override method aparecer() {
 		super()
 		game.onCollideDo(self, { objeto => console.println("CAJA:" + objeto)})
@@ -28,10 +31,15 @@ class Bomba inherits StarWarsObject {
 	override method colision(objeto) {
 	}
 
+	method impactasteConMandalorian(objeto) {
+		objeto.interactuarConBomba()
+	}
+
+	method impactasteConTrooper(objeto) {
+	}
+
 	override method aparecer() {
-		super()
-		game.onCollideDo(self, { objeto => console.println("BOMBA:" + objeto)})
-		game.onCollideDo(self, { objeto => objeto.colision(self)})
+		game.addVisual(self)
 	}
 
 	method danio() = 2

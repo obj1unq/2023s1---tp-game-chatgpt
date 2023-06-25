@@ -18,6 +18,12 @@ class Personaje inherits StarWarsObject {
 		direccion.mover(self)
 	}
 
+	method impactasteConMandalorian(objeto) {
+	}
+
+	method impactasteConTrooper(objeto) {
+	}
+
 }
 
 object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), direccionDondeMira = abajo) {
@@ -30,11 +36,16 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
 
 	override method colision(objeto) {
+		console.println(objeto.toString())
 		self.restarVida(objeto.danio())
 		if (vida <= 0) {
 			self.estado(muerto)
 			gameOver.finalizarJuego()
 		}
+	}
+
+	method impactarConLaserAzul(laser) {
+		laser.desaparecer()
 	}
 
 	override method desaparecer() {
@@ -81,6 +92,10 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 
 	method consiguioLosPuntos() = nivelDondeEsta.puedeIrASiguienteNivel(self)
 
+	override method impactasteConTrooper(objeto) {
+		self.restarVida(objeto.danio())
+	}
+
 }
 
 class Trooper inherits Personaje {
@@ -88,12 +103,8 @@ class Trooper inherits Personaje {
 	method sufijo()
 
 	override method colision(objeto) {
-		// self.desaparecer()
-		if (objeto.toString().equals("un/a  LaserAzul")) {
-			self.desaparecer()
-			mandalorian.sumarScore(self.puntosQueOtorga())
-		}
-		console.println("MANDALORIAN PUNTOS:" + mandalorian.score())
+		console.println(objeto.toString())
+		objeto.impactasteConTrooper(self)
 	}
 
 	override method disparar() {
@@ -119,7 +130,7 @@ class Trooper inherits Personaje {
 
 	override method desaparecer() {
 		super()
-			// game.removeTickEvent(self.nroSerialDeTrooper())
+		game.removeTickEvent(self.nroSerialDeTrooper())
 		mandalorian.sumarScore(self.puntosQueOtorga())
 	}
 
@@ -127,12 +138,20 @@ class Trooper inherits Personaje {
 		super()
 		game.onCollideDo(self, { objeto => console.println("TROOPER:" + objeto)})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
-	// self.dispararSecuencialmente()
+		self.dispararSecuencialmente()
 	}
 
 	method puntosQueOtorga()
 
 	method danio() = 1
+
+	override method impactasteConMandalorian(objeto) {
+		objeto.restarVida(self.danio())
+	}
+
+	method impactasteConLaserRojo(laser) {
+		laser.desaparecer()
+	}
 
 }
 

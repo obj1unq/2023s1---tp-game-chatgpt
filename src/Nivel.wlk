@@ -61,19 +61,19 @@ object nivelUno inherits Nivel(puntosRequeridos = 4) {
 	override method reiniciar() {
 		self.agregarVisualesEscenario()
 		self.agregarVisualesPersonajes()
-		game.onTick(2000, "", { self.IrASiguienteNivelPara(mandalorian)})
+			// game.onTick(2000, "", { self.IrASiguienteNivelPara(mandalorian)})
 		self.agregarControles()
 	}
 
 	override method IrASiguienteNivelPara(heroe) {
 		if (self.puedeIrASiguienteNivel(heroe)) {
-			cadete.desaparecer()
+		// cadete.desaparecer()
 		}
 	}
 
 	override method agregarVisualesEscenario() {
 		fondoNivelUno.aparecer()
-		game.addVisual(tpNivel2)
+			// game.addVisual(tpNivel2)
 		super()
 	}
 
