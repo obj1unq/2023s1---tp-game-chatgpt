@@ -43,10 +43,10 @@ class Laser inherits StarWarsObject {
 
 	method danio()
 
-	method impactasteConMandalorian(objeto) {
+	method impactarConLaserAzul(laser) {
 	}
 
-	method impactasteConTrooper(objeto) {
+	method impactarConLaserRojo(laser) {
 	}
 
 }
@@ -54,40 +54,26 @@ class Laser inherits StarWarsObject {
 class LaserAzul inherits Laser {
 
 	override method colision(objeto) {
-		objeto.impactasteConMandalorian(objeto)
-		objeto.impactasteConTrooper(objeto)
+		objeto.impactarConLaserAzul(self)
+		self.desaparecer()
 	}
 
 	override method sufijo() = "Azul-"
 
 	override method danio() = 1
 
-	override method impactasteConMandalorian(objeto) {
-	}
-
-	override method impactasteConTrooper(objeto) {
-		objeto.desaparecer()
-	}
-
 }
 
 class LaserRojo inherits Laser {
 
 	override method colision(objeto) {
-		objeto.impactasteConMandalorian(objeto)
-		objeto.impactasteConTrooper(objeto)
+		objeto.impactarConLaserRojo(self)
+		self.desaparecer()
 	}
 
 	override method sufijo() = "Rojo-"
 
 	override method danio() = 1
-
-	override method impactasteConMandalorian(objeto) {
-		objeto.colision(self.danio())
-	}
-
-	override method impactasteConTrooper(objeto) {
-	}
 
 }
 

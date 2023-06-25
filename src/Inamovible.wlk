@@ -20,6 +20,12 @@ class Caja inherits StarWarsObject {
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
+	method impactarConLaserAzul(laser) {
+	}
+
+	method impactarConLaserRojo(laser) {
+	}
+
 }
 
 class Bomba inherits StarWarsObject {
@@ -43,6 +49,12 @@ class Bomba inherits StarWarsObject {
 	}
 
 	method danio() = 2
+
+	method impactarConLaserAzul(laser) {
+	}
+
+	method impactarConLaserRojo(laser) {
+	}
 
 }
 

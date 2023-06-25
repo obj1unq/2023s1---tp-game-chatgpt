@@ -35,6 +35,7 @@ class Nivel {
 		bomba.aparecer()
 		visorVida.aparecer()
 		visorPuntos.aparecer()
+		caja1.aparecer()
 	}
 
 	method agregarVisualesPersonajes() {
