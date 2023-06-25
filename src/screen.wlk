@@ -1,17 +1,17 @@
 import wollok.game.*
 
-object pantalla {
+object screen {
 
 	method estaDentro(posicionObjeto) {
 		return self.estaDentroDeEjeX(posicionObjeto) && self.estaDentroDeEjeY(posicionObjeto)
 	}
 
 	method estaDentroDeEjeX(posicionObjeto) {
-		return posicionObjeto.x().between(0, game.width())
+		return posicionObjeto.x().between(0, game.width() - 2)
 	}
 
 	method estaDentroDeEjeY(posicionObjeto) {
-		return posicionObjeto.y().between(0, game.height())
+		return posicionObjeto.y().between(1, game.height() - 2)
 	}
 
 	method mover(objeto, direccion) {

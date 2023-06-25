@@ -1,9 +1,9 @@
-import extras.*
+import screen.*
 
 class Direccion {
 
 	method mover(objeto) {
-		pantalla.mover(objeto, self)
+		screen.mover(objeto, self)
 	}
 
 	method proxima(objeto)

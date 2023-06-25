@@ -1,32 +1,25 @@
 import wollok.game.*
 import Direccion.*
-import extras.*
+import screen.*
 import Personaje.*
+import StarWarsObject.*
 
-class Laser {
+class Laser inherits StarWarsObject {
 
-	var property position
 	var property direccionDeMovimiento
 	var property alcance
 
-	method esColisionable() = true
-
-	method aparecer() {
-		game.addVisual(self)
-	}
-
-	method colision(objeto) {
-		objeto.desaparecer()
+	override method colision(objeto) {
 		self.desaparecer()
 	}
 
-	method desaparecer() {
+	override method desaparecer() {
 		game.removeVisual(self)
 		game.removeTickEvent(self.nroSerialDisparo())
 	}
 
 	method desplazar() {
-		if (pantalla.puedeMover(self, direccionDeMovimiento) and alcance > 0) {
+		if (screen.puedeMover(self, direccionDeMovimiento) and alcance > 0) {
 			self.position(direccionDeMovimiento.proxima(self))
 			alcance--
 		} else {
@@ -40,36 +33,47 @@ class Laser {
 
 	method disparar() {
 		game.onTick(25, self.nroSerialDisparo(), { self.desplazar()})
+		game.onCollideDo(self, { objeto => console.println("LASER:" + objeto)})
+		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
-	method image() = direccionDeMovimiento.toString() + ".png"
+	override method image() = "laser" + self.sufijo() + direccionDeMovimiento.toString() + ".png"
+
+	method sufijo()
+
+	method danio()
+
+	method impactarConLaserAzul(laser) {
+	}
+
+	method impactarConLaserRojo(laser) {
+	}
 
 }
 
 class LaserAzul inherits Laser {
 
-	override method image() = "laserAzul-" + super()
-
 	override method colision(objeto) {
-		if (not objeto.equals(mandalorian)) {
-			objeto.desaparecer()
-			self.desaparecer()
-		}
+		objeto.impactarConLaserAzul(self)
+		self.desaparecer()
 	}
+
+	override method sufijo() = "Azul-"
+
+	override method danio() = 1
 
 }
 
 class LaserRojo inherits Laser {
 
-	override method image() = "laserRojo-" + super()
-
 	override method colision(objeto) {
-		if (objeto.equals(mandalorian)) {
-			objeto.desaparecer()
-			console.println("ENTRANDO..")
-			self.desaparecer()
-		}
+		objeto.impactarConLaserRojo(self)
+		self.desaparecer()
 	}
+
+	override method sufijo() = "Rojo-"
+
+	override method danio() = 1
 
 }
 

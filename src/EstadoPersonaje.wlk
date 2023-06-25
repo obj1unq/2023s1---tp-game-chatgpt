@@ -8,9 +8,6 @@ class EstadoPersonaje {
 	method mover(personaje, direccion) {
 	}
 
-	method condicionPara(personaje)
-
-}
 
 object vivo inherits EstadoPersonaje {
 
@@ -23,15 +20,9 @@ object vivo inherits EstadoPersonaje {
 		direccion.mover(personaje)
 	}
 
-	override method condicionPara(personaje) = personaje.direccionDondeMira().toString()
-
-}
-
 object muerto inherits EstadoPersonaje {
 
-	override method condicionPara(personaje) = "tumba"
 
 }
 
-const soundDisparo = game.sound("disparo.mp3")
 
