@@ -4,6 +4,7 @@ import Visor.*
 
 class Caja inherits StarWarsObject {
 
+	// / caja
 	override method image() = "caja.png"
 
 	override method esColisionable() = false
