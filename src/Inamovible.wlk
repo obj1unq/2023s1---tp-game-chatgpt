@@ -1,5 +1,6 @@
 import wollok.game.*
 import StarWarsObject.*
+import Visor.*
 
 class Caja inherits StarWarsObject {
 
@@ -46,16 +47,6 @@ object armada {
 object explosion {
 
 	method image() = "explosion.png"
-
-}
-
-const caja = new Caja(position = game.at(7, 9))
-
-const caja1 = new Caja(position = game.at(7, 5))
-
-const bomba = new Bomba(position = game.at(4, 4))
-
-class ObjectInteratuable {
 
 }
 

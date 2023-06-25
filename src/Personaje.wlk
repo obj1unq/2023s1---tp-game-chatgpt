@@ -3,6 +3,8 @@ import Direccion.*
 import Laser.*
 import EstadoPersonaje.*
 import StarWarsObject.*
+import Nivel.*
+import Visor.*
 
 class Personaje inherits StarWarsObject {
 
@@ -18,12 +20,12 @@ class Personaje inherits StarWarsObject {
 
 }
 
-object mandalorian inherits Personaje(position = game.at(3, 3), direccionDondeMira = abajo) {
+object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), direccionDondeMira = abajo) {
 
 	var property estado = vivo
 	var property vida = 2
-	var property puntos = 0
 	var property score = 0
+	var property nivelDondeEsta = nivelUno
 
 	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
 
@@ -31,8 +33,8 @@ object mandalorian inherits Personaje(position = game.at(3, 3), direccionDondeMi
 		self.restarVida(objeto.danio())
 		if (vida <= 0) {
 			self.estado(muerto)
+			gameOver.finalizarJuego()
 		}
-		console.println(vida)
 	}
 
 	override method desaparecer() {
@@ -66,6 +68,19 @@ object mandalorian inherits Personaje(position = game.at(3, 3), direccionDondeMi
 		vida -= danio
 	}
 
+	method reiniciarEstado() {
+		self.estado(vivo)
+		self.vida(2)
+		self.score(0)
+		self.position(game.at(10, 10))
+	}
+
+	method textColor() = "#ffffff"
+
+	method text() = self.score().toString()
+
+	method consiguioLosPuntos() = nivelDondeEsta.puedeIrASiguienteNivel(self)
+
 }
 
 class Trooper inherits Personaje {
@@ -73,6 +88,7 @@ class Trooper inherits Personaje {
 	method sufijo()
 
 	override method colision(objeto) {
+		// self.desaparecer()
 		if (objeto.toString().equals("un/a  LaserAzul")) {
 			self.desaparecer()
 			mandalorian.sumarScore(self.puntosQueOtorga())
@@ -103,18 +119,20 @@ class Trooper inherits Personaje {
 
 	override method desaparecer() {
 		super()
-		game.removeTickEvent(self.nroSerialDeTrooper())
-		mandalorian.sumarScore(10)
+			// game.removeTickEvent(self.nroSerialDeTrooper())
+		mandalorian.sumarScore(self.puntosQueOtorga())
 	}
 
 	override method aparecer() {
 		super()
 		game.onCollideDo(self, { objeto => console.println("TROOPER:" + objeto)})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
-		self.dispararSecuencialmente()
+	// self.dispararSecuencialmente()
 	}
 
 	method puntosQueOtorga()
+
+	method danio() = 1
 
 }
 
@@ -122,7 +140,7 @@ class TrooperCadete inherits Trooper {
 
 	override method sufijo() = "cadete-"
 
-	override method puntosQueOtorga() = 3
+	override method puntosQueOtorga() = 1
 
 }
 
@@ -133,6 +151,4 @@ class TrooperSargento inherits Trooper {
 	override method puntosQueOtorga() = 5
 
 }
-
-const cadete = new TrooperCadete(position = game.at(7, 7), direccionDondeMira = abajo)
 
