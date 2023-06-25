@@ -1,23 +1,7 @@
 import wollok.game.*
+import StarWarsObject.*
 
-class Inamovible {
-
-	var property position
-
-	method image()
-
-	method aparecer() {
-		game.addVisual(self)
-	}
-
-	method esColisionable()
-
-	method colision(objeto) {
-	}
-
-}
-
-class Caja inherits Inamovible {
+class Caja inherits StarWarsObject {
 
 	override method image() = "caja.png"
 
@@ -26,18 +10,30 @@ class Caja inherits Inamovible {
 	override method colision(objeto) {
 	}
 
+	override method aparecer() {
+		super()
+		game.onCollideDo(self, { objeto => console.println("CAJA:" + objeto)})
+		game.onCollideDo(self, { objeto => objeto.colision(self)})
+	}
+
 }
 
-class Bomba inherits Inamovible {
+class Bomba inherits StarWarsObject {
 
 	var property estado = armada
 
 	override method image() = estado.image()
 
-	override method esColisionable() = true
-
 	override method colision(objeto) {
 	}
+
+	override method aparecer() {
+		super()
+		game.onCollideDo(self, { objeto => console.println("BOMBA:" + objeto)})
+		game.onCollideDo(self, { objeto => objeto.colision(self)})
+	}
+
+	method danio() = 2
 
 }
 
@@ -58,4 +54,8 @@ const caja = new Caja(position = game.at(7, 9))
 const caja1 = new Caja(position = game.at(7, 5))
 
 const bomba = new Bomba(position = game.at(4, 4))
+
+class ObjectInteratuable {
+
+}
 

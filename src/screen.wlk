@@ -1,6 +1,6 @@
 import wollok.game.*
 
-object pantalla {
+object screen {
 
 	method estaDentro(posicionObjeto) {
 		return self.estaDentroDeEjeX(posicionObjeto) && self.estaDentroDeEjeY(posicionObjeto)

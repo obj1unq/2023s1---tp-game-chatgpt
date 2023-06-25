@@ -1,34 +1,15 @@
 import wollok.game.*
 import Direccion.*
 import Laser.*
+import EstadoPersonaje.*
+import StarWarsObject.*
 
-class Personaje {
+class Personaje inherits StarWarsObject {
 
-	var property position
 	var property direccionDondeMira
 	var property alcanceDisparo = 3
 
-	method image() = direccionDondeMira.toString() + ".png"
-
-	method aparecer() {
-		game.addVisual(self)
-	}
-
-	method disparar() {
-		const laser = new LaserAzul(position = position, direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
-		laser.aparecer()
-		laser.disparar()
-	}
-
-	method colision(objeto) {
-	// IMPLEMENTAR DISMUNIR VIDA
-	}
-
-	method esColisionable()
-
-	method desaparecer() {
-		game.removeVisual(self)
-	}
+	method disparar()
 
 	method mover(direccion) {
 		self.direccionDondeMira(direccion)
@@ -39,67 +20,117 @@ class Personaje {
 
 object mandalorian inherits Personaje(position = game.at(3, 3), direccionDondeMira = abajo) {
 
-	override method image() = "mandalorian-" + super()
+	var property estado = vivo
+	var property vida = 2
+	var property puntos = 0
+	var property score = 0
 
-	override method esColisionable() = true
+	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
+
+	override method colision(objeto) {
+		self.restarVida(objeto.danio())
+		if (vida <= 0) {
+			self.estado(muerto)
+		}
+		console.println(vida)
+	}
+
+	override method desaparecer() {
+	}
+
+	override method mover(direccion) {
+		estado.mover(self, direccion)
+	}
+
+	override method disparar() {
+		estado.disparar(self)
+	}
+
+	method disparo() {
+		const laser = new LaserAzul(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
+		laser.aparecer()
+		laser.disparar()
+	}
+
+	method sumarScore(_score) {
+		score += _score
+	}
 
 	override method aparecer() {
 		super()
+		game.onCollideDo(self, { objeto => console.println("MANDALORIAN:" + objeto)})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
-	override method colision(objeto) {
-		self.desaparecer()
+	method restarVida(danio) {
+		vida -= danio
 	}
 
 }
 
 class Trooper inherits Personaje {
 
+	method sufijo()
+
+	override method colision(objeto) {
+		if (objeto.toString().equals("un/a  LaserAzul")) {
+			self.desaparecer()
+			mandalorian.sumarScore(self.puntosQueOtorga())
+		}
+		console.println("MANDALORIAN PUNTOS:" + mandalorian.score())
+	}
+
 	override method disparar() {
-		const laser = new LaserRojo(position = position, direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
+		const laser = new LaserRojo(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
 	}
 
+	method dispararSecuencialmente() {
+		game.onTick(800, self.nroSerialDeTrooper(), { self.moverYDisparar()})
+	}
+
+	method moverYDisparar() {
+		// self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
+		self.disparar()
+	}
+
+	method nroSerialDeTrooper() {
+		return self.identity().toString()
+	}
+
+	override method image() = "trooper-" + self.sufijo() + direccionDondeMira.toString() + ".png"
+
+	override method desaparecer() {
+		super()
+		game.removeTickEvent(self.nroSerialDeTrooper())
+		mandalorian.sumarScore(10)
+	}
+
 	override method aparecer() {
 		super()
-		self.dispararSecuencialmente()
+		game.onCollideDo(self, { objeto => console.println("TROOPER:" + objeto)})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
+		self.dispararSecuencialmente()
 	}
 
-	override method esColisionable() = true
-
-	override method colision(objeto) {
-	}
-
-	method dispararSecuencialmente() {
-		// / cambios 
-		game.onTick(800, self.nroSerialMovimiento(), { self.mover([ abajo ].anyOne())})
-		game.onTick(800, self.nroSerialDisparo(), { self.disparar()})
-	}
-
-	method nroSerialDisparo() {
-		return self.identity().toString()
-	}
-
-	method nroSerialMovimiento() {
-		return self.identity().toString()
-	}
-
-	method esEnemigo() = true
+	method puntosQueOtorga()
 
 }
 
 class TrooperCadete inherits Trooper {
 
-	override method image() = "trooper-cadete-" + super()
+	override method sufijo() = "cadete-"
+
+	override method puntosQueOtorga() = 3
 
 }
 
 class TrooperSargento inherits Trooper {
 
-	override method image() = "trooper-sargento-" + super()
+	override method sufijo() = "sargento-"
+
+	override method puntosQueOtorga() = 5
 
 }
 
