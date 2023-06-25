@@ -6,6 +6,7 @@ import StarWarsObject.*
 import Nivel.*
 import Visor.*
 
+
 class Personaje inherits StarWarsObject {
 
 	var property direccionDondeMira
@@ -17,6 +18,7 @@ class Personaje inherits StarWarsObject {
 		self.direccionDondeMira(direccion)
 		direccion.mover(self)
 	}
+
 
 }
 
@@ -34,6 +36,7 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 
 	method impactarConLaserAzul(laser) {
 	}
+
 
 	method impactarConLaserRojo(laser) {
 		self.restarVida(laser.danio())
@@ -58,11 +61,13 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 		estado.disparar(self)
 	}
 
+
 	method disparo() {
 		const laser = new LaserAzul(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
 	}
+
 
 	method sumarScore(_score) {
 		score += _score
@@ -78,6 +83,7 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 		vida -= danio
 	}
 
+
 	method reiniciarEstado() {
 		self.estado(vivo)
 		self.vida(2)
@@ -90,6 +96,7 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 	method text() = self.score().toString()
 
 	method consiguioLosPuntos() = nivelDondeEsta.puedeIrASiguienteNivel(self)
+
 
 }
 
@@ -119,6 +126,7 @@ class Trooper inherits Personaje {
 		return self.identity().toString()
 	}
 
+
 	override method image() = "trooper-" + self.sufijo() + direccionDondeMira.toString() + ".png"
 
 	override method desaparecer() {
@@ -140,6 +148,7 @@ class Trooper inherits Personaje {
 
 	method impactarConLaserAzul(laser) {
 		self.desaparecer()
+
 	}
 
 	method impactarConLaserRojo(laser) {
