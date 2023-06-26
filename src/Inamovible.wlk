@@ -31,43 +31,79 @@ class Caja inherits StarWarsObject {
 
 class Bomba inherits StarWarsObject {
 
-	var property estado = armada
+	var property estado = colocada
+	var property tiempoDeDetonacion = 5
 
 	override method image() = estado.image()
 
-	override method colision(objeto) {
-	}
-
-	method impactasteConMandalorian(objeto) {
-		objeto.interactuarConBomba()
-	}
-
-	method impactasteConTrooper(objeto) {
+	override method colision(personaje) {
+		personaje.colisionConBomba(self)
 	}
 
 	override method aparecer() {
 		game.addVisual(self)
+		self.activar()
 	}
 
-	method danio() = 2
+	method text() {
+		return tiempoDeDetonacion.toString()
+	}
 
+	method danio() = estado.danio()
+
+	method activar() {
+		game.onTick(1000, self.nroSerialBomba(), { self.tick()})
+	}
+
+	method tick() {
+		tiempoDeDetonacion -= 1
+		if (tiempoDeDetonacion < 1) {
+			estado = detonada
+			game.removeTickEvent(self.nroSerialBomba())
+		}
+		if (tiempoDeDetonacion < -3) {
+			game.removeVisual(self)
+		}
+	}
+
+	method textColor() {
+		return if (tiempoDeDetonacion >= 4) "#ffffff" else "#FF0000"
+	}
+
+	// method colision
 	method impactarConLaserAzul(laser) {
 	}
 
 	method impactarConLaserRojo(laser) {
 	}
 
+	method nroSerialBomba() {
+		return self.identity().toString()
+	}
+
+//	method impactasteConTrooper(objeto) {
+//	}
+//	method impactasteConMandalorian(objeto) {
+//		objeto.interactuarConBomba()
+//	}
 }
 
-object armada {
+object colocada {
 
 	method image() = "bomba.png"
 
+	method danio() = 0
+
 }
 
-object explosion {
+object detonada {
 
 	method image() = "explosion.png"
+
+	method danio() = 2
+
+	method expandir() {
+	}
 
 }
 

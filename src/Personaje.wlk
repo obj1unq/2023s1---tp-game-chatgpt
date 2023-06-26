@@ -6,7 +6,6 @@ import StarWarsObject.*
 import Nivel.*
 import Visor.*
 
-
 class Personaje inherits StarWarsObject {
 
 	var property direccionDondeMira
@@ -19,7 +18,6 @@ class Personaje inherits StarWarsObject {
 		direccion.mover(self)
 	}
 
-
 }
 
 object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), direccionDondeMira = abajo) {
@@ -31,16 +29,7 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 
 	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
 
-	override method colision(objeto) {
-	}
-
-	method impactarConLaserAzul(laser) {
-	}
-
-
-	method impactarConLaserRojo(laser) {
-		self.restarVida(laser.danio())
-		self.verificarEstado()
+	override method colision(objecto) {
 	}
 
 	method verificarEstado() {
@@ -61,13 +50,11 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 		estado.disparar(self)
 	}
 
-
 	method disparo() {
 		const laser = new LaserAzul(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
 	}
-
 
 	method sumarScore(_score) {
 		score += _score
@@ -83,7 +70,6 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 		vida -= danio
 	}
 
-
 	method reiniciarEstado() {
 		self.estado(vivo)
 		self.vida(2)
@@ -97,6 +83,29 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 
 	method consiguioLosPuntos() = nivelDondeEsta.puedeIrASiguienteNivel(self)
 
+	// metodos de colision 
+	method impactarConLaserAzul(laser) {
+	}
+
+	method impactarConLaserRojo(laser) {
+		self.restarVida(laser.danio())
+		self.verificarEstado()
+	}
+
+	method colisionEntrePersonajes(personaje) {
+		self.restarVida(personaje.danio())
+		self.verificarEstado()
+	}
+
+	method trooperColision(trooper) {
+		self.restarVida(trooper.danio())
+		self.verificarEstado()
+	}
+
+	method colisionConBomba(_bomba) {
+		self.restarVida(_bomba.danio())
+		self.verificarEstado()
+	}
 
 }
 
@@ -105,6 +114,7 @@ class Trooper inherits Personaje {
 	method sufijo()
 
 	override method colision(objeto) {
+		objeto.trooperColision(self)
 	}
 
 	override method disparar() {
@@ -126,7 +136,6 @@ class Trooper inherits Personaje {
 		return self.identity().toString()
 	}
 
-
 	override method image() = "trooper-" + self.sufijo() + direccionDondeMira.toString() + ".png"
 
 	override method desaparecer() {
@@ -146,12 +155,18 @@ class Trooper inherits Personaje {
 
 	method danio() = 1
 
+	// metodos de colisiones 
 	method impactarConLaserAzul(laser) {
 		self.desaparecer()
-
 	}
 
 	method impactarConLaserRojo(laser) {
+	}
+
+	method trooperColision(trooper) {
+	}
+
+	method colisionConBomba(_bomba) {
 	}
 
 }

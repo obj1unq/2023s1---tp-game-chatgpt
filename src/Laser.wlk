@@ -43,10 +43,17 @@ class Laser inherits StarWarsObject {
 
 	method danio()
 
+	// metodos colision 
 	method impactarConLaserAzul(laser) {
 	}
 
 	method impactarConLaserRojo(laser) {
+	}
+
+	method trooperColision(trooper) {
+	}
+
+	method colisionConBomba(_bomba) {
 	}
 
 }
