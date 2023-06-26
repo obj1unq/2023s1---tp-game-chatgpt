@@ -4,7 +4,6 @@ import Visor.*
 
 class Caja inherits StarWarsObject {
 
-	// / caja
 	override method image() = "caja.png"
 
 	override method esColisionable() = false
@@ -81,11 +80,6 @@ class Bomba inherits StarWarsObject {
 		return self.identity().toString()
 	}
 
-//	method impactasteConTrooper(objeto) {
-//	}
-//	method impactasteConMandalorian(objeto) {
-//		objeto.interactuarConBomba()
-//	}
 }
 
 object colocada {
