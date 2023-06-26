@@ -1,96 +1,60 @@
 import wollok.game.*
-import Personaje.*
 import Nivel.*
+import StarWarsObject.*
+import Personaje.*
+import PosicionMutable.*
 
-class Visor {
+class Visor inherits StarWarsObject {
 
-	method image() {
-		return "visor-puntaje.png"
-	}
+	override method image() = "visor.png"
 
-	method position()
-
-	method textColor() = "#ffffff"
-
-	method aparecer() {
-		game.addVisual(self)
-	}
-
-	method desaparecer() {
-	}
+	method textColor() = "#FFFFFF1"
 
 }
 
-object visorVida inherits Visor {
+object visorScore inherits Visor(position = new PosicionMutable(x = 2, y = 14)) {
 
-	override method position() = new Posicion(x = 5, y = 14)
+	method text() = "     " + mandalorian.score().toString()
 
-	override method image() {
-		return if (mandalorian.vida().equals(2)) {
-			"dos-vidas.png"
-		} else {
-			"una-vida.png"
-		}
-	}
+}
+
+object visorNivel inherits Visor(position = new PosicionMutable(x = 10, y = 14)) {
+
+	override method image() = mandalorian.nivelDondeSeEncuentra().toString() + ".png"
+
+}
+
+object visorPuntosRequeridos inherits Visor (position = new PosicionMutable(x = 15, y = 14)) {
+
+	override method image() = "visorPuntosDeNivel.png"
+
+	method text() = "            " + mandalorian.nivelDondeSeEncuentra().puntosRequeridos().toString()
+
+	override method textColor() = "#B009EF"
 
 	override method aparecer() {
-		game.addVisual(self)
+		super()
+		game.addVisual(puntosRequeridosPorNivel)
 	}
 
 }
 
-object visorPuntos inherits Visor {
+object visorVida inherits Visor(position = new PosicionMutable(x = 19, y = 14)) {
 
-	override method position() {
-		return new Posicion(x = 10, y = 14)
-	}
-
-	method text() {
-		return "      " + mandalorian.score().toString()
-	}
+	override method image() = if (mandalorian.vida().equals(2)) "mandalorian-dos-vidas.png" else "mandalorian-una-vida.png"
 
 }
 
-class Teleport {
+object puntosRequeridosPorNivel {
 
-	var property xTP
-	var property yTP
-	var property nivel
-	var property posX
-	var property posY
-	var property image = "void.png"
+	method image() = "visorPuntosDeNivel.png"
 
-	method position() = new Posicion(x = xTP, y = yTP)
+	method position() = new PosicionMutable(x = 14, y = 14)
 
-	method colision(objeto) {
-		game.clear()
-		nivelDos.iniciar()
-		self.cambiarPosicion(objeto)
-	}
+	method text() = "ptosDeNivel"
 
-	method cambiarPosicion(personaje) {
-		personaje.position().x(posX)
-		personaje.position().y(posY)
-	}
+	method textColor() = "#FFFFFF"
 
-	method esColisionable() = true
-
-}
-
-const tpNivel2 = new Teleport(xTP = 10, yTP = 10, nivel = nivelDos, posX = 5, posY = 8)
-
-class Posicion {
-
-	var property x = 0
-	var property y = 0
-
-	method right(n) = new Posicion(x = x + n, y = y)
-
-	method left(n) = new Posicion(x = x - n, y = y)
-
-	method up(n) = new Posicion(x = x, y = y + n)
-
-	method down(n) = new Posicion(x = x, y = y - n)
-
+// TODO: BUSCAR UNA IMAGEN PARA ESTE VISOR DE LOS PUNTOS QUE REQUIERE EL NIVEL
 }
 
