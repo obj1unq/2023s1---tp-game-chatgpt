@@ -8,6 +8,7 @@ class EstadoPersonaje {
 	method mover(personaje, direccion) {
 	}
 
+}
 
 object vivo inherits EstadoPersonaje {
 
@@ -20,9 +21,9 @@ object vivo inherits EstadoPersonaje {
 		direccion.mover(personaje)
 	}
 
-object muerto inherits EstadoPersonaje {
-
-
 }
 
+object muerto inherits EstadoPersonaje {
+
+}
 
