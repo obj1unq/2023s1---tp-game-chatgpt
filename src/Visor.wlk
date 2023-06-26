@@ -28,9 +28,9 @@ object visorPuntosRequeridos inherits Visor (position = new PosicionMutable(x = 
 
 	override method image() = "visorPuntosDeNivel.png"
 
-	method text() = "            " + mandalorian.nivelDondeSeEncuentra().puntosRequeridos().toString()
+	method text() = "                " + mandalorian.nivelDondeSeEncuentra().puntosRequeridos().toString()
 
-	override method textColor() = "#B009EF"
+	override method textColor() = "#FFFFFF"
 
 	override method aparecer() {
 		super()
@@ -51,7 +51,7 @@ object puntosRequeridosPorNivel {
 
 	method position() = new PosicionMutable(x = 14, y = 14)
 
-	method text() = "ptosDeNivel"
+	method text() = "           PtosNivel"
 
 	method textColor() = "#FFFFFF"
 

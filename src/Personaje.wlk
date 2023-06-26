@@ -33,7 +33,6 @@ object mandalorian {
 		self.position(new PosicionMutable(x = 14, y = 7))
 		self.score(0)
 		self.vida(2)
-		self.nivelDondeSeEncuentra(nivelUno)
 	}
 
 	method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
