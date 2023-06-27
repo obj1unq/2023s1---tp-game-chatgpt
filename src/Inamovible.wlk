@@ -12,11 +12,11 @@ class Caja inherits Inamovible {
 
 	override method image() = "caja.png"
 
-	method colision(objeto) {
+	override method colision(objeto) {
 		objeto.colisionasteConCaja(self)
 	}
 
-	method colisionasteConLaser(objeto) {
+	override method colisionasteConLaser(objeto) {
 		objeto.desaparecer()
 	}
 
@@ -70,29 +70,13 @@ class Bomba inherits StarWarsObject {
 	override method desaparecer() {
 	}
 
-	method colision(objeto) {
+	override method colision(objeto) {
 		objeto.colionasteConBomba(self)
 	}
 
-	method colisionasteConLaser(objeto) {
-	// NADA
-	}
-
-	method colisionasteConPlataforma(objeto) {
-	// NADA
-	}
-
-	method colisionasteConMandalorian(objeto) {
+	override method colisionasteConMandalorian(objeto) {
 		objeto.restarVida(self.danio())
 		self.desaparecer()
-	}
-
-	method colisionasteConPortal(objeto) {
-	// NADA
-	}
-
-	method colisionasteConTrooper(objeto) {
-	// NADA
 	}
 
 }
