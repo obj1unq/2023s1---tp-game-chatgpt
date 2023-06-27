@@ -4,7 +4,7 @@ import wollok.game.*
 
 class Inamovible inherits StarWarsObject {
 
-	method esColisionable() = false
+	override method esColisionable() = false
 
 }
 
@@ -13,6 +13,11 @@ class Caja inherits Inamovible {
 	override method image() = "caja.png"
 
 	method colision(objeto) {
+		objeto.colisionasteConCaja(self)
+	}
+
+	method colisionasteConLaser(objeto) {
+		objeto.desaparecer()
 	}
 
 }
@@ -22,13 +27,9 @@ class Bomba inherits StarWarsObject {
 	var property estado = colocada
 	var property tiempoDeDetonacion = 5
 
-	method esColisionable() = true
+	override method esColisionable() = true
 
 	override method image() = estado.image()
-
-	method colision(objeto) {
-		objeto.desaparecer()
-	}
 
 	override method aparecer() {
 		game.addVisual(self)
@@ -62,13 +63,6 @@ class Bomba inherits StarWarsObject {
 		return if (tiempoDeDetonacion >= 4) "#ffffff" else "#FF0000"
 	}
 
-	// method colision
-	method impactarConLaserAzul(laser) {
-	}
-
-	method impactarConLaserRojo(laser) {
-	}
-
 	method nroSerialBomba() {
 		return self.identity().toString()
 	}
@@ -76,7 +70,29 @@ class Bomba inherits StarWarsObject {
 	override method desaparecer() {
 	}
 
-	method pasarDeNivel(objecto) {
+	method colision(objeto) {
+		objeto.colionasteConBomba(self)
+	}
+
+	method colisionasteConLaser(objeto) {
+	// NADA
+	}
+
+	method colisionasteConPlataforma(objeto) {
+	// NADA
+	}
+
+	method colisionasteConMandalorian(objeto) {
+		objeto.restarVida(self.danio())
+		self.desaparecer()
+	}
+
+	method colisionasteConPortal(objeto) {
+	// NADA
+	}
+
+	method colisionasteConTrooper(objeto) {
+	// NADA
 	}
 
 }

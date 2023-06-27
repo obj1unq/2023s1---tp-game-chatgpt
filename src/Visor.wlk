@@ -10,9 +10,6 @@ class Visor inherits StarWarsObject {
 
 	method textColor() = "#FFFFFF1"
 
-	method colision(objecto) {
-	}
-
 }
 
 object visorScore inherits Visor(position = new PosicionMutable(x = 2, y = 14)) {

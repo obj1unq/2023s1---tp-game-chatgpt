@@ -13,7 +13,7 @@ class EstadoPersonaje {
 object vivo inherits EstadoPersonaje {
 
 	override method disparar(personaje) {
-		personaje.disparo()
+		personaje.crearDisparo()
 	}
 
 	override method mover(personaje, direccion) {

@@ -6,14 +6,11 @@ import StarWarsObject.*
 import Nivel.*
 import PosicionMutable.*
 import EstadoPersonaje.*
-import Inamovible.*
 
 class Personaje inherits StarWarsObject {
 
 	var property direccionDondeMira = abajo
-	var property alcanceDisparo = 3
-
-	method esColisionable() = true
+	var property alcanceDisparo
 
 	method dispararSiPuede() {
 		if (not screen.hayObjetoAdelante(direccionDondeMira.proxima(self))) {
@@ -28,63 +25,46 @@ class Personaje inherits StarWarsObject {
 		direccion.mover(self)
 	}
 
-	method colision(objecto)
-
 	method pasarDeNivel(objecto) {
 	}
 
 }
 
-object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12)) {
+object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12), alcanceDisparo = 3) {
 
 	var property estado = vivo
-	var property vida = 0
-	var property score = 0
 	var property nivelDondeSeEncuentra = nivelUno
-
-	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
-
-	override method colision(objecto) {
-		self.restarVida(objecto.danio())
-		self.verificarEstado()
-	}
-
-	method verificarEstado() {
-		if (vida <= 0) {
-			self.estado(muerto)
-			gameOver.finalizarJuego()
-		}
-	}
+	var property score = 0
+	var property vida = 2
 
 	method cumplioLaMision() = nivelDondeSeEncuentra.puedeIrASiguienteNivel()
+
+	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
 
 	method cambiarDeNivel(_nivel) {
 		nivelDondeSeEncuentra = _nivel
 	}
 
-	override method desaparecer() {
+	override method colision(objeto) {
+		objeto.colisionasteConMandalorian(self)
 	}
 
-	override method mover(direccion) {
-		estado.mover(self, direccion)
+	method crearDisparo() {
+		const laser = new LaserAzul(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
+		laser.aparecer()
+		laser.disparar()
+	}
+
+	override method desaparecer() {
+	// TODO: IMPLEMENTAR METOODO PARA LA VIDA DEL MANDALORIAN
 	}
 
 	override method disparar() {
 		estado.disparar(self)
 	}
 
-	method disparo() {
-		const laser = new LaserAzul(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
-		laser.aparecer()
-		laser.disparar()
-	}
-
-	method sumarScore(_score) {
-		score += _score
-	}
-
-	method restarVida(danio) {
-		vida -= danio
+	override method mover(direccion) {
+		estado.mover(self, direccion)
 	}
 
 	method reiniciarEstadoGanador() {
@@ -100,22 +80,49 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 		self.nivelDondeSeEncuentra(nivelUno)
 	}
 
-	method consiguioLosPuntos() = nivelDondeSeEncuentra.puedeIrASiguienteNivel(self)
+	method restarVida(danio) {
+		console.println(vida)
+		vida -= danio // TODO: FIJARSE DEL ERROR EN LA VISUAL DE LA VIDA
+	}
 
-	override method pasarDeNivel(objecto) {
-		objecto.subirDeNivel()
+	method sumarScore(_score) {
+		score += _score
+	}
+
+	method verificarEstado() {
+		if (vida <= 0) {
+			self.estado(muerto)
+			gameOver.finalizarJuego()
+		}
 	}
 
 }
 
 class Trooper inherits Personaje {
 
+	method puntosQueOtorga()
+
 	method sufijo()
 
+	method danio() = 1
+
+	override method image() = "trooper-" + self.sufijo() + direccionDondeMira.toString() + ".png"
+
+	method nroSerialDeTrooper() = self.identity().toString()
+
+	override method aparecer() {
+		super()
+		self.dispararSecuencialmente()
+	}
+
 	override method colision(objeto) {
-		self.desaparecer()
-		objeto.desaparecer()
-		mandalorian.sumarScore(2)
+		objeto.colisionasteConTrooper(self)
+	}
+
+	override method desaparecer() {
+		super()
+		game.removeTickEvent(self.nroSerialDeTrooper())
+		mandalorian.sumarScore(self.puntosQueOtorga())
 	}
 
 	override method disparar() {
@@ -129,55 +136,29 @@ class Trooper inherits Personaje {
 	}
 
 	method moverYDisparar() {
-		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
+		// self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
 		self.dispararSiPuede()
 	}
-
-	method nroSerialDeTrooper() {
-		return self.identity().toString()
-	}
-
-	override method image() = "trooper-" + self.sufijo() + direccionDondeMira.toString() + ".png"
-
-	override method desaparecer() {
-		super()
-		game.removeTickEvent(self.nroSerialDeTrooper())
-		mandalorian.sumarScore(self.puntosQueOtorga())
-	}
-
-	override method aparecer() {
-		super()
-		self.dispararSecuencialmente()
-	}
-
-	method puntosQueOtorga()
-
-	method danio() = 1
 
 }
 
 class TrooperCadete inherits Trooper {
 
-	override method sufijo() = "cadete-"
+	override method puntosQueOtorga() = 2
 
-	override method puntosQueOtorga() = 1
+	override method sufijo() = "cadete-"
 
 }
 
 class TrooperSargento inherits Trooper {
 
+	override method puntosQueOtorga() = 3
+
 	override method sufijo() = "sargento-"
-
-	override method puntosQueOtorga() = 5
-
-	override method aparecer() {
-		super()
-		self.dispararSecuencialmente()
-	}
 
 }
 
-const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 12))
+const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 12), alcanceDisparo = 3)
 
-const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2))
+const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), alcanceDisparo = 3)
 
