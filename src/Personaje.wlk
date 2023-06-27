@@ -15,6 +15,12 @@ class Personaje inherits StarWarsObject {
 
 	method esColisionable() = true
 
+	method dispararSiPuede() {
+		if (not screen.hayObjetoAdelante(direccionDondeMira.proxima(self))) {
+			self.disparar()
+		}
+	}
+
 	method disparar()
 
 	method mover(direccion) {
@@ -88,10 +94,6 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 10, y =
 		self.vida(2)
 	}
 
-	method textColor() = "#ffffff"
-
-	method text() = self.score().toString()
-
 	method consiguioLosPuntos() = nivelDondeSeEncuentra.puedeIrASiguienteNivel(self)
 
 	override method pasarDeNivel(objecto) {
@@ -121,7 +123,7 @@ class Trooper inherits Personaje {
 
 	method moverYDisparar() {
 		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
-		self.disparar()
+		self.dispararSiPuede()
 	}
 
 	method nroSerialDeTrooper() {
