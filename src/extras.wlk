@@ -32,6 +32,11 @@ object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y =
 
 	override method image() = "portal-" + (if(mandalorian.cumplioLaMision()) "activo" else "inactivo") + ".png"
 
+	override method aparecer() {
+		super()
+		game.onCollideDo(self, { objecto => objecto.pasarDeNivel(self)})
+	}
+
 	method subirDeNivel() {
 		if (mandalorian.cumplioLaMision()) {
 			mandalorian.cambiarDeNivel(nivel.siguienteNivel())
@@ -46,7 +51,9 @@ object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y =
 	}
 
 	method colision(objeto) {
-		self.subirDeNivel()
+	}
+
+	override method desaparecer() {
 	}
 
 }

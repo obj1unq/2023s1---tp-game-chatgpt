@@ -11,6 +11,7 @@ class Laser inherits StarWarsObject {
 
 	// TODO: Ver de donde sale esto URGENTE!!!!
 	method colision(objeto) {
+		objeto.desaparecer()
 		self.desaparecer()
 	}
 
@@ -46,13 +47,12 @@ class Laser inherits StarWarsObject {
 
 	method esColisionable() = true
 
+	method pasarDeNivel(objecto) {
+	}
+
 }
 
 class LaserAzul inherits Laser {
-
-	override method colision(objeto) {
-		self.desaparecer()
-	}
 
 	override method sufijo() = "Azul-"
 
@@ -61,10 +61,6 @@ class LaserAzul inherits Laser {
 }
 
 class LaserRojo inherits Laser {
-
-	override method colision(objeto) {
-		self.desaparecer()
-	}
 
 	override method sufijo() = "Rojo-"
 
