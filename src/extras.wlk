@@ -56,6 +56,14 @@ object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y =
 
 }
 
+object plataforma inherits StarWarsObject(position = new PosicionMutable(x = 19, y = 12)) {
+
+	method esColisionable() = true
+
+	override method image() = "plataforma.png"
+
+}
+
 object screen {
 
 	method estaDentro(posicionObjeto) {

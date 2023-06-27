@@ -62,11 +62,13 @@ class Nivel {
 	method agregarVisualesEscenario() {
 		self.agregarFondo()
 		self.agregarVisores()
+		plataforma.aparecer()
 		bomba.aparecer()
 	}
 
 	method agregarVisualesPersonajes() {
 		cadete.aparecer()
+		cadete2.aparecer()
 		mandalorian.aparecer()
 	}
 
@@ -81,7 +83,7 @@ class Nivel {
 
 object nivelUno inherits Nivel {
 
-	override method puntosRequeridos() = 1
+	override method puntosRequeridos() = 3
 
 	override method siguienteNivel() = nivelDos
 
@@ -99,7 +101,7 @@ object nivelUno inherits Nivel {
 
 object nivelDos inherits Nivel {
 
-	override method puntosRequeridos() = 1 // 20
+	override method puntosRequeridos() = 6 // 20
 
 	override method siguienteNivel() = nivelTres
 
