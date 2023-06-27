@@ -26,7 +26,8 @@ class Bomba inherits StarWarsObject {
 
 	override method image() = estado.image()
 
-	method colision(personaje) {
+	method colision(objeto) {
+		objeto.desaparecer()
 	}
 
 	override method aparecer() {
@@ -48,6 +49,7 @@ class Bomba inherits StarWarsObject {
 		tiempoDeDetonacion -= 1
 		if (tiempoDeDetonacion < 1) {
 			estado = detonada
+			game.onCollideDo(self, { objeto => console.println("BOMBA : " + objeto)})
 			game.onCollideDo(self, { objeto => objeto.colision(self)})
 			game.removeTickEvent(self.nroSerialBomba())
 		}
@@ -69,6 +71,12 @@ class Bomba inherits StarWarsObject {
 
 	method nroSerialBomba() {
 		return self.identity().toString()
+	}
+
+	override method desaparecer() {
+	}
+
+	method pasarDeNivel(objecto) {
 	}
 
 }

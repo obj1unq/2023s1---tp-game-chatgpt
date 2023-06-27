@@ -6,6 +6,7 @@ import StarWarsObject.*
 import Nivel.*
 import PosicionMutable.*
 import EstadoPersonaje.*
+import Inamovible.*
 
 class Personaje inherits StarWarsObject {
 
@@ -22,6 +23,9 @@ class Personaje inherits StarWarsObject {
 	}
 
 	method colision(objecto)
+
+	method pasarDeNivel(objecto) {
+	}
 
 }
 
@@ -90,6 +94,10 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 10, y =
 
 	method consiguioLosPuntos() = nivelDondeSeEncuentra.puedeIrASiguienteNivel(self)
 
+	override method pasarDeNivel(objecto) {
+		objecto.subirDeNivel()
+	}
+
 }
 
 class Trooper inherits Personaje {
@@ -98,6 +106,7 @@ class Trooper inherits Personaje {
 
 	override method colision(objeto) {
 		self.desaparecer()
+		objeto.desaparecer()
 	}
 
 	override method disparar() {
@@ -111,7 +120,7 @@ class Trooper inherits Personaje {
 	}
 
 	method moverYDisparar() {
-//		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
+		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
 		self.disparar()
 	}
 
@@ -151,6 +160,11 @@ class TrooperSargento inherits Trooper {
 	override method sufijo() = "sargento-"
 
 	override method puntosQueOtorga() = 5
+
+	override method aparecer() {
+		super()
+		self.dispararSecuencialmente()
+	}
 
 }
 
