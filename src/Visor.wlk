@@ -19,6 +19,9 @@ class Visor {
 	method desaparecer() {
 	}
 
+	method colision(objecto) {
+	}
+
 }
 
 object visorVida inherits Visor {

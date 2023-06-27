@@ -43,25 +43,11 @@ class Laser inherits StarWarsObject {
 
 	method danio()
 
-	// metodos colision 
-	method impactarConLaserAzul(laser) {
-	}
-
-	method impactarConLaserRojo(laser) {
-	}
-
-	method trooperColision(trooper) {
-	}
-
-	method colisionConBomba(_bomba) {
-	}
-
 }
 
 class LaserAzul inherits Laser {
 
 	override method colision(objeto) {
-		objeto.impactarConLaserAzul(self)
 		self.desaparecer()
 	}
 
@@ -74,7 +60,6 @@ class LaserAzul inherits Laser {
 class LaserRojo inherits Laser {
 
 	override method colision(objeto) {
-		objeto.impactarConLaserRojo(self)
 		self.desaparecer()
 	}
 

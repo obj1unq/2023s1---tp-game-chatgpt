@@ -30,6 +30,8 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
 
 	override method colision(objecto) {
+		self.restarVida(objecto.danio())
+		self.verificarEstado()
 	}
 
 	method verificarEstado() {
@@ -60,12 +62,11 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 		score += _score
 	}
 
-	override method aparecer() {
-		super()
-		game.onCollideDo(self, { objeto => console.println("MANDALORIAN:" + objeto)})
-		game.onCollideDo(self, { objeto => objeto.colision(self)})
-	}
-
+//	override method aparecer() {
+//		super()
+//		game.onCollideDo(self, { objeto => console.println("MANDALORIAN:" + objeto)})
+//		game.onCollideDo(self, { objeto => objeto.colision(self)})
+//	}
 	method restarVida(danio) {
 		vida -= danio
 	}
@@ -114,7 +115,7 @@ class Trooper inherits Personaje {
 	method sufijo()
 
 	override method colision(objeto) {
-		objeto.trooperColision(self)
+		self.desaparecer()
 	}
 
 	override method disparar() {
@@ -146,28 +147,14 @@ class Trooper inherits Personaje {
 
 	override method aparecer() {
 		super()
-		game.onCollideDo(self, { objeto => console.println("TROOPER:" + objeto)})
-		game.onCollideDo(self, { objeto => objeto.colision(self)})
+//		game.onCollideDo(self, { objeto => console.println("TROOPER:" + objeto)})
+//		game.onCollideDo(self, { objeto => objeto.colision(self)})
 		self.dispararSecuencialmente()
 	}
 
 	method puntosQueOtorga()
 
 	method danio() = 1
-
-	// metodos de colisiones 
-	method impactarConLaserAzul(laser) {
-		self.desaparecer()
-	}
-
-	method impactarConLaserRojo(laser) {
-	}
-
-	method trooperColision(trooper) {
-	}
-
-	method colisionConBomba(_bomba) {
-	}
 
 }
 

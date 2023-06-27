@@ -36,7 +36,6 @@ class Bomba inherits StarWarsObject {
 	override method image() = estado.image()
 
 	override method colision(personaje) {
-		personaje.colisionConBomba(self)
 	}
 
 	override method aparecer() {
@@ -58,6 +57,7 @@ class Bomba inherits StarWarsObject {
 		tiempoDeDetonacion -= 1
 		if (tiempoDeDetonacion < 1) {
 			estado = detonada
+			game.onCollideDo(self, { objeto => objeto.colision(self)})
 			game.removeTickEvent(self.nroSerialBomba())
 		}
 		if (tiempoDeDetonacion < -3) {
@@ -87,6 +87,9 @@ object colocada {
 	method image() = "bomba.png"
 
 	method danio() = 0
+
+	method expandir() {
+	}
 
 }
 
