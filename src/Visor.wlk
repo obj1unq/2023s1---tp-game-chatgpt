@@ -58,6 +58,5 @@ object puntosRequeridosPorNivel {
 
 	method textColor() = "#FFFFFF"
 
-// TODO: BUSCAR UNA IMAGEN PARA ESTE VISOR DE LOS PUNTOS QUE REQUIERE EL NIVEL
 }
 
