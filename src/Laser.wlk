@@ -1,6 +1,6 @@
 import wollok.game.*
 import Direccion.*
-import screen.*
+import extras.*
 import Personaje.*
 import StarWarsObject.*
 
@@ -8,7 +8,8 @@ class Laser inherits StarWarsObject {
 
 	var property direccionDeMovimiento
 	var property alcance
-
+	
+	//TODO: Ver de donde sale esto URGENTE!!!!
 	override method colision(objeto) {
 		self.desaparecer()
 	}

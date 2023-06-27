@@ -1,175 +1,150 @@
 import wollok.game.*
+import extras.*
+import Background.*
 import Direccion.*
-import StarWarsObject.*
-import Personaje.*
 import Inamovible.*
+import Personaje.*
 import Visor.*
-
-object mainMenu {
-
-	method iniciar() {
-		fondoInicio.aparecer()
-		keyboard.space().onPressDo({ nivelUno.iniciar()})
-	}
-
-}
 
 class Nivel {
 
-	const property puntosRequeridos
+	method agregarFondo()
 
-	method iniciar()
+	method puntosRequeridos()
 
-	method reiniciar()
+	method siguienteNivel()
+
+	method puedeIrASiguienteNivel() = mandalorian.score() >= self.puntosRequeridos()
+
+	method agregarCajas() {
+		// CAJAS DEL CENTRO
+		caja1.aparecer()
+		caja2.aparecer()
+		caja3.aparecer()
+		caja4.aparecer()
+			// CAJAS DE CRUZ ESQUINA SUPERIOR IZQUIERDA
+		caja5.aparecer()
+		caja6.aparecer()
+		caja7.aparecer()
+		caja8.aparecer()
+			// CAJAS DE CRUZ ESQUINA INFERIOR IZQUIERDA
+		caja9.aparecer()
+		caja10.aparecer()
+		caja11.aparecer()
+		caja12.aparecer()
+			// CAJAS DE CRUZ ESQUINA INFERIOR DERECHA
+		caja13.aparecer()
+		caja14.aparecer()
+		caja15.aparecer()
+		caja16.aparecer()
+			// CAJAS DE CRUZ ESQUINA SUPERIOR DERECHA
+		caja17.aparecer()
+		caja18.aparecer()
+		caja19.aparecer()
+		caja20.aparecer()
+	}
 
 	method agregarControles() {
 		keyboard.up().onPressDo({ mandalorian.mover(arriba)})
 		keyboard.down().onPressDo({ mandalorian.mover(abajo)})
 		keyboard.left().onPressDo({ mandalorian.mover(izquierda)})
 		keyboard.right().onPressDo({ mandalorian.mover(derecha)})
-		keyboard.z().onPressDo({ mandalorian.disparar()})
+	// keyboard.z().onPressDo({ mandalorian.disparar()})
+	}
+
+	method agregarVisores() {
+		visorScore.aparecer()
+		visorNivel.aparecer()
+		visorPuntosRequeridos.aparecer()
+		visorVida.aparecer()
 	}
 
 	method agregarVisualesEscenario() {
-		portal.aparecer()
-		bomba.aparecer()
-		visorVida.aparecer()
-		visorPuntos.aparecer()
-		caja1.aparecer()
+		self.agregarFondo()
+		self.agregarVisores()
 	}
 
 	method agregarVisualesPersonajes() {
-		mandalorian.aparecer()
 		cadete.aparecer()
-		cadete1.aparecer()
-		cadete2.aparecer()
+		mandalorian.aparecer()
 	}
 
-	method puedeIrASiguienteNivel(heroe) = heroe.score() >= puntosRequeridos
-
-	method IrASiguienteNivelPara(personaje) {
-	}
-
-}
-
-object nivelUno inherits Nivel(puntosRequeridos = 4) {
-
-	override method iniciar() {
-		fondoInicio.desaparecer()
-		self.reiniciar()
-	}
-
-	override method reiniciar() {
-		self.agregarVisualesEscenario()
-		self.agregarVisualesPersonajes()
-			// game.onTick(2000, "", { self.IrASiguienteNivelPara(mandalorian)})
-		self.agregarControles()
-	}
-
-	override method IrASiguienteNivelPara(heroe) {
-		if (self.puedeIrASiguienteNivel(heroe)) {
-		// cadete.desaparecer()
-		}
-	}
-
-	override method agregarVisualesEscenario() {
-		fondoNivelUno.aparecer()
-			// game.addVisual(tpNivel2)
-		super()
-	}
-
-}
-
-object nivelDos inherits Nivel(puntosRequeridos = 4) {
-
-	override method iniciar() {
-		self.reiniciar()
-	}
-
-	override method reiniciar() {
-		self.agregarVisualesEscenario()
-		self.agregarVisualesPersonajes()
-		game.onTick(2000, "", { self.IrASiguienteNivelPara(mandalorian)})
-		self.agregarControles()
-	}
-
-	override method IrASiguienteNivelPara(heroe) {
-		if (self.puedeIrASiguienteNivel(heroe)) {
-			cadete.desaparecer()
-		}
-	}
-
-	override method agregarVisualesEscenario() {
-		fondoNivelDos.aparecer()
-		super()
-	}
-
-}
-
-class Background {
-
-	var property position = new Posicion(x = 0, y = 0)
-	var property fondo = null
-
-	method image() {
-		return "background-" + fondo + ".png"
-	}
-
-	method aparecer() {
-		game.addVisual(self)
-	}
-
-	method desaparecer() {
-		game.removeVisual(self)
-	}
-
-}
-
-object gameOver {
-
-	method finalizarJuego() {
+	method iniciar() {
 		game.clear()
-		fondoGameOver.aparecer()
-		mandalorian.reiniciarEstado()
-		keyboard.r().onPressDo({ nivelUno.reiniciar()})
-	// TODO: COMO HACER PARA QUE NO SE PUEDA USAR DE NUEVO, UNA VEZ QUE REINICIAS EL NIVEL?
+		self.agregarControles()
+		self.agregarVisualesEscenario()
+		self.agregarVisualesPersonajes()
 	}
 
 }
 
-object portal inherits StarWarsObject(position = new Posicion(x = 10, y = 10)) {
+object nivelUno inherits Nivel {
 
-	override method image() = "portal-" + self.estado() + ".png"
+	override method puntosRequeridos() = 10
 
-	method estado() {
-		return if (mandalorian.consiguioLosPuntos()) {
-			"activo"
-		} else "inactivo"
+	override method siguienteNivel() = nivelDos
+
+	override method agregarFondo() {
+		fondoNivelUno.aparecer()
 	}
 
-	override method colision(objeto) {
-		tpNivel2.colision(objeto)
+	override method agregarVisualesEscenario() {
+		super()
+		self.agregarCajas()
+		portal.aparecer()
 	}
 
 }
 
-const cadete = new TrooperCadete(position = new Posicion(x = 7, y = 7), direccionDondeMira = abajo)
+object nivelDos inherits Nivel {
 
-const cadete1 = new TrooperCadete(position = new Posicion(x = 10, y = 7), direccionDondeMira = abajo)
+	override method puntosRequeridos() = 20
 
-const cadete2 = new TrooperCadete(position = new Posicion(x = 7, y = 10), direccionDondeMira = abajo)
+	override method siguienteNivel() = nivelTres
 
-const caja = new Caja(position = new Posicion(x = 7, y = 9))
+	override method agregarFondo() {
+		fondoNivelDos.aparecer()
+	}
 
-const caja1 = new Caja(position = new Posicion(x = 7, y = 5))
+	override method agregarVisualesEscenario() {
+		super()
+		self.agregarCajas()
+		portal.aparecer()
+	}
 
-const bomba = new Bomba(position = new Posicion(x = 4, y = 4))
+	override method agregarCajas() {
+		super()
+			// HILERA ARRIBA
+		caja21.aparecer()
+		caja22.aparecer()
+		caja23.aparecer()
+			// HILERA ABAJO
+		caja24.aparecer()
+		caja25.aparecer()
+		caja26.aparecer()
+			// HILERA IZQUIERDA
+		caja27.aparecer()
+		caja28.aparecer()
+		caja29.aparecer()
+		caja30.aparecer()
+			// HILERA DERECHA
+		caja31.aparecer()
+		caja32.aparecer()
+		caja33.aparecer()
+		caja34.aparecer()
+	}
 
-const fondoInicio = new Background(fondo = "inicio")
+}
 
-const fondoNivelUno = new Background(fondo = "nivel1")
+object nivelTres inherits Nivel {
 
-const fondoNivelDos = new Background(fondo = "nivel2")
+	override method puntosRequeridos() = 30
 
-const fondoGameOver = new Background(fondo = "gameOver")
+	override method siguienteNivel() = self
+
+	override method agregarFondo() {
+		fondoNivelTres.aparecer()
+	}
+
+}
 

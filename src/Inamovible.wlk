@@ -1,103 +1,88 @@
-import wollok.game.*
 import StarWarsObject.*
-import Visor.*
+import PosicionMutable.*
 
-class Caja inherits StarWarsObject {
+class Inamovible inherits StarWarsObject {
+
+
+	method esColisionable() = false
+
+}
+
+class Caja inherits Inamovible {
+
 
 	override method image() = "caja.png"
 
-	override method esColisionable() = false
-
-	override method colision(objeto) {
-	}
-
-	method interactuarCon(objeto) {
-	}
-
-	override method aparecer() {
-		super()
-		game.onCollideDo(self, { objeto => console.println("CAJA:" + objeto)})
-		game.onCollideDo(self, { objeto => objeto.colision(self)})
-	}
-
-	method impactarConLaserAzul(laser) {
-	}
-
-	method impactarConLaserRojo(laser) {
+	method colision(objeto) {
 	}
 
 }
 
-class Bomba inherits StarWarsObject {
+const caja1 = new Caja(position = new PosicionMutable(x = 10, y = 5))
 
-	var property estado = colocada
-	var property tiempoDeDetonacion = 5
+const caja2 = new Caja(position = new PosicionMutable(x = 10, y = 9))
 
-	override method image() = estado.image()
+const caja3 = new Caja(position = new PosicionMutable(x = 8, y = 7))
 
-	override method colision(personaje) {
-		personaje.colisionConBomba(self)
-	}
+const caja4 = new Caja(position = new PosicionMutable(x = 12, y = 7))
 
-	override method aparecer() {
-		game.addVisual(self)
-		self.activar()
-	}
+const caja5 = new Caja(position = new PosicionMutable(x = 3, y = 11))
 
-	method text() {
-		return tiempoDeDetonacion.toString()
-	}
+const caja6 = new Caja(position = new PosicionMutable(x = 4, y = 9))
 
-	method danio() = estado.danio()
+const caja7 = new Caja(position = new PosicionMutable(x = 4, y = 10))
 
-	method activar() {
-		game.onTick(1000, self.nroSerialBomba(), { self.tick()})
-	}
+const caja8 = new Caja(position = new PosicionMutable(x = 3, y = 10))
 
-	method tick() {
-		tiempoDeDetonacion -= 1
-		if (tiempoDeDetonacion < 1) {
-			estado = detonada
-			game.removeTickEvent(self.nroSerialBomba())
-		}
-		if (tiempoDeDetonacion < -3) {
-			game.removeVisual(self)
-		}
-	}
+const caja9 = new Caja(position = new PosicionMutable(x = 3, y = 4))
 
-	method textColor() {
-		return if (tiempoDeDetonacion >= 4) "#ffffff" else "#FF0000"
-	}
+const caja10 = new Caja(position = new PosicionMutable(x = 4, y = 4))
 
-	// method colision
-	method impactarConLaserAzul(laser) {
-	}
+const caja11 = new Caja(position = new PosicionMutable(x = 4, y = 5))
 
-	method impactarConLaserRojo(laser) {
-	}
+const caja12 = new Caja(position = new PosicionMutable(x = 3, y = 3))
 
-	method nroSerialBomba() {
-		return self.identity().toString()
-	}
+const caja13 = new Caja(position = new PosicionMutable(x = 16, y = 5))
 
-}
+const caja14 = new Caja(position = new PosicionMutable(x = 16, y = 4))
 
-object colocada {
+const caja15 = new Caja(position = new PosicionMutable(x = 17, y = 4))
 
-	method image() = "bomba.png"
+const caja16 = new Caja(position = new PosicionMutable(x = 17, y = 3))
 
-	method danio() = 0
+const caja17 = new Caja(position = new PosicionMutable(x = 16, y = 9))
 
-}
+const caja18 = new Caja(position = new PosicionMutable(x = 16, y = 10))
 
-object detonada {
+const caja19 = new Caja(position = new PosicionMutable(x = 17, y = 10))
 
-	method image() = "explosion.png"
+const caja20 = new Caja(position = new PosicionMutable(x = 17, y = 11))
 
-	method danio() = 2
+const caja21 = new Caja(position = new PosicionMutable(x = 9, y = 11))
 
-	method expandir() {
-	}
+const caja22 = new Caja(position = new PosicionMutable(x = 10, y = 11))
 
-}
+const caja23 = new Caja(position = new PosicionMutable(x = 11, y = 11))
+
+const caja24 = new Caja(position = new PosicionMutable(x = 10, y = 3))
+
+const caja25 = new Caja(position = new PosicionMutable(x = 9, y = 3))
+
+const caja26 = new Caja(position = new PosicionMutable(x = 11, y = 3))
+
+const caja27 = new Caja(position = new PosicionMutable(x = 6, y = 6))
+
+const caja28 = new Caja(position = new PosicionMutable(x = 6, y = 8))
+
+const caja29 = new Caja(position = new PosicionMutable(x = 7, y = 10))
+
+const caja30 = new Caja(position = new PosicionMutable(x = 7, y = 4))
+
+const caja31 = new Caja(position = new PosicionMutable(x = 13, y = 4))
+
+const caja32 = new Caja(position = new PosicionMutable(x = 13, y = 10))
+
+const caja33 = new Caja(position = new PosicionMutable(x = 14, y = 6))
+
+const caja34 = new Caja(position = new PosicionMutable(x = 14, y = 8))
 

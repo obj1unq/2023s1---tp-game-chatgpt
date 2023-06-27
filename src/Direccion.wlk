@@ -1,4 +1,4 @@
-import screen.*
+import extras.*
 
 class Direccion {
 
@@ -8,37 +8,66 @@ class Direccion {
 
 	method proxima(objeto)
 
-}
+	method estaEnLimite(objeto)
 
-object arriba inherits Direccion {
-
-	override method proxima(objeto) {
-		return objeto.position().up(1)
+	method moverProxima(objeto) {
 	}
 
 }
 
-object abajo inherits Direccion {
+class DireccionX inherits Direccion {
 
-	override method proxima(objeto) {
-		return objeto.position().down(1)
+	override method estaEnLimite(objeto) {
+		return screen.estaDentroDeEjeX(objeto.position())
 	}
 
 }
 
-object derecha inherits Direccion {
+class DireccionY inherits Direccion {
 
-	override method proxima(objeto) {
-		return objeto.position().right(1)
+	override method estaEnLimite(objeto) {
+		return screen.estaDentroDeEjeY(objeto.position())
 	}
 
 }
 
-object izquierda inherits Direccion {
+object arriba inherits DireccionY {
 
-	override method proxima(objeto) {
-		return objeto.position().left(1)
+	override method moverProxima(objeto) {
+		objeto.position().up()
 	}
+
+	override method proxima(objeto) = objeto.position().up(1)
+
+}
+
+object abajo inherits DireccionY {
+
+	override method moverProxima(objeto) {
+		objeto.position().down()
+	}
+
+	override method proxima(objeto) = objeto.position().down(1)
+
+}
+
+object derecha inherits DireccionX {
+
+	override method moverProxima(objeto) {
+		objeto.position().right()
+	}
+
+	override method proxima(objeto) = objeto.position().right(1)
+
+}
+
+object izquierda inherits DireccionX {
+
+	override method moverProxima(objeto) {
+		objeto.position().left()
+	}
+
+	override method proxima(objeto) = objeto.position().left(1)
 
 }
 
