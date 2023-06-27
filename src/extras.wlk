@@ -18,7 +18,7 @@ object gameOver {
 
 	method finalizarJuego() {
 		fondoGameOver.aparecer()
-		mandalorian.reiniciarEstado()
+		mandalorian.reiniciarEstadoPerdedor()
 		keyboard.r().onPressDo({ nivelUno.iniciar()})
 	}
 
@@ -40,11 +40,9 @@ object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y =
 	method subirDeNivel() {
 		if (mandalorian.cumplioLaMision()) {
 			mandalorian.cambiarDeNivel(nivel.siguienteNivel())
-			console.println(mandalorian.nivelDondeSeEncuentra())
 			nivel.siguienteNivel().iniciar()
 			self.nivel(nivel.siguienteNivel())
-			console.println(self.nivel())
-			mandalorian.reiniciarEstado()
+			mandalorian.reiniciarEstadoGanador()
 		} else {
 			game.say(self, "NO SE CUMPLIO LA MISION!!")
 		}

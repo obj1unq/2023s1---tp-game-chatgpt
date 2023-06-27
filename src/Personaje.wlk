@@ -38,7 +38,7 @@ class Personaje inherits StarWarsObject {
 object mandalorian inherits Personaje(position = new PosicionMutable(x = 10, y = 7), direccionDondeMira = abajo) {
 
 	var property estado = vivo
-	var property vida = 2
+	var property vida = 0
 	var property score = 0
 	var property nivelDondeSeEncuentra = nivelUno
 
@@ -87,11 +87,16 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 10, y =
 		vida -= danio
 	}
 
-	method reiniciarEstado() {
+	method reiniciarEstadoGanador() {
 		self.position(new PosicionMutable(x = 14, y = 7))
 		self.estado(vivo)
 		self.score(0)
 		self.vida(2)
+	}
+
+	method reiniciarEstadoPerdedor() {
+		self.reiniciarEstadoGanador()
+		self.nivelDondeSeEncuentra(nivelUno)
 	}
 
 	method consiguioLosPuntos() = nivelDondeSeEncuentra.puedeIrASiguienteNivel(self)
@@ -109,6 +114,7 @@ class Trooper inherits Personaje {
 	override method colision(objeto) {
 		self.desaparecer()
 		objeto.desaparecer()
+		mandalorian.sumarScore(2)
 	}
 
 	override method disparar() {
