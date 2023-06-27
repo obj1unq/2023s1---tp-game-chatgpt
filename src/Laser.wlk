@@ -8,9 +8,9 @@ class Laser inherits StarWarsObject {
 
 	var property direccionDeMovimiento
 	var property alcance
-	
-	//TODO: Ver de donde sale esto URGENTE!!!!
-	override method colision(objeto) {
+
+	// TODO: Ver de donde sale esto URGENTE!!!!
+	method colision(objeto) {
 		self.desaparecer()
 	}
 
@@ -44,25 +44,13 @@ class Laser inherits StarWarsObject {
 
 	method danio()
 
-	// metodos colision 
-	method impactarConLaserAzul(laser) {
-	}
-
-	method impactarConLaserRojo(laser) {
-	}
-
-	method trooperColision(trooper) {
-	}
-
-	method colisionConBomba(_bomba) {
-	}
+	method esColisionable() = true
 
 }
 
 class LaserAzul inherits Laser {
 
 	override method colision(objeto) {
-		objeto.impactarConLaserAzul(self)
 		self.desaparecer()
 	}
 
@@ -75,7 +63,6 @@ class LaserAzul inherits Laser {
 class LaserRojo inherits Laser {
 
 	override method colision(objeto) {
-		objeto.impactarConLaserRojo(self)
 		self.desaparecer()
 	}
 

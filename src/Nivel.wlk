@@ -49,7 +49,7 @@ class Nivel {
 		keyboard.down().onPressDo({ mandalorian.mover(abajo)})
 		keyboard.left().onPressDo({ mandalorian.mover(izquierda)})
 		keyboard.right().onPressDo({ mandalorian.mover(derecha)})
-	// keyboard.z().onPressDo({ mandalorian.disparar()})
+		keyboard.z().onPressDo({ mandalorian.disparar()})
 	}
 
 	method agregarVisores() {
@@ -62,6 +62,7 @@ class Nivel {
 	method agregarVisualesEscenario() {
 		self.agregarFondo()
 		self.agregarVisores()
+		bomba.aparecer()
 	}
 
 	method agregarVisualesPersonajes() {
