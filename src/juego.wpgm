@@ -8,4 +8,3 @@ program juego {
 	mainMenu.iniciar()
 	game.start()
 }
-// TODO: Arreglar el problema de los puntos, una vez que se pasa al siguiente nivel 
