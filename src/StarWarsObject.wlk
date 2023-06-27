@@ -4,6 +4,8 @@ class StarWarsObject {
 
 	var property position
 
+	method esColisionable() = true
+
 	method image()
 
 	method aparecer() {
