@@ -1,15 +1,18 @@
 import wollok.game.*
 import Direccion.*
 import Laser.*
-import EstadoPersonaje.*
+import extras.*
 import StarWarsObject.*
 import Nivel.*
-import Visor.*
+import PosicionMutable.*
+import EstadoPersonaje.*
 
 class Personaje inherits StarWarsObject {
 
 	var property direccionDondeMira
 	var property alcanceDisparo = 3
+
+	method esColisionable() = true
 
 	method disparar()
 
@@ -18,14 +21,16 @@ class Personaje inherits StarWarsObject {
 		direccion.mover(self)
 	}
 
+	method colision(objecto)
+
 }
 
-object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), direccionDondeMira = abajo) {
+object mandalorian inherits Personaje(position = new PosicionMutable(x = 10, y = 7), direccionDondeMira = abajo) {
 
 	var property estado = vivo
 	var property vida = 2
 	var property score = 0
-	var property nivelDondeEsta = nivelUno
+	var property nivelDondeSeEncuentra = nivelUno
 
 	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
 
@@ -39,6 +44,12 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 			self.estado(muerto)
 			gameOver.finalizarJuego()
 		}
+	}
+
+	method cumplioLaMision() = nivelDondeSeEncuentra.puedeIrASiguienteNivel()
+
+	method cambiarDeNivel(_nivel) {
+		nivelDondeSeEncuentra = _nivel
 	}
 
 	override method desaparecer() {
@@ -62,51 +73,22 @@ object mandalorian inherits Personaje(position = new Posicion(x = 3, y = 3), dir
 		score += _score
 	}
 
-//	override method aparecer() {
-//		super()
-//		game.onCollideDo(self, { objeto => console.println("MANDALORIAN:" + objeto)})
-//		game.onCollideDo(self, { objeto => objeto.colision(self)})
-//	}
 	method restarVida(danio) {
 		vida -= danio
 	}
 
 	method reiniciarEstado() {
+		self.position(new PosicionMutable(x = 14, y = 7))
 		self.estado(vivo)
-		self.vida(2)
 		self.score(0)
-		self.position(game.at(10, 10))
+		self.vida(2)
 	}
 
 	method textColor() = "#ffffff"
 
 	method text() = self.score().toString()
 
-	method consiguioLosPuntos() = nivelDondeEsta.puedeIrASiguienteNivel(self)
-
-	// metodos de colision 
-	method impactarConLaserAzul(laser) {
-	}
-
-	method impactarConLaserRojo(laser) {
-		self.restarVida(laser.danio())
-		self.verificarEstado()
-	}
-
-	method colisionEntrePersonajes(personaje) {
-		self.restarVida(personaje.danio())
-		self.verificarEstado()
-	}
-
-	method trooperColision(trooper) {
-		self.restarVida(trooper.danio())
-		self.verificarEstado()
-	}
-
-	method colisionConBomba(_bomba) {
-		self.restarVida(_bomba.danio())
-		self.verificarEstado()
-	}
+	method consiguioLosPuntos() = nivelDondeSeEncuentra.puedeIrASiguienteNivel(self)
 
 }
 
@@ -129,7 +111,7 @@ class Trooper inherits Personaje {
 	}
 
 	method moverYDisparar() {
-		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
+//		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
 		self.disparar()
 	}
 
@@ -147,8 +129,6 @@ class Trooper inherits Personaje {
 
 	override method aparecer() {
 		super()
-//		game.onCollideDo(self, { objeto => console.println("TROOPER:" + objeto)})
-//		game.onCollideDo(self, { objeto => objeto.colision(self)})
 		self.dispararSecuencialmente()
 	}
 
@@ -173,4 +153,6 @@ class TrooperSargento inherits Trooper {
 	override method puntosQueOtorga() = 5
 
 }
+
+const cadete = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), direccionDondeMira = abajo)
 

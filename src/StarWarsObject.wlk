@@ -3,11 +3,6 @@ import wollok.game.*
 class StarWarsObject {
 
 	var property position
-	var property esColisionable = true
-
-	method colision(objeto)
-
-	method esColisionable()
 
 	method image()
 

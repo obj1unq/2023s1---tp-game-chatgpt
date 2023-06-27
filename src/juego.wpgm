@@ -1,9 +1,5 @@
 import wollok.game.*
-import Personaje.*
-import Laser.*
-import Inamovible.*
-import Direccion.*
-import Nivel.*
+import extras.*
 
 program juego {
 	game.title("Star Wars Game")
@@ -12,3 +8,4 @@ program juego {
 	mainMenu.iniciar()
 	game.start()
 }
+// TODO: Arreglar el problema de los puntos, una vez que se pasa al siguiente nivel 
