@@ -10,7 +10,7 @@ import Inamovible.*
 
 class Personaje inherits StarWarsObject {
 
-	var property direccionDondeMira
+	var property direccionDondeMira = abajo
 	var property alcanceDisparo = 3
 
 	method esColisionable() = true
@@ -35,7 +35,7 @@ class Personaje inherits StarWarsObject {
 
 }
 
-object mandalorian inherits Personaje(position = new PosicionMutable(x = 10, y = 7), direccionDondeMira = abajo) {
+object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12)) {
 
 	var property estado = vivo
 	var property vida = 0
@@ -88,10 +88,11 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 10, y =
 	}
 
 	method reiniciarEstadoGanador() {
-		self.position(new PosicionMutable(x = 14, y = 7))
+		self.position(new PosicionMutable(x = 19, y = 12))
 		self.estado(vivo)
 		self.score(0)
 		self.vida(2)
+		self.direccionDondeMira(abajo)
 	}
 
 	method reiniciarEstadoPerdedor() {
@@ -176,5 +177,7 @@ class TrooperSargento inherits Trooper {
 
 }
 
-const cadete = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), direccionDondeMira = abajo)
+const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 12))
+
+const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2))
 
