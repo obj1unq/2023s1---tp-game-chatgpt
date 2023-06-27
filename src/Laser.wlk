@@ -9,7 +9,6 @@ class Laser inherits StarWarsObject {
 	var property direccionDeMovimiento
 	var property alcance
 
-	// TODO: Ver de donde sale esto URGENTE!!!!
 	method colision(objeto) {
 		objeto.desaparecer()
 		self.desaparecer()
@@ -34,7 +33,7 @@ class Laser inherits StarWarsObject {
 	}
 
 	method disparar() {
-		game.onTick(25, self.nroSerialDisparo(), { self.desplazar()})
+		game.onTick(75, self.nroSerialDisparo(), { self.desplazar()})
 		game.onCollideDo(self, { objeto => console.println("LASER:" + objeto)})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
