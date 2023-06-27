@@ -16,5 +16,29 @@ class StarWarsObject {
 		game.removeVisual(self)
 	}
 
+	method colision(objeto) {
+	}
+
+	method colionasteConBomba(objeto) {
+	}
+
+	method colisionasteConCaja(objeto) {
+	}
+
+	method colisionasteConLaser(objeto) {
+	}
+
+	method colisionasteConMandalorian(objeto) {
+	}
+
+	method colisionasteConPlataforma(objeto) {
+	}
+
+	method colisionasteConPortal(objeto) {
+	}
+
+	method colisionasteConTrooper(objeto) {
+	}
+
 }
 
