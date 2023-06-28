@@ -6,6 +6,7 @@ import StarWarsObject.*
 import Nivel.*
 import PosicionMutable.*
 import EstadoPersonaje.*
+import Inamovible.*
 
 class Personaje inherits StarWarsObject {
 
@@ -112,7 +113,7 @@ class Trooper inherits Personaje {
 
 	override method aparecer() {
 		super()
-		self.dispararSecuencialmente()
+		self.accionSecuencialmente()
 	}
 
 	override method colision(objeto) {
@@ -125,19 +126,12 @@ class Trooper inherits Personaje {
 		mandalorian.sumarScore(self.puntosQueOtorga())
 	}
 
-	override method disparar() {
-		const laser = new LaserRojo(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
-		laser.aparecer()
-		laser.disparar()
+	method accionSecuencialmente() {
+		game.onTick(800, self.nroSerialDeTrooper(), { self.moverYEjecutarAccion()})
 	}
 
-	method dispararSecuencialmente() {
-		game.onTick(800, self.nroSerialDeTrooper(), { self.moverYDisparar()})
-	}
-
-	method moverYDisparar() {
-		// self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
-		self.dispararSiPuede()
+	method moverYEjecutarAccion() {
+		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
 	}
 
 }
@@ -148,6 +142,17 @@ class TrooperCadete inherits Trooper {
 
 	override method sufijo() = "cadete-"
 
+	override method moverYEjecutarAccion() {
+		super( )
+		self.dispararSiPuede()
+	}
+
+	override method disparar() {
+		const laser = new LaserRojo(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
+		laser.aparecer()
+		laser.disparar()
+	}
+
 }
 
 class TrooperSargento inherits Trooper {
@@ -156,9 +161,26 @@ class TrooperSargento inherits Trooper {
 
 	override method sufijo() = "sargento-"
 
+	method colocarBomba() {
+		const bomba = new Bomba(position = direccionDondeMira.proxima(self))
+		bomba.aparecer()
+		bomba.activar()
+	}
+
+	override method disparar() {
+	}
+
+	override method accionSecuencialmente() {
+		// perdon
+		game.onTick(800, self.nroSerialDeTrooper(), { self.mover([ abajo, arriba ].anyOne())})
+		game.onTick(5000, self.nroSerialDeTrooper(), { self.colocarBomba()})
+	}
+
 }
 
 const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 12), alcanceDisparo = 3)
 
 const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), alcanceDisparo = 3)
+
+const sargento = new TrooperSargento(position = new PosicionMutable(x = 4, y = 2), alcanceDisparo = 1)
 

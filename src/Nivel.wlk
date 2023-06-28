@@ -63,12 +63,12 @@ class Nivel {
 		self.agregarFondo()
 		self.agregarVisores()
 		plataforma.aparecer()
-		bomba.aparecer()
 	}
 
 	method agregarVisualesPersonajes() {
-		cadete.aparecer()
-		cadete2.aparecer()
+		// cadete.aparecer()
+		// cadete2.aparecer()
+		sargento.aparecer()
 		mandalorian.aparecer()
 	}
 

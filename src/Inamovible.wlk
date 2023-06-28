@@ -31,11 +31,6 @@ class Bomba inherits StarWarsObject {
 
 	override method image() = estado.image()
 
-	override method aparecer() {
-		game.addVisual(self)
-		self.activar()
-	}
-
 	method text() {
 		return tiempoDeDetonacion.toString()
 	}
@@ -50,12 +45,11 @@ class Bomba inherits StarWarsObject {
 		tiempoDeDetonacion -= 1
 		if (tiempoDeDetonacion < 1) {
 			estado = detonada
-			game.onCollideDo(self, { objeto => console.println("BOMBA : " + objeto)})
 			game.onCollideDo(self, { objeto => objeto.colision(self)})
-			game.removeTickEvent(self.nroSerialBomba())
 		}
-		if (tiempoDeDetonacion < -3) {
-			game.removeVisual(self)
+		if (tiempoDeDetonacion < -1) {
+			game.removeTickEvent(self.nroSerialBomba())
+			self.desaparecer()
 		}
 	}
 
@@ -67,16 +61,12 @@ class Bomba inherits StarWarsObject {
 		return self.identity().toString()
 	}
 
-	override method desaparecer() {
-	}
-
 	override method colision(objeto) {
 		objeto.colionasteConBomba(self)
 	}
 
 	override method colisionasteConMandalorian(objeto) {
 		objeto.restarVida(self.danio())
-		self.desaparecer()
 	}
 
 }
@@ -170,6 +160,4 @@ const caja32 = new Caja(position = new PosicionMutable(x = 13, y = 10))
 const caja33 = new Caja(position = new PosicionMutable(x = 14, y = 6))
 
 const caja34 = new Caja(position = new PosicionMutable(x = 14, y = 8))
-
-const bomba = new Bomba(position = new PosicionMutable(x = 2, y = 2))
 
