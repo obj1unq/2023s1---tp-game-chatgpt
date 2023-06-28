@@ -106,10 +106,10 @@ object screen {
 
 	method limiteY() = game.height() - 2
 
-	method puedeMover(objeto, direccion) = self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))
+	method puedeRealizarLaAccionPara(objeto, direccion) = self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))
 
 	method mover(objeto, direccion) {
-		if (self.puedeMover(objeto, direccion)) {
+		if (self.puedeRealizarLaAccionPara(objeto, direccion)) {
 			direccion.moverProxima(objeto)
 		}
 	}

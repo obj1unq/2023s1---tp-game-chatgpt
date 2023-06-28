@@ -11,8 +11,9 @@ import StarWarsObject.*
 class Personaje inherits StarWarsObject {
 
 	var property direccionDondeMira = abajo
-	var property alcanceDisparo
 	var property estado
+
+	method realizarAccion()
 
 	method direccionProxima() = direccionDondeMira.proxima(self)
 
@@ -27,8 +28,6 @@ class Personaje inherits StarWarsObject {
 		}
 	}
 
-	method realizarAccion()
-
 	method realizarAccionSiPuede() {
 		if (estado.puedeRealizarLaAccion(self)) {
 			self.realizarAccion()
@@ -37,8 +36,9 @@ class Personaje inherits StarWarsObject {
 
 }
 
-object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12), alcanceDisparo = 3, estado = mandalorianVivo) {
+object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12), estado = heroeVivo) {
 
+	var property alcanceDisparo = 3
 	var property nivelDondeSeEncuentra = nivelUno
 	var property score = 0
 	var property vida = 2
@@ -53,9 +53,9 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 
 	override method desaparecer() {
 		if (vida <= 0) {
-			self.estado(mandalorianDerrotado)
+			self.estado(heroeDerrotado)
 			gameOver.reiniciarJuego()
-			estado.reiniciarPara(self)
+			estado.teEliminaron(self)
 		}
 	}
 
@@ -83,7 +83,7 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 
 	method teletranspotarse() {
 		self.nivelDondeSeEncuentra(portal.siguienteNivel())
-		self.estado(mandalorianGanador)
+		self.estado(heroeGanador)
 		self.reiniciarEstado()
 	}
 
@@ -129,6 +129,8 @@ class Trooper inherits Personaje {
 }
 
 class TrooperCadete inherits Trooper {
+
+	var property alcanceDisparo
 
 	override method tiempoParaAccion() = 800
 
@@ -181,5 +183,5 @@ class TrooperSargento inherits Trooper {
 const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 11), alcanceDisparo = 3, estado = enemigoVivo)
 
 //const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), alcanceDisparo = 3)
-const sargento = new TrooperSargento(position = new PosicionMutable(x = 4, y = 2), alcanceDisparo = 1, estado = enemigoVivo)
+const sargento = new TrooperSargento(position = new PosicionMutable(x = 4, y = 2), estado = enemigoVivo)
 

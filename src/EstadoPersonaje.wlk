@@ -6,51 +6,57 @@ import Direccion.abajo
 
 class EstadoPersonaje {
 
-	method condicion() = true
+	method condicion()
 
-	method puedeMoverse() = true
+	method puedeMoverse()
 
-	method puedeRealizarLaAccion(personaje) = not screen.hayObjetoAdelante(personaje.direccionProxima()) && self.condicion()
-
-}
-
-class EstadoMandalorian inherits EstadoPersonaje {
-
-	override method condicion() = true
-
-	method reiniciarPara(personaje) {
-		personaje.position(new PosicionMutable(x = 19, y = 12))
-		personaje.vida(2)
-		personaje.score(0)
-		personaje.direccionDondeMira(abajo)
-	}
+	method puedeRealizarLaAccion(personaje) = screen.puedeRealizarLaAccionPara(personaje, personaje.direccionDondeMira()) && self.condicion()
 
 	method teEliminaron(personaje) {
 	}
 
 }
 
-object mandalorianDerrotado inherits EstadoMandalorian {
+class EstadoHeroe inherits EstadoPersonaje {
+
+	override method condicion() = true
+
+	override method puedeMoverse() = true
+
+	method reiniciarPara(heroe) {
+		heroe.position(new PosicionMutable(x = 19, y = 12))
+		heroe.vida(2)
+		heroe.score(0)
+		heroe.direccionDondeMira(abajo)
+	}
+
+}
+
+object heroeDerrotado inherits EstadoHeroe {
 
 	override method condicion() = false
 
 	override method puedeMoverse() = false
 
-	override method reiniciarPara(personaje) {
-		super(personaje)
-		personaje.estado(mandalorianVivo)
-		personaje.nivelDondeSeEncuentra(nivelUno)
+	override method teEliminaron(personaje) {
+		self.reiniciarPara(personaje)
+	}
+
+	override method reiniciarPara(heroe) {
+		super(heroe)
+		heroe.estado(heroeVivo)
+		heroe.nivelDondeSeEncuentra(nivelUno)
 	}
 
 }
 
-object mandalorianGanador inherits EstadoMandalorian {
+object heroeGanador inherits EstadoHeroe {
 
 }
 
-object mandalorianVivo inherits EstadoMandalorian {
+object heroeVivo inherits EstadoHeroe {
 
-	override method reiniciarPara(personaje) {
+	override method reiniciarPara(heroe) {
 	}
 
 }
@@ -59,8 +65,7 @@ class EstadoEnemigo inherits EstadoPersonaje {
 
 	override method condicion() = true
 
-	method teEliminaron(enemigo) {
-	}
+	override method puedeMoverse() = true
 
 }
 

@@ -28,7 +28,7 @@ class Laser inherits StarWarsObject {
 	}
 
 	method desplazar() {
-		if (screen.puedeMover(self, direccionDeMovimiento) and alcance > 0) {
+		if (screen.puedeRealizarLaAccionPara(self, direccionDeMovimiento) and alcance > 0) {
 			self.position(direccionDeMovimiento.proxima(self))
 			alcance--
 		} else {

@@ -21,7 +21,7 @@ object visorScore inherits Visor(position = new PosicionMutable(x = 2, y = 14)) 
 
 object visorNivel inherits Visor(position = new PosicionMutable(x = 10, y = 14)) {
 
-	override method image() = portal.nivel().toString() + ".png"
+	override method image() = mandalorian.nivelDondeSeEncuentra().toString() + ".png"
 
 }
 
