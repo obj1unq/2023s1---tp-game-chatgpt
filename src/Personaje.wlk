@@ -1,12 +1,12 @@
 import wollok.game.*
-import Direccion.*
-import Laser.*
 import extras.*
-import StarWarsObject.*
-import Nivel.*
-import PosicionMutable.*
+import Direccion.*
 import EstadoPersonaje.*
 import Inamovible.*
+import Laser.*
+import Nivel.nivelUno
+import PosicionMutable.*
+import StarWarsObject.*
 
 class Personaje inherits StarWarsObject {
 
@@ -54,7 +54,7 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 	override method desaparecer() {
 		if (vida <= 0) {
 			self.estado(mandalorianDerrotado)
-			gameOver.finalizarJuego()
+			gameOver.reiniciarJuego()
 			estado.reiniciarPara(self)
 		}
 	}
@@ -79,6 +79,12 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 
 	method sumarScore(_score) {
 		score += _score
+	}
+
+	method teletranspotarse() {
+		self.nivelDondeSeEncuentra(portal.siguienteNivel())
+		self.estado(mandalorianGanador)
+		self.reiniciarEstado()
 	}
 
 }

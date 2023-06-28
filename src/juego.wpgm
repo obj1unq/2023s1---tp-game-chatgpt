@@ -2,9 +2,5 @@ import wollok.game.*
 import extras.*
 
 program juego {
-	game.title("Star Wars Game")
-	game.height(15)
-	game.width(22)
-	mainMenu.iniciar()
-	game.start()
+	starWarsGame.iniciar()
 }

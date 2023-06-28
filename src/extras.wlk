@@ -6,18 +6,22 @@ import StarWarsObject.*
 import Personaje.*
 import PosicionMutable.*
 
-object mainMenu {
+object starWarsGame {
 
 	method iniciar() {
+		game.title("Star Wars Game")
+		game.height(15)
+		game.width(22)
 		fondoInicio.aparecer()
 		keyboard.space().onPressDo({ nivelUno.iniciar()})
+		game.start()
 	}
 
 }
 
 object gameOver {
 
-	method finalizarJuego() {
+	method reiniciarJuego() {
 		fondoGameOver.aparecer()
 		keyboard.r().onPressDo({ nivelUno.iniciar()})
 	}
@@ -26,25 +30,18 @@ object gameOver {
 
 object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y = 7)) {
 
-	var property nivel = mandalorian.nivelDondeSeEncuentra()
+	var property estado = inactivo
+	var property nivel = nivelUno
 
-	override method image() = "portal-" + (if(mandalorian.cumplioLaMision()) "activo" else "inactivo") + ".png"
+	method estado() = if (mandalorian.cumplioLaMision()) activo else inactivo
+
+	override method image() = "portal-" + self.estado().condicion() + ".png"
+
+	method siguienteNivel() = nivel.siguienteNivel()
 
 	override method aparecer() {
 		super()
 		game.onCollideDo(self, { objecto => objecto.colision(self)})
-	}
-
-	method subirDeNivel() {
-		if (mandalorian.cumplioLaMision()) {
-			mandalorian.nivelDondeSeEncuentra(nivel.siguienteNivel())
-			self.nivel(nivel.siguienteNivel())
-			mandalorian.estado(mandalorianGanador)
-			mandalorian.reiniciarEstado()
-			nivel.siguienteNivel().iniciar()
-		} else {
-			game.say(self, "NO SE CUMPLIO LA MISION!!")
-		}
 	}
 
 	override method colision(objeto) {
@@ -52,7 +49,29 @@ object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y =
 	}
 
 	override method colisionasteConMandalorian(objeto) {
-		self.subirDeNivel()
+		estado.cambiarDeNivel()
+	}
+
+}
+
+object inactivo {
+
+	method condicion() = self.toString()
+
+	method cambiarDeNivel() {
+		portal.nivel(portal.siguienteNivel())
+		mandalorian.teletranspotarse()
+		portal.nivel().iniciar()
+	}
+
+}
+
+object activo {
+
+	method condicion() = self.toString()
+
+	method cambiarDeNivel() {
+		game.say(self, "NO SE CUMPLIO LA MISION!!")
 	}
 
 }

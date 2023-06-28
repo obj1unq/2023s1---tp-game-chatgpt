@@ -101,7 +101,7 @@ object nivelUno inherits Nivel {
 
 object nivelDos inherits Nivel {
 
-	override method puntosRequeridos() = 6 // 20
+	override method puntosRequeridos() = 1
 
 	override method siguienteNivel() = nivelTres
 
