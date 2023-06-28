@@ -34,6 +34,7 @@ object trooperCadeteFactory inherits EnemigoFactory {
 
 object trooperSargentoFactory inherits EnemigoFactory {
 
+	// termine 
 	const direcciones = [ abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba ]
 
 	override method posicionAleatoria() = [ new PosicionMutable(x = 12, y = 13), new PosicionMutable(x = 8, y = 1) ].anyOne()
