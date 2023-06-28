@@ -122,13 +122,6 @@ class Trooper inherits Personaje {
 		game.onTick(self.tiempoParaAccion(), self.nroSerialDeTrooper(), { self.realizarAccionSiPuede()})
 	}
 
-	override method realizarAccionSiPuede() {
-		self.moverSiPuede(self.direccionAleatoria())
-		if (estado.puedeRealizarLaAccion(self)) {
-			self.realizarAccion()
-		}
-	}
-
 	method removerEvento() {
 		game.removeTickEvent(self.nroSerialDeTrooper())
 	}
@@ -143,14 +136,19 @@ class TrooperCadete inherits Trooper {
 
 	override method sufijo() = "cadete-"
 
-	override method realizarAccion() {
-		self.disparar()
-	}
-
 	method disparar() {
 		const laser = new LaserRojo(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
+	}
+
+	override method realizarAccion() {
+		self.disparar()
+	}
+
+	override method realizarAccionSiPuede() {
+		self.moverSiPuede(self.direccionAleatoria())
+		super()
 	}
 
 }
