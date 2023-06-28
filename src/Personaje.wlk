@@ -25,6 +25,7 @@ class Personaje inherits StarWarsObject {
 	method moverSiPuede(direccion) {
 		if (estado.puedeMoverse()) {
 			self.mover(direccion)
+			
 		}
 	}
 
@@ -157,6 +158,14 @@ class TrooperCadete inherits Trooper {
 
 class TrooperSargento inherits Trooper {
 
+	method direccionesAleatoria() = [ abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba ]
+
+	method moverAleatorio() {
+		self.moverSiPuede(self.direccionesAleatoria().first())
+		self.direccionesAleatoria().add(self.direccionesAleatoria().first())
+		self.direccionesAleatoria().remove(self.direccionesAleatoria().first())
+	}
+
 	override method tiempoParaAccion() = 5000
 
 	override method puntosQueOtorga() = 3
@@ -175,7 +184,7 @@ class TrooperSargento inherits Trooper {
 
 	override method realizarAccionSecuencialmente() {
 		super()
-		game.onTick(800, self.nroSerialDeTrooper(), { self.moverSiPuede(self.direccionAleatoria())})
+		game.onTick(800, self.nroSerialDeTrooper(), { self.moverAleatorio()})
 	}
 
 }
