@@ -2,11 +2,15 @@ import wollok.game.*
 import extras.*
 import Background.*
 import Direccion.*
+import EnemigoFactory.*
 import Inamovible.*
 import Personaje.*
 import Visor.*
 
 class Nivel {
+
+	const property personajes = []
+	var property cantMaxEnemigosSoportados
 
 	method agregarFondo()
 
@@ -14,14 +18,18 @@ class Nivel {
 
 	method siguienteNivel()
 
+	method cantidadEnemigosActivos() = personajes.size()
+
+	method nroSerialGenerador() = self.identity().toString()
+
 	method puedeIrASiguienteNivel() = mandalorian.score() >= self.puntosRequeridos()
 
 	method agregarCajas() {
 		// CAJAS DEL CENTRO
 		caja1.aparecer()
 		caja2.aparecer()
-		caja3.aparecer()
-		caja4.aparecer()
+			// caja3.aparecer()
+			// caja4.aparecer()
 			// CAJAS DE CRUZ ESQUINA SUPERIOR IZQUIERDA
 		caja5.aparecer()
 		caja6.aparecer()
@@ -52,6 +60,10 @@ class Nivel {
 		keyboard.z().onPressDo({ mandalorian.realizarAccionSiPuede()})
 	}
 
+	method agregarEnemigo(enemigo) {
+		personajes.add(enemigo)
+	}
+
 	method agregarVisores() {
 		visorScore.aparecer()
 		visorNivel.aparecer()
@@ -66,22 +78,31 @@ class Nivel {
 	}
 
 	method agregarVisualesPersonajes() {
-		sargento.aparecer()
-			// cadete2.aparecer()
-			// sargento.aparecer()
+		game.onTick(3000, self.nroSerialGenerador(), { trooperCadeteFactory.generarPara(self)})
+		game.onTick(2000, self.nroSerialGenerador(), { trooperSargentoFactory.generarPara(self)})
 		mandalorian.aparecer()
 	}
 
 	method iniciar() {
 		game.clear()
+		personajes.clear()
 		self.agregarControles()
 		self.agregarVisualesEscenario()
 		self.agregarVisualesPersonajes()
 	}
 
+	method removerEnemigo(enemigo) {
+		personajes.remove(enemigo)
+	}
+
+	method removerEvento() {
+		game.removeTickEvent(self.nroSerialGenerador())
+		personajes.forEach{ personaje => personaje.desaparecer()}
+	}
+
 }
 
-object nivelUno inherits Nivel {
+object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
 	override method puntosRequeridos() = 1
 
@@ -97,9 +118,14 @@ object nivelUno inherits Nivel {
 		portal.aparecer()
 	}
 
+	override method agregarVisualesPersonajes() {
+		game.onTick(4000, self.nroSerialGenerador(), { trooperCadeteFactory.generarPara(self)})
+		super()
+	}
+
 }
 
-object nivelDos inherits Nivel {
+object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
 
 	override method puntosRequeridos() = 1
 
@@ -139,7 +165,7 @@ object nivelDos inherits Nivel {
 
 }
 
-object nivelTres inherits Nivel {
+object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 6) {
 
 	override method puntosRequeridos() = 30
 

@@ -76,8 +76,11 @@ object enemigoDerrotado inherits EstadoEnemigo {
 	override method puedeMoverse() = false
 
 	override method teEliminaron(enemigo) {
+		console.println("SE EJECUTO")
 		enemigo.removerEvento()
 		mandalorian.sumarScore(enemigo.puntosQueOtorga())
+		mandalorian.nivelDondeSeEncuentra().removerEnemigo(enemigo)
+		console.println(mandalorian.nivelDondeSeEncuentra().personajes())
 	}
 
 }

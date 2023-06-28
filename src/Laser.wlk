@@ -14,17 +14,17 @@ class Laser inherits StarWarsObject {
 
 	method sufijo()
 
-	override method desaparecer() {
-		super()
-		game.removeTickEvent(self.nroSerialDisparo())
-	}
-
 	override method colision(objeto) {
 		objeto.colisionasteConLaser(self)
 	}
 
 	override method colisionasteConTrooper(objeto) {
 		self.desaparecer()
+	}
+
+	override method desaparecer() {
+		super()
+		game.removeTickEvent(self.nroSerialDisparo())
 	}
 
 	method desplazar() {
@@ -38,7 +38,6 @@ class Laser inherits StarWarsObject {
 
 	method disparar() {
 		game.onTick(75, self.nroSerialDisparo(), { self.desplazar()})
-			// game.onCollideDo(self, { objeto => console.println("LASER:" + objeto)})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
@@ -69,7 +68,7 @@ class LaserRojo inherits Laser {
 
 	override method colisionasteConMandalorian(objeto) {
 		objeto.restarVida(self.danio())
-		objeto.desparecer()
+		objeto.desaparecer()
 	}
 
 }

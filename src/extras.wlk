@@ -22,6 +22,7 @@ object starWarsGame {
 object gameOver {
 
 	method reiniciarJuego() {
+		game.clear()
 		fondoGameOver.aparecer()
 		keyboard.r().onPressDo({ nivelUno.iniciar()})
 	}
@@ -114,5 +115,8 @@ object screen {
 		}
 	}
 
+// Preguntar a la pantalla solo si puede mover
+// La responsabilidad del movimiento corresponde 
+// Hacer una superclase de que objetos solo se pueden mover
 }
 
