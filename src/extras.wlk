@@ -1,5 +1,6 @@
 import wollok.game.*
 import Background.*
+import EstadoPersonaje.*
 import Nivel.*
 import StarWarsObject.*
 import Personaje.*
@@ -18,7 +19,6 @@ object gameOver {
 
 	method finalizarJuego() {
 		fondoGameOver.aparecer()
-		mandalorian.reiniciarEstadoPerdedor()
 		keyboard.r().onPressDo({ nivelUno.iniciar()})
 	}
 
@@ -37,10 +37,11 @@ object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y =
 
 	method subirDeNivel() {
 		if (mandalorian.cumplioLaMision()) {
-			mandalorian.cambiarDeNivel(nivel.siguienteNivel())
-			nivel.siguienteNivel().iniciar()
+			mandalorian.nivelDondeSeEncuentra(nivel.siguienteNivel())
 			self.nivel(nivel.siguienteNivel())
-			mandalorian.reiniciarEstadoGanador()
+			mandalorian.estado(mandalorianGanador)
+			mandalorian.reiniciarEstado()
+			nivel.siguienteNivel().iniciar()
 		} else {
 			game.say(self, "NO SE CUMPLIO LA MISION!!")
 		}

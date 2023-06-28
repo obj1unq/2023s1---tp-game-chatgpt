@@ -45,11 +45,11 @@ class Nivel {
 	}
 
 	method agregarControles() {
-		keyboard.up().onPressDo({ mandalorian.mover(arriba)})
-		keyboard.down().onPressDo({ mandalorian.mover(abajo)})
-		keyboard.left().onPressDo({ mandalorian.mover(izquierda)})
-		keyboard.right().onPressDo({ mandalorian.mover(derecha)})
-		keyboard.z().onPressDo({ mandalorian.dispararSiPuede()})
+		keyboard.up().onPressDo({ mandalorian.moverSiPuede(arriba)})
+		keyboard.down().onPressDo({ mandalorian.moverSiPuede(abajo)})
+		keyboard.left().onPressDo({ mandalorian.moverSiPuede(izquierda)})
+		keyboard.right().onPressDo({ mandalorian.moverSiPuede(derecha)})
+		keyboard.z().onPressDo({ mandalorian.realizarAccionSiPuede()})
 	}
 
 	method agregarVisores() {
@@ -66,9 +66,9 @@ class Nivel {
 	}
 
 	method agregarVisualesPersonajes() {
-		// cadete.aparecer()
-		// cadete2.aparecer()
 		sargento.aparecer()
+			// cadete2.aparecer()
+			// sargento.aparecer()
 		mandalorian.aparecer()
 	}
 
