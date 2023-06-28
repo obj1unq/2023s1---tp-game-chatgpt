@@ -1,17 +1,30 @@
 import wollok.game.*
-import Direccion.*
 import extras.*
-import Personaje.*
+import Direccion.*
 import StarWarsObject.*
 
 class Laser inherits StarWarsObject {
 
-	var property direccionDeMovimiento
 	var property alcance
+	var property direccionDeMovimiento
+
+	method danio()
+
+	override method image() = "laser" + self.sufijo() + direccionDeMovimiento.toString() + ".png"
+
+	method sufijo()
 
 	override method desaparecer() {
-		game.removeVisual(self)
+		super()
 		game.removeTickEvent(self.nroSerialDisparo())
+	}
+
+	override method colision(objeto) {
+		objeto.colisionasteConLaser(self)
+	}
+
+	override method colisionasteConTrooper(objeto) {
+		self.desaparecer()
 	}
 
 	method desplazar() {
@@ -23,40 +36,23 @@ class Laser inherits StarWarsObject {
 		}
 	}
 
-	method nroSerialDisparo() {
-		return self.identity().toString()
-	}
-
 	method disparar() {
 		game.onTick(75, self.nroSerialDisparo(), { self.desplazar()})
-		game.onCollideDo(self, { objeto => console.println("LASER:" + objeto)})
+			// game.onCollideDo(self, { objeto => console.println("LASER:" + objeto)})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
-	override method image() = "laser" + self.sufijo() + direccionDeMovimiento.toString() + ".png"
-
-	method sufijo()
-
-	method danio()
-
-	method pasarDeNivel(objecto) {
-	}
-
-	override method colision(objeto) {
-		objeto.colisionasteConLaser(self)
-	}
-
-	override method colisionasteConTrooper(objeto) {
-		self.desaparecer()
+	method nroSerialDisparo() {
+		return self.identity().toString()
 	}
 
 }
 
 class LaserAzul inherits Laser {
 
-	override method sufijo() = "Azul-"
-
 	override method danio() = 1
+
+	override method sufijo() = "Azul-"
 
 	override method colisionasteConTrooper(objeto) {
 		super(objeto)
@@ -67,13 +63,13 @@ class LaserAzul inherits Laser {
 
 class LaserRojo inherits Laser {
 
-	override method sufijo() = "Rojo-"
-
 	override method danio() = 1
 
+	override method sufijo() = "Rojo-"
+
 	override method colisionasteConMandalorian(objeto) {
-		super(objeto)
 		objeto.restarVida(self.danio())
+		objeto.desparecer()
 	}
 
 }

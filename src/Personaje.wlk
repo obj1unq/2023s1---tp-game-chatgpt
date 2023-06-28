@@ -12,28 +12,33 @@ class Personaje inherits StarWarsObject {
 
 	var property direccionDondeMira = abajo
 	var property alcanceDisparo
+	var property estado
 
-	method dispararSiPuede() {
-		if (not screen.hayObjetoAdelante(direccionDondeMira.proxima(self))) {
-			self.disparar()
-		}
-	}
-
-	method disparar()
+	method direccionProxima() = direccionDondeMira.proxima(self)
 
 	method mover(direccion) {
 		self.direccionDondeMira(direccion)
 		direccion.mover(self)
 	}
 
-	method pasarDeNivel(objecto) {
+	method moverSiPuede(direccion) {
+		if (estado.puedeMoverse()) {
+			self.mover(direccion)
+		}
+	}
+
+	method realizarAccion()
+
+	method realizarAccionSiPuede() {
+		if (estado.puedeRealizarLaAccion(self)) {
+			self.realizarAccion()
+		}
 	}
 
 }
 
-object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12), alcanceDisparo = 3) {
+object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12), alcanceDisparo = 3, estado = mandalorianVivo) {
 
-	var property estado = vivo
 	var property nivelDondeSeEncuentra = nivelUno
 	var property score = 0
 	var property vida = 2
@@ -42,70 +47,51 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 
 	override method image() = "mandalorian-" + direccionDondeMira.toString() + ".png"
 
-	method cambiarDeNivel(_nivel) {
-		nivelDondeSeEncuentra = _nivel
-	}
-
 	override method colision(objeto) {
 		objeto.colisionasteConMandalorian(self)
 	}
 
-	method crearDisparo() {
+	override method desaparecer() {
+		if (vida <= 0) {
+			self.estado(mandalorianDerrotado)
+			gameOver.finalizarJuego()
+			estado.reiniciarPara(self)
+		}
+	}
+
+	method disparar() {
 		const laser = new LaserAzul(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
 	}
 
-	override method desaparecer() {
-	// TODO: IMPLEMENTAR METOODO PARA LA VIDA DEL MANDALORIAN
+	method reiniciarEstado() {
+		estado.reiniciarPara(self)
 	}
 
-	override method disparar() {
-		estado.disparar(self)
+	override method realizarAccion() {
+		self.disparar()
 	}
 
-	override method mover(direccion) {
-		estado.mover(self, direccion)
-	}
-
-	method reiniciarEstadoGanador() {
-		self.position(new PosicionMutable(x = 19, y = 12))
-		self.estado(vivo)
-		self.score(0)
-		self.vida(2)
-		self.direccionDondeMira(abajo)
-	}
-
-	method reiniciarEstadoPerdedor() {
-		self.reiniciarEstadoGanador()
-		self.nivelDondeSeEncuentra(nivelUno)
-	}
-
-	method restarVida(danio) {
-		console.println(vida)
-		vida -= danio // TODO: FIJARSE DEL ERROR EN LA VISUAL DE LA VIDA
+	method restarVida(_vida) {
+		vida -= _vida
 	}
 
 	method sumarScore(_score) {
 		score += _score
 	}
 
-	method verificarEstado() {
-		if (vida <= 0) {
-			self.estado(muerto)
-			gameOver.finalizarJuego()
-		}
-	}
-
 }
 
 class Trooper inherits Personaje {
+
+	method direccionAleatoria() = [ arriba, abajo, izquierda, derecha ].anyOne()
 
 	method puntosQueOtorga()
 
 	method sufijo()
 
-	method danio() = 1
+	method tiempoParaAccion()
 
 	override method image() = "trooper-" + self.sufijo() + direccionDondeMira.toString() + ".png"
 
@@ -113,7 +99,7 @@ class Trooper inherits Personaje {
 
 	override method aparecer() {
 		super()
-		self.accionSecuencialmente()
+		self.realizarAccionSecuencialmente()
 	}
 
 	override method colision(objeto) {
@@ -122,32 +108,40 @@ class Trooper inherits Personaje {
 
 	override method desaparecer() {
 		super()
+		self.estado(enemigoDerrotado)
+		estado.teEliminaron(self)
+	}
+
+	method realizarAccionSecuencialmente() {
+		game.onTick(self.tiempoParaAccion(), self.nroSerialDeTrooper(), { self.realizarAccionSiPuede()})
+	}
+
+	override method realizarAccionSiPuede() {
+		self.moverSiPuede(self.direccionAleatoria())
+		if (estado.puedeRealizarLaAccion(self)) {
+			self.realizarAccion()
+		}
+	}
+
+	method removerEvento() {
 		game.removeTickEvent(self.nroSerialDeTrooper())
-		mandalorian.sumarScore(self.puntosQueOtorga())
-	}
-
-	method accionSecuencialmente() {
-		game.onTick(800, self.nroSerialDeTrooper(), { self.moverYEjecutarAccion()})
-	}
-
-	method moverYEjecutarAccion() {
-		self.mover([ abajo, arriba, izquierda, derecha ].anyOne())
 	}
 
 }
 
 class TrooperCadete inherits Trooper {
 
+	override method tiempoParaAccion() = 800
+
 	override method puntosQueOtorga() = 2
 
 	override method sufijo() = "cadete-"
 
-	override method moverYEjecutarAccion() {
-		super( )
-		self.dispararSiPuede()
+	override method realizarAccion() {
+		self.disparar()
 	}
 
-	override method disparar() {
+	method disparar() {
 		const laser = new LaserRojo(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
@@ -156,6 +150,8 @@ class TrooperCadete inherits Trooper {
 }
 
 class TrooperSargento inherits Trooper {
+
+	override method tiempoParaAccion() = 5000
 
 	override method puntosQueOtorga() = 3
 
@@ -167,20 +163,19 @@ class TrooperSargento inherits Trooper {
 		bomba.activar()
 	}
 
-	override method disparar() {
+	override method realizarAccion() {
+		self.colocarBomba()
 	}
 
-	override method accionSecuencialmente() {
-		// perdon
-		game.onTick(800, self.nroSerialDeTrooper(), { self.mover([ abajo, arriba ].anyOne())})
-		game.onTick(5000, self.nroSerialDeTrooper(), { self.colocarBomba()})
+	override method realizarAccionSecuencialmente() {
+		super()
+		game.onTick(800, self.nroSerialDeTrooper(), { self.moverSiPuede(self.direccionAleatoria())})
 	}
 
 }
 
-const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 12), alcanceDisparo = 3)
+const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 11), alcanceDisparo = 3, estado = enemigoVivo)
 
-const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), alcanceDisparo = 3)
-
-const sargento = new TrooperSargento(position = new PosicionMutable(x = 4, y = 2), alcanceDisparo = 1)
+//const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), alcanceDisparo = 3)
+const sargento = new TrooperSargento(position = new PosicionMutable(x = 4, y = 2), alcanceDisparo = 1, estado = enemigoVivo)
 
