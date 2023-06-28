@@ -2,36 +2,18 @@ import extras.*
 
 class Direccion {
 
-	method mover(objeto) {
-		screen.mover(objeto, self)
+	method mover(objeto, direccion) {
+		direccion.moverProxima(objeto)
 	}
 
 	method proxima(objeto)
-
-	method estaEnLimite(objeto)
 
 	method moverProxima(objeto) {
 	}
 
 }
 
-class DireccionX inherits Direccion {
-
-	override method estaEnLimite(objeto) {
-		return screen.estaDentroDeEjeX(objeto.position())
-	}
-
-}
-
-class DireccionY inherits Direccion {
-
-	override method estaEnLimite(objeto) {
-		return screen.estaDentroDeEjeY(objeto.position())
-	}
-
-}
-
-object arriba inherits DireccionY {
+object arriba inherits Direccion {
 
 	override method moverProxima(objeto) {
 		objeto.position().up()
@@ -41,7 +23,7 @@ object arriba inherits DireccionY {
 
 }
 
-object abajo inherits DireccionY {
+object abajo inherits Direccion {
 
 	override method moverProxima(objeto) {
 		objeto.position().down()
@@ -51,7 +33,7 @@ object abajo inherits DireccionY {
 
 }
 
-object derecha inherits DireccionX {
+object derecha inherits Direccion {
 
 	override method moverProxima(objeto) {
 		objeto.position().right()
@@ -61,7 +43,7 @@ object derecha inherits DireccionX {
 
 }
 
-object izquierda inherits DireccionX {
+object izquierda inherits Direccion {
 
 	override method moverProxima(objeto) {
 		objeto.position().left()

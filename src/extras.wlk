@@ -87,36 +87,3 @@ object plataforma inherits StarWarsObject(position = new PosicionMutable(x = 19,
 
 }
 
-object screen {
-
-	method estaDentro(posicionObjeto) {
-		return self.estaDentroDeEjeX(posicionObjeto) && self.estaDentroDeEjeY(posicionObjeto)
-	}
-
-	method estaDentroDeEjeX(posicionObjeto) {
-		return posicionObjeto.x().between(0, self.limiteX())
-	}
-
-	method estaDentroDeEjeY(posicionObjeto) {
-		return posicionObjeto.y().between(1, self.limiteY())
-	}
-
-	method hayObjetoAdelante(posicion) = game.getObjectsIn(posicion).any{ objeto => not objeto.esColisionable() }
-
-	method limiteX() = game.width() - 2
-
-	method limiteY() = game.height() - 2
-
-	method puedeRealizarLaAccionPara(objeto, direccion) = self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))
-
-	method mover(objeto, direccion) {
-		if (self.puedeRealizarLaAccionPara(objeto, direccion)) {
-			direccion.moverProxima(objeto)
-		}
-	}
-
-// Preguntar a la pantalla solo si puede mover
-// La responsabilidad del movimiento corresponde 
-// Hacer una superclase de que objetos solo se pueden mover
-}
-

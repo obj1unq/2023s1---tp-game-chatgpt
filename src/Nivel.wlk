@@ -104,7 +104,7 @@ class Nivel {
 
 object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
-	override method puntosRequeridos() = 1
+	override method puntosRequeridos() = 3
 
 	override method siguienteNivel() = nivelDos
 
@@ -127,7 +127,7 @@ object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
 object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
 
-	override method puntosRequeridos() = 1
+	override method puntosRequeridos() = 5
 
 	override method siguienteNivel() = nivelTres
 
@@ -167,7 +167,7 @@ object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
 
 object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 6) {
 
-	override method puntosRequeridos() = 30
+	override method puntosRequeridos() = 20
 
 	override method siguienteNivel() = self
 

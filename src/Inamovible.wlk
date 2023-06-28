@@ -66,6 +66,7 @@ class Bomba inherits StarWarsObject {
 	}
 
 	override method colisionasteConMandalorian(objeto) {
+		// TODO: objeto.dañar() implementar en un solo metodo haga las dos cosas.
 		objeto.restarVida(self.danio())
 		objeto.desaparecer()
 	}
