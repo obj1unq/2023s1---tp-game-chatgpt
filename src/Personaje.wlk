@@ -91,7 +91,7 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 
 class Trooper inherits Personaje {
 
-	method direccionAleatoria() = [ arriba, abajo, izquierda, derecha ].anyOne()
+	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
 
 	method puntosQueOtorga()
 
