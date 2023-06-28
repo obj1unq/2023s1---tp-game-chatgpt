@@ -157,12 +157,14 @@ class TrooperCadete inherits Trooper {
 
 class TrooperSargento inherits Trooper {
 
-	method direccionesAleatoria() = [ abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba ]
+	var direccionesAleatoria
 
+	// / drop(3)
 	method moverAleatorio() {
-		self.moverSiPuede(self.direccionesAleatoria().first())
-		self.direccionesAleatoria().add(self.direccionesAleatoria().first())
-		self.direccionesAleatoria().remove(self.direccionesAleatoria().first())
+		const direccion = direccionesAleatoria.first()
+		self.moverSiPuede(direccion)
+		direccionesAleatoria = direccionesAleatoria.drop(1)
+		direccionesAleatoria.add(direccion)
 	}
 
 	override method tiempoParaAccion() = 5000
