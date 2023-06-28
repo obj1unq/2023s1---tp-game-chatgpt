@@ -171,6 +171,7 @@ class TrooperSargento inherits Trooper {
 	}
 
 	override method accionSecuencialmente() {
+		// perdon
 		game.onTick(800, self.nroSerialDeTrooper(), { self.mover([ abajo, arriba ].anyOne())})
 		game.onTick(5000, self.nroSerialDeTrooper(), { self.colocarBomba()})
 	}
