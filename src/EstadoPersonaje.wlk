@@ -10,7 +10,7 @@ class EstadoPersonaje {
 
 	method puedeMoverse()
 
-	method puedeRealizarLaAccion(personaje) = screen.puedeRealizarLaAccionPara(personaje, personaje.direccionDondeMira()) && self.condicion()
+	method puedeRealizarLaAccion(personaje) = personaje.puedeMoverse(personaje, personaje.direccionDondeMira()) && self.condicion()
 
 	method teEliminaron(personaje) {
 	}

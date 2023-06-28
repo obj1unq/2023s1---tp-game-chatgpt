@@ -2,11 +2,16 @@ import wollok.game.*
 import PosicionMutable.*
 import StarWarsObject.*
 
-class Background inherits StarWarsObject(position = new PosicionMutable()) {
+class Background {
 
+	var property position = new PosicionMutable(x = 0, y = 0)
 	var property fondo = null
 
-	override method image() = "background-" + fondo + ".png"
+	method image() = "background-" + fondo + ".png"
+
+	method aparecer() {
+		game.addVisual(self)
+	}
 
 }
 

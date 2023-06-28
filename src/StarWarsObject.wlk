@@ -16,8 +16,7 @@ class StarWarsObject {
 		game.removeVisual(self)
 	}
 
-	method colision(objeto) {
-	}
+	method colision(objeto)
 
 	method colionasteConBomba(objeto) {
 	}
@@ -39,6 +38,20 @@ class StarWarsObject {
 
 	method colisionasteConTrooper(objeto) {
 	}
+
+	method estaDentro(posicionObjeto) = self.estaDentroDeEjeX(posicionObjeto) && self.estaDentroDeEjeY(posicionObjeto)
+
+	method estaDentroDeEjeX(posicionObjeto) = posicionObjeto.x().between(0, self.limiteX())
+
+	method estaDentroDeEjeY(posicionObjeto) = posicionObjeto.y().between(1, self.limiteY())
+
+	method limiteX() = game.width() - 2
+
+	method limiteY() = game.height() - 2
+
+	method hayObjetoAdelante(posicion) = game.getObjectsIn(posicion).any{ objeto => not objeto.esColisionable() }
+
+	method puedeMoverse(objeto, direccion) = self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))
 
 }
 

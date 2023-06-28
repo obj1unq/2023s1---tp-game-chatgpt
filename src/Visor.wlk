@@ -5,11 +5,17 @@ import StarWarsObject.*
 import Personaje.*
 import PosicionMutable.*
 
-class Visor inherits StarWarsObject {
+class Visor {
 
-	override method image() = "visor.png"
+	var property position
+
+	method image() = "visor.png"
 
 	method textColor() = "#FFFFFF1"
+
+	method aparecer() {
+		game.addVisual(self)
+	}
 
 }
 

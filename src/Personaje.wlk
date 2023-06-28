@@ -19,13 +19,12 @@ class Personaje inherits StarWarsObject {
 
 	method mover(direccion) {
 		self.direccionDondeMira(direccion)
-		direccion.mover(self)
+		direccion.mover(self, direccion)
 	}
 
 	method moverSiPuede(direccion) {
-		if (estado.puedeMoverse()) {
+		if (self.puedeMoverse(self, direccion) && estado.puedeMoverse()) {
 			self.mover(direccion)
-			
 		}
 	}
 
@@ -83,7 +82,7 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 	}
 
 	method teletranspotarse() {
-		self.nivelDondeSeEncuentra(portal.siguienteNivel())
+		self.nivelDondeSeEncuentra(nivelDondeSeEncuentra.siguienteNivel())
 		self.estado(heroeGanador)
 		self.reiniciarEstado()
 	}

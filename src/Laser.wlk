@@ -28,7 +28,7 @@ class Laser inherits StarWarsObject {
 	}
 
 	method desplazar() {
-		if (screen.puedeRealizarLaAccionPara(self, direccionDeMovimiento) and alcance > 0) {
+		if (self.puedeMoverse(self, direccionDeMovimiento) and alcance > 0) {
 			self.position(direccionDeMovimiento.proxima(self))
 			alcance--
 		} else {
@@ -67,6 +67,7 @@ class LaserRojo inherits Laser {
 	override method sufijo() = "Rojo-"
 
 	override method colisionasteConMandalorian(objeto) {
+		// TODO: objeto.dañar() implementar en un solo metodo haga las dos cosas.
 		objeto.restarVida(self.danio())
 		objeto.desaparecer()
 	}
