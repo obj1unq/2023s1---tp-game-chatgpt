@@ -190,3 +190,80 @@ class TrooperSargento inherits Trooper {
 
 }
 
+class LordSith inherits Personaje {
+
+	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
+
+	method tiempoParaAccion() = 5000
+
+	method puntosQueOtorga() = 3
+
+	override method image() = "lord-" + estado.imagenDeAccion(self) + ".png"
+
+	method nroSerialDeTrooper() = self.identity().toString()
+
+	override method aparecer() {
+		super()
+		self.realizarAccionSecuencialmente()
+	}
+
+	override method colision(objeto) {
+		objeto.colisionasteConTrooper(self)
+	}
+
+	override method desaparecer() {
+		super()
+		self.estado(enemigoDerrotado)
+		estado.teEliminaron(self)
+	}
+
+	method realizarAccionSecuencialmente() {
+		game.onTick(self.tiempoParaAccion(), self.nroSerialDeTrooper(), { self.realizarAccionSiPuede()})
+		game.onTick(1500, self.nroSerialDeTrooper(), { self.moverSiPuede(self.direccionAleatoria())})
+	}
+
+	method removerEvento() {
+		game.removeTickEvent(self.nroSerialDeTrooper())
+	}
+
+	override method realizarAccion() {
+		self.direccionDondeMira(abajo)
+		self.estado(enemigoAtacando)
+		self.dispararRayo()
+	}
+
+	method proximoRayoDerecho(numero) {
+		return new PosicionMutable(x = self.position().x() + numero, y = self.position().y())
+	}
+
+	method proximoRayoIzquierdo(numero) {
+		return new PosicionMutable(x = self.position().x() - numero, y = self.position().y())
+	}
+
+	method dispararRayo() {
+		const rayoDerecho = new Rayo(position = self.proximoRayoDerecho(1), direccionDeMovimiento = derecha, alcance = 5)
+		const rayoIzquierdo = new Rayo(position = self.proximoRayoIzquierdo(1), direccionDeMovimiento = izquierda, alcance = 5)
+		const rayoDerecho1 = new Rayo(position = self.proximoRayoDerecho(2), direccionDeMovimiento = derecha, alcance = 5)
+		const rayoIzquierdo2 = new Rayo(position = self.proximoRayoIzquierdo(2), direccionDeMovimiento = izquierda, alcance = 5)
+		const rayoDerecho3 = new Rayo(position = self.proximoRayoDerecho(3), direccionDeMovimiento = derecha, alcance = 5)
+		const rayoIzquierdo3 = new Rayo(position = self.proximoRayoIzquierdo(3), direccionDeMovimiento = izquierda, alcance = 5)
+		rayoIzquierdo.aparecer()
+		rayoIzquierdo.disparar()
+		rayoDerecho.aparecer()
+		rayoDerecho.disparar()
+		rayoDerecho1.aparecer()
+		rayoDerecho1.disparar()
+		rayoIzquierdo2.aparecer()
+		rayoIzquierdo2.disparar()
+		rayoIzquierdo3.aparecer()
+		rayoIzquierdo3.disparar()
+		rayoDerecho3.aparecer()
+		rayoDerecho3.disparar()
+	}
+
+	override method mover(direccion) {
+		self.estado(enemigoVivo)
+		super(direccion)
+	}
+
+}

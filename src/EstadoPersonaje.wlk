@@ -67,6 +67,10 @@ class EstadoEnemigo inherits EstadoPersonaje {
 
 	override method puedeMoverse() = true
 
+	method imagenDeAccion(personaje) {
+		return ""
+	}
+
 }
 
 object enemigoDerrotado inherits EstadoEnemigo {
@@ -85,6 +89,18 @@ object enemigoDerrotado inherits EstadoEnemigo {
 }
 
 object enemigoVivo inherits EstadoEnemigo {
+
+	override method imagenDeAccion(personaje) {
+		return personaje.direccionDondeMira().toString()
+	}
+
+}
+
+object enemigoAtacando inherits EstadoEnemigo {
+
+	override method imagenDeAccion(personaje) {
+		return "rayo"
+	}
 
 }
 
