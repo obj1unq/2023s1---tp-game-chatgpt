@@ -86,6 +86,7 @@ object lordSithDerrotado inherits EstadoDerrotado {
 
 object darthVaderDerrotado inherits EstadoDerrotado {
 
+	// elimina a vader 
 	override method teEliminaron(personaje) {
 		mandalorian.sumarScore(personaje.puntosQueOtorga())
 		mandalorian.nivelDondeSeEncuentra().removerEnemigo(personaje)
