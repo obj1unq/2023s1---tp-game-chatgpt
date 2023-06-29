@@ -204,7 +204,7 @@ class LordSith inherits Personaje {
 	}
 
 	override method colision(objeto) {
-		objeto.colisionasteConTrooper(self)
+		objeto.colisionasteConUnlordSith(self)
 	}
 
 	override method desaparecer() {
@@ -266,11 +266,13 @@ class LordSith inherits Personaje {
 
 object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 1), estado = darthVaderVivo) {
 
+	var property vida = 5
+
 	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
 
 	method tiempoParaAccion() = 5000
 
-	method puntosQueOtorga() = 3
+	method puntosQueOtorga() = 100
 
 	override method image() = "vader-" + estado.imagenPara(self) + ".png"
 
@@ -282,7 +284,7 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 	}
 
 	override method colision(objeto) {
-		objeto.colisionasteConTrooper(self)
+		objeto.colisionasteConDarthVader(self)
 	}
 
 	method realizarAccionSecuencialmente() {
@@ -290,13 +292,29 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 		game.onTick(1500, self.nroSerialDarthVader(), { self.moverSiPuede(self.direccionAleatoria())})
 	}
 
-	method removerEvento() {
-		game.removeTickEvent(self.nroSerialDarthVader())
+	method recibirDanio(danio) {
+		console.println(" recibir Danio ")
+		vida -= estado.restarVida(danio)
+		console.println("vida: " + vida)
 	}
 
 	override method realizarAccion() {
-		game.onTick(5000, "vader", { self.estado(darthVaderVivo)})
-		game.onTick(3000, "vader", { self.estado(darthVaderInmune)})
+		game.onTick(5000, self.nroSerialDeVader(), { self.estado(darthVaderVivo)})
+		game.onTick(3000, self.nroSerialDeVader(), { self.estado(darthVaderInmune)})
+	}
+
+	override method desaparecer() {
+		if (vida <= 0) {
+			self.estado(darthVaderDerrotado)
+			estado.teEliminaron(self)
+			super()
+		}
+	}
+
+	method nroSerialDeVader() = self.identity().toString()
+
+	method removerEvento() {
+		game.removeTickEvent(self.nroSerialDeVader())
 	}
 
 }

@@ -9,7 +9,7 @@ object starWarsGame {
 		game.height(15)
 		game.width(22)
 		fondoInicio.aparecer()
-		keyboard.space().onPressDo({ nivelUno.iniciar()})
+		keyboard.space().onPressDo({ nivelTres.iniciar()})
 		game.start()
 	}
 

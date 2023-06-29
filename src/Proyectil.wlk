@@ -73,6 +73,16 @@ class LaserAzul inherits Laser {
 		objeto.desaparecer()
 	}
 
+	override method colisionasteConDarthVader(objeto) {
+		objeto.recibirDanio(self.danio())
+		objeto.desaparecer()
+	}
+
+	override method colisionasteConUnlordSith(objeto) {
+		super(objeto)
+		objeto.desaparecer()
+	}
+
 }
 
 class LaserRojo inherits Laser {
