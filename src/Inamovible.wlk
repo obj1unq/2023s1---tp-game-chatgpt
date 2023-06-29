@@ -1,14 +1,10 @@
+import wollok.game.*
 import StarWarsObject.*
 import PosicionMutable.*
-import wollok.game.*
 
-class Inamovible inherits StarWarsObject {
+class Caja inherits StarWarsObject {
 
 	override method esColisionable() = false
-
-}
-
-class Caja inherits Inamovible {
 
 	override method image() = "caja.png"
 
@@ -27,18 +23,28 @@ class Bomba inherits StarWarsObject {
 	var property estado = colocada
 	var property tiempoDeDetonacion = 5
 
-	override method esColisionable() = true
+	method danio() = estado.danio()
 
 	override method image() = estado.image()
 
-	method text() {
-		return tiempoDeDetonacion.toString()
-	}
+	method nroSerialBomba() = self.identity().toString()
 
-	method danio() = estado.danio()
+	method text() = tiempoDeDetonacion.toString()
+
+	method textColor() = if (tiempoDeDetonacion >= 4) "#ffffff" else "#FF0000"
 
 	method activar() {
 		game.onTick(1000, self.nroSerialBomba(), { self.tick()})
+	}
+
+	override method colision(objeto) {
+		objeto.colionasteConBomba(self)
+	}
+
+	override method colisionasteConMandalorian(objeto) {
+		// TODO: objeto.dañar() implementar en un solo metodo haga las dos cosas.
+		objeto.restarVida(self.danio())
+		objeto.desaparecer()
 	}
 
 	method tick() {
@@ -51,24 +57,6 @@ class Bomba inherits StarWarsObject {
 			game.removeTickEvent(self.nroSerialBomba())
 			self.desaparecer()
 		}
-	}
-
-	method textColor() {
-		return if (tiempoDeDetonacion >= 4) "#ffffff" else "#FF0000"
-	}
-
-	method nroSerialBomba() {
-		return self.identity().toString()
-	}
-
-	override method colision(objeto) {
-		objeto.colionasteConBomba(self)
-	}
-
-	override method colisionasteConMandalorian(objeto) {
-		// TODO: objeto.dañar() implementar en un solo metodo haga las dos cosas.
-		objeto.restarVida(self.danio())
-		objeto.desaparecer()
 	}
 
 }

@@ -1,7 +1,4 @@
 import wollok.game.*
-import extras.*
-import Nivel.*
-import StarWarsObject.*
 import Personaje.*
 import PosicionMutable.*
 

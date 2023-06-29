@@ -3,7 +3,7 @@ import extras.*
 import Direccion.*
 import EstadoPersonaje.*
 import Inamovible.*
-import Laser.*
+import Proyectil.*
 import Nivel.nivelUno
 import PosicionMutable.*
 import StarWarsObject.*
@@ -36,7 +36,7 @@ class Personaje inherits StarWarsObject {
 
 }
 
-object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12), estado = heroeVivo) {
+object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y = 12), estado = mandalorianVivo) {
 
 	var property alcanceDisparo = 3
 	var property nivelDondeSeEncuentra = nivelUno
@@ -53,7 +53,7 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 
 	override method desaparecer() {
 		if (vida <= 0) {
-			self.estado(heroeDerrotado)
+			self.estado(mandalorianDerrotado)
 			gameOver.reiniciarJuego()
 			estado.teEliminaron(self)
 		}
@@ -63,10 +63,6 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 		const laser = new LaserAzul(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = alcanceDisparo)
 		laser.aparecer()
 		laser.disparar()
-	}
-
-	method reiniciarEstado() {
-		estado.reiniciarPara(self)
 	}
 
 	override method realizarAccion() {
@@ -83,8 +79,8 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 
 	method teletranspotarse() {
 		self.nivelDondeSeEncuentra(nivelDondeSeEncuentra.siguienteNivel())
-		self.estado(heroeGanador)
-		self.reiniciarEstado()
+		self.estado(mandalorianGanador)
+		estado.reiniciar()
 	}
 
 }
@@ -114,7 +110,7 @@ class Trooper inherits Personaje {
 
 	override method desaparecer() {
 		super()
-		self.estado(enemigoDerrotado)
+		self.estado(trooperDerrotado)
 		estado.teEliminaron(self)
 	}
 
@@ -198,7 +194,7 @@ class LordSith inherits Personaje {
 
 	method puntosQueOtorga() = 3
 
-	override method image() = "lord-" + estado.imagenDeAccion(self) + ".png"
+	override method image() = "lord-" + estado.imagenPara(self) + ".png"
 
 	method nroSerialDeTrooper() = self.identity().toString()
 
@@ -213,7 +209,7 @@ class LordSith inherits Personaje {
 
 	override method desaparecer() {
 		super()
-		self.estado(enemigoDerrotado)
+		self.estado(lordSithDerrotado)
 		estado.teEliminaron(self)
 	}
 
@@ -228,7 +224,7 @@ class LordSith inherits Personaje {
 
 	override method realizarAccion() {
 		self.direccionDondeMira(abajo)
-		self.estado(enemigoAtacando)
+		self.estado(lordSithAtacando)
 		self.dispararRayo()
 	}
 
@@ -262,14 +258,13 @@ class LordSith inherits Personaje {
 	}
 
 	override method mover(direccion) {
-		self.estado(enemigoVivo)
+		self.estado(lordSithVivo)
 		super(direccion)
 	}
 
 }
 
-
-object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 1), estado = vaderNormal) {
+object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 1), estado = darthVaderVivo) {
 
 	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
 
@@ -277,7 +272,7 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 
 	method puntosQueOtorga() = 3
 
-	override method image() = "vader-" + estado.imagenDeAccion() + ".png"
+	override method image() = "vader-" + estado.imagenPara(self) + ".png"
 
 	method nroSerialDarthVader() = self.identity().toString()
 
@@ -290,10 +285,6 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 		objeto.colisionasteConTrooper(self)
 	}
 
-	override method desaparecer() {
-		super()
-	}
-
 	method realizarAccionSecuencialmente() {
 		game.onTick(self.tiempoParaAccion(), self.nroSerialDarthVader(), { self.realizarAccionSiPuede()})
 		game.onTick(1500, self.nroSerialDarthVader(), { self.moverSiPuede(self.direccionAleatoria())})
@@ -304,10 +295,9 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 	}
 
 	override method realizarAccion() {
-		game.onTick(5000, "vader", { self.estado(vaderNormal)})
-		game.onTick(3000, "vader", { self.estado(vaderInmune)})
+		game.onTick(5000, "vader", { self.estado(darthVaderVivo)})
+		game.onTick(3000, "vader", { self.estado(darthVaderInmune)})
 	}
 
 }
-
 

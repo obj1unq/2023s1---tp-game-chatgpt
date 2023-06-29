@@ -1,8 +1,7 @@
-import extras.*
+import Direccion.*
 import Nivel.nivelUno
 import Personaje.*
 import PosicionMutable.*
-import Direccion.abajo
 
 class EstadoPersonaje {
 
@@ -12,130 +11,111 @@ class EstadoPersonaje {
 
 	method puedeRealizarLaAccion(personaje) = personaje.puedeMoverse(personaje, personaje.direccionDondeMira()) && self.condicion()
 
-	method teEliminaron(personaje) {
-	}
-
 }
 
-class EstadoHeroe inherits EstadoPersonaje {
+class EstadoVivo inherits EstadoPersonaje {
 
 	override method condicion() = true
 
 	override method puedeMoverse() = true
 
-	method reiniciarPara(heroe) {
-		heroe.position(new PosicionMutable(x = 19, y = 12))
-		heroe.vida(2)
-		heroe.score(0)
-		heroe.direccionDondeMira(abajo)
-	}
+}
+
+object mandalorianVivo inherits EstadoVivo {
 
 }
 
-object heroeDerrotado inherits EstadoHeroe {
+object trooperVivo inherits EstadoVivo {
+
+}
+
+object lordSithVivo inherits EstadoVivo {
+
+	method imagenPara(personaje) = personaje.direccionDondeMira().toString()
+
+}
+
+object darthVaderVivo inherits EstadoVivo {
+
+	method imagenPara(personaje) = personaje.direccionDondeMira().toString()
+
+}
+
+class EstadoDerrotado inherits EstadoPersonaje {
 
 	override method condicion() = false
 
 	override method puedeMoverse() = false
+
+	method teEliminaron(personaje) {
+		personaje.removerEvento()
+		mandalorian.sumarScore(personaje.puntosQueOtorga())
+		mandalorian.nivelDondeSeEncuentra().removerEnemigo(personaje)
+	}
+
+}
+
+object mandalorianDerrotado inherits EstadoDerrotado {
 
 	override method teEliminaron(personaje) {
-		self.reiniciarPara(personaje)
+		self.reiniciar()
 	}
 
-	override method reiniciarPara(heroe) {
-		super(heroe)
-		heroe.estado(heroeVivo)
-		heroe.nivelDondeSeEncuentra(nivelUno)
-	}
-
-}
-
-object heroeGanador inherits EstadoHeroe {
-
-}
-
-object heroeVivo inherits EstadoHeroe {
-
-	override method reiniciarPara(heroe) {
+	method reiniciar() {
+		mandalorian.position(new PosicionMutable(x = 19, y = 12))
+		mandalorian.vida(2)
+		mandalorian.score(0)
+		mandalorian.direccionDondeMira(abajo)
+		mandalorian.estado(mandalorianVivo)
+		mandalorian.nivelDondeSeEncuentra(nivelUno)
 	}
 
 }
 
-class EstadoEnemigo inherits EstadoPersonaje {
+object trooperDerrotado inherits EstadoDerrotado {
+
+}
+
+object lordSithDerrotado inherits EstadoDerrotado {
+
+}
+
+object darthVaderDerrotado inherits EstadoDerrotado {
+
+}
+
+object mandalorianGanador inherits EstadoPersonaje {
 
 	override method condicion() = true
 
 	override method puedeMoverse() = true
 
-	method imagenDeAccion(personaje) {
-		return ""
+	method reiniciar() {
+		mandalorian.position(new PosicionMutable(x = 19, y = 12))
+		mandalorian.vida(2)
+		mandalorian.score(0)
+		mandalorian.direccionDondeMira(abajo)
 	}
 
 }
 
-object enemigoDerrotado inherits EstadoEnemigo {
+object lordSithAtacando inherits EstadoPersonaje {
 
-	override method condicion() = false
+	override method condicion() = true
 
-	override method puedeMoverse() = false
+	method imagenPara(personaje) = "rayo"
 
-	override method teEliminaron(enemigo) {
-		enemigo.removerEvento()
-		mandalorian.sumarScore(enemigo.puntosQueOtorga())
-		mandalorian.nivelDondeSeEncuentra().removerEnemigo(enemigo)
-		console.println(mandalorian.nivelDondeSeEncuentra().personajes())
-	}
+	override method puedeMoverse() = true
 
 }
 
-object enemigoVivo inherits EstadoEnemigo {
+object darthVaderInmune inherits EstadoPersonaje {
 
-	override method imagenDeAccion(personaje) {
-		return personaje.direccionDondeMira().toString()
-	}
+	override method condicion() = true
 
-}
+	method imagenPara(personaje) = "inmune-" + personaje.direccionDondeMira().toString()
 
-object enemigoAtacando inherits EstadoEnemigo {
-
-	override method imagenDeAccion(personaje) {
-		return "rayo"
-	}
-
-}
-
-object vaderNormal {
-
-	method imagenDeAccion() {
-		return darthVader.direccionDondeMira().toString()
-	}
-
-	method condicion() = true
-
-	method puedeMoverse() = true
-
-	method puedeRealizarLaAccion(personaje) = personaje.puedeMoverse(personaje, personaje.direccionDondeMira()) && self.condicion()
-
-	method teEliminaron(personaje) {
-	}
-
-}
-
-object vaderInmune {
-
-	method imagenDeAccion() {
-		console.println("inmune-" + darthVader.direccionDondeMira().toString())
-		return "inmune-" + darthVader.direccionDondeMira().toString()
-	}
-
-	method condicion() = true
-
-	method puedeMoverse() = true
-
-	method puedeRealizarLaAccion(personaje) = personaje.puedeMoverse(personaje, personaje.direccionDondeMira()) && self.condicion()
-
-	method teEliminaron(personaje) {
-	}
+	override method puedeMoverse() = true
 
 }
 

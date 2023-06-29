@@ -1,5 +1,6 @@
 import wollok.game.*
 import extras.*
+import portal.*
 import Background.*
 import Direccion.*
 import EnemigoFactory.*
@@ -18,17 +19,11 @@ class Nivel {
 
 	method siguienteNivel()
 
-	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20 ]
-
 	method cantidadEnemigosActivos() = personajes.size()
 
 	method nroSerialGenerador() = self.identity().toString()
 
 	method puedeIrASiguienteNivel() = mandalorian.score() >= self.puntosRequeridos()
-
-	method agregarCajas() {
-		self.cajasDeNivel().forEach{ caja => caja.aparecer()}
-	}
 
 	method agregarControles() {
 		keyboard.up().onPressDo({ mandalorian.moverSiPuede(arriba)})
@@ -56,8 +51,6 @@ class Nivel {
 	}
 
 	method agregarVisualesPersonajes() {
-//		game.onTick(3000, self.nroSerialGenerador(), { trooperCadeteFactory.generarPara(self)})
-//		game.onTick(2000, self.nroSerialGenerador(), { trooperSargentoFactory.generarPara(self)})
 		mandalorian.aparecer()
 	}
 
@@ -73,14 +66,11 @@ class Nivel {
 		personajes.remove(enemigo)
 	}
 
-	method removerEvento() {
-		game.removeTickEvent(self.nroSerialGenerador())
-		personajes.forEach{ personaje => personaje.desaparecer()}
-	}
-
 }
 
 object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 2) {
+
+	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20 ]
 
 	override method puntosRequeridos() = 3
 
@@ -95,6 +85,10 @@ object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 2) {
 		self.agregarCajas()
 	}
 
+	method agregarCajas() {
+		self.cajasDeNivel().forEach{ caja => caja.aparecer()}
+	}
+
 	override method agregarVisualesPersonajes() {
 		game.onTick(4000, self.nroSerialGenerador(), { trooperSargentoFactory.generarPara(self)})
 		super()
@@ -103,6 +97,8 @@ object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 2) {
 }
 
 object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
+
+	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20, caja21, caja22, caja23, caja24, caja25, caja26, caja27, caja28, caja29, caja30, caja31, caja32, caja33, caja34 ]
 
 	override method puntosRequeridos() = 4
 
@@ -117,26 +113,8 @@ object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
 		self.agregarCajas()
 	}
 
-	override method agregarCajas() {
-		super()
-			// HILERA ARRIBA
-		caja21.aparecer()
-		caja22.aparecer()
-		caja23.aparecer()
-			// HILERA ABAJO
-		caja24.aparecer()
-		caja25.aparecer()
-		caja26.aparecer()
-			// HILERA IZQUIERDA
-		caja27.aparecer()
-		caja28.aparecer()
-		caja29.aparecer()
-		caja30.aparecer()
-			// HILERA DERECHA
-		caja31.aparecer()
-		caja32.aparecer()
-		caja33.aparecer()
-		caja34.aparecer()
+	method agregarCajas() {
+		self.cajasDeNivel().forEach{ caja => caja.aparecer()}
 	}
 
 	override method agregarVisualesPersonajes() {

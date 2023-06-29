@@ -4,7 +4,7 @@ import Direccion.*
 import EstadoPersonaje.*
 import extras.*
 import Inamovible.*
-import Laser.*
+import Proyectil.*
 import Nivel.*
 import PosicionMutable.*
 import StarWarsObject.*

@@ -1,11 +1,10 @@
 import wollok.game.*
 import PosicionMutable.*
-import StarWarsObject.*
 
 class Background {
 
-	var property position = new PosicionMutable(x = 0, y = 0)
 	var property fondo = null
+	var property position = new PosicionMutable(x = 0, y = 0)
 
 	method image() = "background-" + fondo + ".png"
 
