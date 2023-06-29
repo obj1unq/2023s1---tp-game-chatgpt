@@ -267,3 +267,47 @@ class LordSith inherits Personaje {
 	}
 
 }
+
+
+object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 1), estado = vaderNormal) {
+
+	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
+
+	method tiempoParaAccion() = 5000
+
+	method puntosQueOtorga() = 3
+
+	override method image() = "vader-" + estado.imagenDeAccion() + ".png"
+
+	method nroSerialDarthVader() = self.identity().toString()
+
+	override method aparecer() {
+		super()
+		self.realizarAccionSecuencialmente()
+	}
+
+	override method colision(objeto) {
+		objeto.colisionasteConTrooper(self)
+	}
+
+	override method desaparecer() {
+		super()
+	}
+
+	method realizarAccionSecuencialmente() {
+		game.onTick(self.tiempoParaAccion(), self.nroSerialDarthVader(), { self.realizarAccionSiPuede()})
+		game.onTick(1500, self.nroSerialDarthVader(), { self.moverSiPuede(self.direccionAleatoria())})
+	}
+
+	method removerEvento() {
+		game.removeTickEvent(self.nroSerialDarthVader())
+	}
+
+	override method realizarAccion() {
+		game.onTick(5000, "vader", { self.estado(vaderNormal)})
+		game.onTick(3000, "vader", { self.estado(vaderInmune)})
+	}
+
+}
+
+

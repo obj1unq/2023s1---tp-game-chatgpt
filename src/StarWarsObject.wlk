@@ -36,6 +36,9 @@ class StarWarsObject {
 	method colisionasteConTrooper(objeto) {
 	}
 
+	method colisionasteConDarthVader(objeto) {
+	}
+
 	method estaDentro(posicionObjeto) = self.estaDentroDeEjeX(posicionObjeto) && self.estaDentroDeEjeY(posicionObjeto)
 
 	method estaDentroDeEjeX(posicionObjeto) = posicionObjeto.x().between(0, self.limiteX())
