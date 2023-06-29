@@ -190,8 +190,3 @@ class TrooperSargento inherits Trooper {
 
 }
 
-const cadete = new TrooperCadete(position = new PosicionMutable(x = 10, y = 11), alcanceDisparo = 3, estado = enemigoVivo)
-
-//const cadete2 = new TrooperCadete(position = new PosicionMutable(x = 2, y = 2), alcanceDisparo = 3)
-const sargento = new TrooperSargento(position = new PosicionMutable(x = 4, y = 2), estado = enemigoVivo)
-

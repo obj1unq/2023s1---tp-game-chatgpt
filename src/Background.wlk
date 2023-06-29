@@ -25,3 +25,5 @@ const fondoNivelTres = new Background(fondo = "nivelTres")
 
 const fondoGameOver = new Background(fondo = "gameOver")
 
+const fondoGameWin = new Background(fondo = "gameWin")
+

@@ -14,8 +14,6 @@ class EnemigoFactory {
 		if (nivel.cantidadEnemigosActivos() < nivel.cantMaxEnemigosSoportados()) {
 			const nuevoEnemigo = self.nuevoEnemigo()
 			nivel.agregarEnemigo(nuevoEnemigo)
-			console.println(nivel.personajes())
-			console.println(nivel.cantidadEnemigosActivos())
 			nuevoEnemigo.aparecer()
 		}
 	}
