@@ -34,7 +34,6 @@ object trooperCadeteFactory inherits EnemigoFactory {
 
 object trooperSargentoFactory inherits EnemigoFactory {
 
-	// termine 
 	const direcciones = [ abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, abajo, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba, arriba ]
 
 	override method posicionAleatoria() = [ new PosicionMutable(x = 12, y = 13), new PosicionMutable(x = 8, y = 1) ].anyOne()
@@ -47,6 +46,16 @@ object trooperSargentoFactory inherits EnemigoFactory {
 	override method nuevoEnemigo() {
 		const positionRandom = self.posicionAleatoria()
 		return new TrooperSargento(position = positionRandom, estado = enemigoVivo, direccionesAleatoria = self.respawn(positionRandom))
+	}
+
+}
+
+object lordSithFactory inherits EnemigoFactory {
+
+	override method posicionAleatoria() = [ new PosicionMutable(x = 16, y = 7), new PosicionMutable(x = 4, y = 7) ].anyOne()
+
+	override method nuevoEnemigo() {
+		return new LordSith(position = self.posicionAleatoria(), estado = enemigoVivo)
 	}
 
 }
