@@ -74,3 +74,23 @@ class LaserRojo inherits Laser {
 
 }
 
+class Rayo inherits Laser {
+
+	override method danio() = 1
+
+	override method sufijo() = ""
+
+	override method image() = "rayo-" + direccionDeMovimiento.toString() + ".png"
+
+	override method colisionasteConMandalorian(objeto) {
+		objeto.restarVida(self.danio())
+		objeto.desaparecer()
+	}
+
+	override method disparar() {
+		game.onTick(20, self.nroSerialDisparo(), { self.desplazar()})
+		game.onCollideDo(self, { objeto => objeto.colision(self)})
+	}
+
+}
+
