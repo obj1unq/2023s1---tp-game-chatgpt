@@ -267,4 +267,3 @@ class LordSith inherits Personaje {
 	}
 
 }
-
