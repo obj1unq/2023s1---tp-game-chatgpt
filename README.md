@@ -1,18 +1,24 @@
-# Nombre del juego (<- borrar y completar)
+# Star Wars Game 
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+Grupo 8 - Chat Gpt
+
+- Ivan Moroni
+- Yoel Ventoso
+- Guillermo Rodriguez
+- Lucas Swystun Marino
 
 ## Capturas
 
 (agregar)
 
-## Reglas de Juego / Instrucciones
+## Juego
 
-(Escribirlas)
+La idea principal fue crear un juego de disparos basado en la mitica serie de Star Wars. Donde el personaje principal es The Mandalorian
+y debe disparales a los Troopers, Lord Sith y Darth Veder para poder ganar sin caer en el Lado Oscuro de la Fuerza.
+
+El objetivo del juego es sumar la cantidad de puntos requerida por el nivel (sin morir) eliminando a todos los Troopers del escenario hasta habilitar el portal y pasar de nivel.
 
 
 ## Otros
