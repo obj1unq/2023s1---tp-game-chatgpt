@@ -30,9 +30,6 @@ class StarWarsObject {
 	method colisionasteConMandalorian(objeto) {
 	}
 
-	method colisionasteConPlataforma(objeto) {
-	}
-
 	method colisionasteConPortal(objeto) {
 	}
 

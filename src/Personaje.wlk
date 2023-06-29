@@ -268,6 +268,7 @@ class LordSith inherits Personaje {
 
 }
 
+
 object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 1), estado = vaderNormal) {
 
 	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
@@ -308,4 +309,5 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 	}
 
 }
+
 

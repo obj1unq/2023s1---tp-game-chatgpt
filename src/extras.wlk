@@ -29,16 +29,21 @@ object gameOver {
 
 }
 
-object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y = 7)) {
+object gameWin {
 
-	var property estado = inactivo
-	var property nivel = nivelUno
+	method iniciar() {
+		game.clear()
+		fondoGameWin.aparecer()
+		game.schedule(4000, { game.stop()})
+	}
+
+}
+
+object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y = 7)) {
 
 	method estado() = if (mandalorian.cumplioLaMision()) activo else inactivo
 
 	override method image() = "portal-" + self.estado().condicion() + ".png"
-
-	method siguienteNivel() = nivel.siguienteNivel()
 
 	override method aparecer() {
 		super()
@@ -50,19 +55,8 @@ object portal inherits StarWarsObject(position = new PosicionMutable(x = 10, y =
 	}
 
 	override method colisionasteConMandalorian(objeto) {
-		estado.cambiarDeNivel()
-	}
-
-}
-
-object inactivo {
-
-	method condicion() = self.toString()
-
-	method cambiarDeNivel() {
-		portal.nivel(portal.siguienteNivel())
-		mandalorian.teletranspotarse()
-		portal.nivel().iniciar()
+		console.println(self.estado())
+		self.estado().cambiarDeNivel(self)
 	}
 
 }
@@ -71,18 +65,21 @@ object activo {
 
 	method condicion() = self.toString()
 
-	method cambiarDeNivel() {
-		game.say(self, "NO SE CUMPLIO LA MISION!!")
+	method cambiarDeNivel(portal) {
+		console.println("PORTAL ACTIVO")
+		mandalorian.teletranspotarse()
+		mandalorian.nivelDondeSeEncuentra().iniciar()
 	}
 
 }
 
-object plataforma inherits StarWarsObject(position = new PosicionMutable(x = 19, y = 12)) {
+object inactivo {
 
-	override method image() = "plataforma.png"
+	method condicion() = self.toString()
 
-	override method colision(objeto) {
-		objeto.colisionasteConPlataforma(self)
+	method cambiarDeNivel(portal) {
+		console.println("PORTAL INACTIVO")
+		game.say(portal, "NO SE CUMPLIO LA MISION!!")
 	}
 
 }
