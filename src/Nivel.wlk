@@ -177,6 +177,7 @@ object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 6) {
 
 	override method agregarVisualesPersonajes() {
 		game.onTick(2000, self.nroSerialGenerador(), { lordSithFactory.generarPara(self)})
+		darthVader.aparecer()
 		mandalorian.aparecer()
 	}
 

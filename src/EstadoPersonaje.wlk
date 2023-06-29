@@ -105,3 +105,38 @@ object enemigoAtacando inherits EstadoEnemigo {
 
 }
 
+object vaderNormal {
+
+	method imagenDeAccion() {
+		return darthVader.direccionDondeMira().toString()
+	}
+
+	method condicion() = true
+
+	method puedeMoverse() = true
+
+	method puedeRealizarLaAccion(personaje) = personaje.puedeMoverse(personaje, personaje.direccionDondeMira()) && self.condicion()
+
+	method teEliminaron(personaje) {
+	}
+
+}
+
+object vaderInmune {
+
+	method imagenDeAccion() {
+		console.println("inmune-" + darthVader.direccionDondeMira().toString())
+		return "inmune-" + darthVader.direccionDondeMira().toString()
+	}
+
+	method condicion() = true
+
+	method puedeMoverse() = true
+
+	method puedeRealizarLaAccion(personaje) = personaje.puedeMoverse(personaje, personaje.direccionDondeMira()) && self.condicion()
+
+	method teEliminaron(personaje) {
+	}
+
+}
+
