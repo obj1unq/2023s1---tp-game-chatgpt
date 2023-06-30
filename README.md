@@ -12,7 +12,7 @@ Grupo 8 - Chat Gpt
 ## Capturas
 
 Pantalla de Inicio del Juego: 
-![Pantalla de inicio](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/3d1f2ec4b12f2625f46db8bbd8c2ea5da333eef6/assets/background-inicio.png)
+![Pantalla de inicio](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/c3f04a738b3974406b73a7538eded8c7adbc5f9e/assets/background-inicio.png)
 
 ## Juego
 
