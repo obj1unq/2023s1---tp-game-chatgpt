@@ -16,7 +16,8 @@ Pantalla de Inicio del Juego:
 
 ![Pantalla de inicio](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/c3f04a738b3974406b73a7538eded8c7adbc5f9e/assets/background-inicio.png)
 
-Al iniciar el juego, aprentando la barra espaciadora, nos aparece la siguiente pantalla:
+Al iniciar el juego, aprentando la barra espaciadora, nos aparece el primer nivel.
+Dejamos una breve reseña de los elementos que podemos encontrar en el nivel:
 
 
 ![Pantalla de Nivel 1](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/master/assets/screenshot%20nivel%201.png)
