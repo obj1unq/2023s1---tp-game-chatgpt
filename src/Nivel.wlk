@@ -47,7 +47,6 @@ class Nivel {
 	method agregarVisualesEscenario() {
 		self.agregarFondo()
 		self.agregarVisores()
-		portal.aparecer()
 	}
 
 	method agregarVisualesPersonajes() {
@@ -68,11 +67,11 @@ class Nivel {
 
 }
 
-object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 2) {
+object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
 	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20 ]
 
-	override method puntosRequeridos() = 3
+	override method puntosRequeridos() = 10
 
 	override method siguienteNivel() = nivelDos
 
@@ -83,6 +82,7 @@ object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 2) {
 	override method agregarVisualesEscenario() {
 		super()
 		self.agregarCajas()
+		portal.aparecer()
 	}
 
 	method agregarCajas() {
@@ -90,17 +90,17 @@ object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 2) {
 	}
 
 	override method agregarVisualesPersonajes() {
-		game.onTick(4000, self.nroSerialGenerador(), { trooperSargentoFactory.generarPara(self)})
+		game.onTick(4000, self.nroSerialGenerador(), { trooperCadeteFactory.generarPara(self)})
 		super()
 	}
 
 }
 
-object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
+object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
 	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20, caja21, caja22, caja23, caja24, caja25, caja26, caja27, caja28, caja29, caja30, caja31, caja32, caja33, caja34 ]
 
-	override method puntosRequeridos() = 4
+	override method puntosRequeridos() = 10
 
 	override method siguienteNivel() = nivelTres
 
@@ -111,6 +111,7 @@ object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
 	override method agregarVisualesEscenario() {
 		super()
 		self.agregarCajas()
+		portal.aparecer()
 	}
 
 	method agregarCajas() {
@@ -118,17 +119,18 @@ object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
 	}
 
 	override method agregarVisualesPersonajes() {
-		game.onTick(4000, self.nroSerialGenerador(), { trooperSargentoFactory.generarPara(self)})
+		game.onTick(2000, self.nroSerialGenerador(), { trooperCadeteFactory.generarPara(self)})
+		game.onTick(2000, self.nroSerialGenerador(), { trooperSargentoFactory.generarPara(self)})
 		super()
 	}
 
 }
 
-object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 1) {
+object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 2) {
 
 	override method puntosRequeridos() = 100
 
-	override method siguienteNivel() = gameWin
+	override method siguienteNivel() = self
 
 	override method agregarFondo() {
 		fondoNivelTres.aparecer()
@@ -137,7 +139,7 @@ object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 1) {
 	override method agregarVisualesPersonajes() {
 		game.onTick(2000, self.nroSerialGenerador(), { lordSithFactory.generarPara(self)})
 		darthVader.aparecer()
-		mandalorian.aparecer()
+		super()
 	}
 
 }
