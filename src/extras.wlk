@@ -7,7 +7,7 @@ object starWarsGame {
 	method iniciar() {
 		self.agregarConfiguracion()
 		fondoInicio.aparecer()
-		keyboard.space().onPressDo({ nivelDos.iniciar()})
+		keyboard.space().onPressDo({ nivelUno.iniciar()})
 		game.start()
 	}
 

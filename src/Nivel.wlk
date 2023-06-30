@@ -72,7 +72,7 @@ object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
 	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20 ]
 
-	override method puntosRequeridos() = 1
+	override method puntosRequeridos() = 10
 
 	override method siguienteNivel() = nivelDos
 

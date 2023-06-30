@@ -1,6 +1,7 @@
 import wollok.game.*
 import Direccion.*
 import Enemigo.*
+import EstadoEnemigo.*
 import EstadoPersonaje.*
 import PosicionMutable.*
 
