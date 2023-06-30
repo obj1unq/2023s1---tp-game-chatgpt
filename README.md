@@ -17,7 +17,7 @@ En la pantalla de inicio, apretar la barra espaciadora para iniciar el juego:
 Controles del juego:
 
 
-![Controles del juego](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/3689ece92b64b436130ba6d73b61e5adf060c2e1/assets/controles.png))
+![Controles del juego](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/3689ece92b64b436130ba6d73b61e5adf060c2e1/assets/controles.png)
 
 Al iniciar el juego, aprentando la barra espaciadora, nos aparece el primer nivel.
 Dejamos una breve reseña de los elementos que podemos encontrar en el nivel:
