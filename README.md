@@ -11,6 +11,9 @@ Grupo 8 - Chat Gpt
 
 ## Capturas
 
+En la pantalla de inicio, apretar la barra espaciadora para iniciar el juego:
+![Pantalla de Inicio](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/9bfddb28d01983a38c21df946671c1cb62410767/assets/background-inicio.png)
+
 Controles del juego:
 
 
