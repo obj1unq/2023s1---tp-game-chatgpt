@@ -89,6 +89,12 @@ object trooperDerrotado inherits EstadoDerrotado {
 
 object lordSithDerrotado inherits EstadoDerrotado {
 
+	override method teEliminaron(personaje) {
+		mandalorian.sumarScore(personaje.puntosQueOtorga())
+		mandalorian.nivelDondeSeEncuentra().removerEnemigo(personaje)
+		personaje.removerEvento()
+	}
+
 }
 
 object darthVaderDerrotado inherits EstadoDerrotado {

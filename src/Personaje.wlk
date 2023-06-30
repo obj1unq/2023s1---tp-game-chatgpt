@@ -4,10 +4,10 @@ import Direccion.*
 import EstadoPersonaje.*
 import Inamovible.*
 import Proyectil.*
-import Nivel.nivelUno
 import PosicionMutable.*
 import StarWarsObject.*
 import Visor.*
+import Nivel.*
 
 class Personaje inherits StarWarsObject {
 
@@ -240,22 +240,22 @@ class LordSith inherits Personaje {
 	method dispararRayo() {
 		const rayoDerecho = new Rayo(position = self.proximoRayoDerecho(1), direccionDeMovimiento = derecha, alcance = 5)
 		const rayoIzquierdo = new Rayo(position = self.proximoRayoIzquierdo(1), direccionDeMovimiento = izquierda, alcance = 5)
-//		const rayoDerecho1 = new Rayo(position = self.proximoRayoDerecho(2), direccionDeMovimiento = derecha, alcance = 5)
-//		const rayoIzquierdo2 = new Rayo(position = self.proximoRayoIzquierdo(2), direccionDeMovimiento = izquierda, alcance = 5)
-//		const rayoDerecho3 = new Rayo(position = self.proximoRayoDerecho(3), direccionDeMovimiento = derecha, alcance = 5)
-//		const rayoIzquierdo3 = new Rayo(position = self.proximoRayoIzquierdo(3), direccionDeMovimiento = izquierda, alcance = 5)
+		const rayoDerecho1 = new Rayo(position = self.proximoRayoDerecho(2), direccionDeMovimiento = derecha, alcance = 5)
+		const rayoIzquierdo2 = new Rayo(position = self.proximoRayoIzquierdo(2), direccionDeMovimiento = izquierda, alcance = 5)
+		const rayoDerecho3 = new Rayo(position = self.proximoRayoDerecho(3), direccionDeMovimiento = derecha, alcance = 5)
+		const rayoIzquierdo3 = new Rayo(position = self.proximoRayoIzquierdo(3), direccionDeMovimiento = izquierda, alcance = 5)
 		rayoIzquierdo.aparecer()
 		rayoIzquierdo.disparar()
 		rayoDerecho.aparecer()
 		rayoDerecho.disparar()
-//		rayoDerecho1.aparecer()
-//		rayoDerecho1.disparar()
-//		rayoIzquierdo2.aparecer()
-//		rayoIzquierdo2.disparar()
-//		rayoIzquierdo3.aparecer()
-//		rayoIzquierdo3.disparar()
-//		rayoDerecho3.aparecer()
-//		rayoDerecho3.disparar()
+		rayoDerecho1.aparecer()
+		rayoDerecho1.disparar()
+		rayoIzquierdo2.aparecer()
+		rayoIzquierdo2.disparar()
+		rayoIzquierdo3.aparecer()
+		rayoIzquierdo3.disparar()
+		rayoDerecho3.aparecer()
+		rayoDerecho3.disparar()
 	}
 
 	override method mover(direccion) {
@@ -292,6 +292,7 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 	}
 
 	method realizarAccionSecuencialmente() {
+		game.onTick(5000, self.nroSerialDeVader(), { self.cambiarDeEstado()})
 		game.onTick(self.tiempoParaAccion(), self.nroSerialDarthVader(), { self.realizarAccionSiPuede()})
 		game.onTick(1500, self.nroSerialDarthVader(), { self.moverSiPuede(mandalorian.direccionDondeMira().opuesto())})
 	}
@@ -301,8 +302,7 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 	}
 
 	override method realizarAccion() {
-		game.onTick(1000, self.nroSerialDeVader(), { self.disparar()})
-		game.onTick(5000, self.nroSerialDeVader(), { self.cambiarDeEstado()})
+		self.disparar()
 	}
 
 	override method desaparecer() {

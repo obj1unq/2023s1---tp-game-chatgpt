@@ -14,9 +14,6 @@ class Visor {
 		game.addVisual(self)
 	}
 
-	method colision(objeto) {
-	}
-
 }
 
 object visorScore inherits Visor(position = new PosicionMutable(x = 2, y = 14)) {
@@ -61,9 +58,6 @@ object puntosRequeridosPorNivel {
 	method text() = "           PtosNivel"
 
 	method textColor() = "#FFFFFF"
-
-	method colision(objeto) {
-	}
 
 }
 

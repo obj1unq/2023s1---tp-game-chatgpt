@@ -22,7 +22,7 @@ class Proyectil inherits StarWarsObject {
 
 	override method desaparecer() {
 		super()
-		game.removeTickEvent(self.nroSerialProyecyil())
+		game.removeTickEvent(self.nroSerialProyectil())
 	}
 
 	method desplazar() {
@@ -35,11 +35,11 @@ class Proyectil inherits StarWarsObject {
 	}
 
 	method disparar() {
-		game.onTick(self.velocidad(), self.nroSerialProyecyil(), { self.desplazar()})
+		game.onTick(self.velocidad(), self.nroSerialProyectil(), { self.desplazar()})
 		game.onCollideDo(self, { objeto => objeto.colision(self)})
 	}
 
-	method nroSerialProyecyil() = self.identity().toString()
+	method nroSerialProyectil() = self.identity().toString()
 
 	method velocidad()
 
