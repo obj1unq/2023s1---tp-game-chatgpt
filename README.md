@@ -4,10 +4,10 @@
 
 Grupo 8 - Chat Gpt
 
-- Ivan Moroni
-- Yoel Ventoso
-- Guillermo Rodriguez
-- Lucas Swystun Marino
+- Moroni Ivan 
+- Ventoso Yoel 
+- Rodriguez Guillermo 
+- Swystun Marino Lucas 
 
 ## Capturas
 
