@@ -39,11 +39,18 @@ Personajes del juego:
 ## Juego
 
 La idea principal fue crear un juego de disparos basado en la mitica serie de Star Wars. Donde el personaje principal es The Mandalorian
-y debe disparales a los Troopers, Lord Sith y Darth Veder para poder ganar sin caer en el Lado Oscuro de la Fuerza.
+y debe disparales a los Troopers, Lord Sith y Darth Veder para poder ganar sin caer en el Lado Oscuro de la Fuerza y poder rescatar a Baby Yoda.
 
 El objetivo del juego es sumar la cantidad de puntos requerida por el nivel (sin morir) eliminando a todos los Troopers del escenario hasta habilitar el portal y pasar de nivel.
 
-En el primer nivel nos encontramos dentro una nave intergaláctica y nuestra misión es eliminar los Trooper cadete necesarios para que cumplamos con la misión, el portal se abra y nos permita pasar al segundo nivel.
+En el primer nivel nos encontramos dentro una nave imperial y nuestra misión es eliminar los Trooper Cadete necesarios para que cumplamos con la misión, el portal se abra y nos permita pasar al segundo nivel.
+
+En el segundo nivel avanzamos dentro de la nave imperial, en donde nuestra misión es eliminar a los Trooper Cadete y los Trooper Sargento, cubriendonos con las cajas, para poder cumplir con la misión y abrir nuevamente el portal y poder pasar al tercer y último nivel!
+
+En el tercer nivel, estamos en los mismos aposentos de Lord Vader en la Estrella de la Muerte!
+Nuestro objetivo es eliminar a Darth Vader para poder completar el juego.
+Serás capaz de luchar contra el imperio para rescatar a Baby Yoda?
+Que la Fuerza te acompañe.
 
 ## Otros
 
