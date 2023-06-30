@@ -119,16 +119,14 @@ object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 4) {
 	}
 
 	override method agregarVisualesPersonajes() {
-		game.onTick(2000, self.nroSerialGenerador(), { trooperCadeteFactory.generarPara(self)})
-		game.onTick(2000, self.nroSerialGenerador(), { trooperSargentoFactory.generarPara(self)})
+		const randomFactory = [ trooperCadeteFactory, trooperSargentoFactory ]
+		game.onTick(2000, self.nroSerialGenerador(), { randomFactory.anyOne().generarPara(self)})
 		super()
 	}
 
 }
 
 object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 2) {
-
-	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20 ]
 
 	override method puntosRequeridos() = 100
 

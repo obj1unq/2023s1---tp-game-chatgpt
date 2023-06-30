@@ -70,6 +70,11 @@ object mandalorian inherits Personaje(position = new PosicionMutable(x = 19, y =
 		self.disparar()
 	}
 
+	method recibirDanio(danio) {
+		self.restarVida(danio)
+		self.desaparecer()
+	}
+
 	method restarVida(_vida) {
 		vida -= _vida
 	}
@@ -299,6 +304,7 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 
 	method recibirDanio(danio) {
 		vida -= estado.restarVida(danio)
+		self.desaparecer()
 	}
 
 	override method realizarAccion() {
@@ -331,8 +337,4 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 	}
 
 }
-
-const sargentoArriba = new TrooperSargento(estado = trooperVivo, position = new PosicionMutable(x = 12, y = 13), direccionDondeMira = arriba)
-
-const sargentoAbajo = new TrooperSargento(estado = trooperVivo, position = new PosicionMutable(x = 8, y = 1), direccionDondeMira = abajo)
 

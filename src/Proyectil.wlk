@@ -16,8 +16,7 @@ class Proyectil inherits StarWarsObject {
 	}
 
 	override method colisionasteConMandalorian(objeto) {
-		objeto.restarVida(self.danio())
-		objeto.desaparecer()
+		objeto.recibirDanio(self.danio())
 	}
 
 	override method desaparecer() {
@@ -72,7 +71,6 @@ class LaserAzul inherits Laser {
 
 	override method colisionasteConDarthVader(objeto) {
 		objeto.recibirDanio(self.danio())
-		objeto.desaparecer()
 	}
 
 	override method colisionasteConUnlordSith(objeto) {
