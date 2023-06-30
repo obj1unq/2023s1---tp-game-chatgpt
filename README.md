@@ -33,6 +33,9 @@ Al juntar los puntos necesarios, nuevamente el portal se abré y podemos pasar a
 Si logramos eliminar a Darth Vader, completamos exitosamente el juego!
 En tu cara programadores! (Costó pero dimos vuelta el juego)
 
+Personajes del juego:
+![Personajes del juego](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/fa0698ac55fc649b3c84ca023353748633b4b70c/assets/screenshot%20nivel%203a.png)
+
 ## Juego
 
 La idea principal fue crear un juego de disparos basado en la mitica serie de Star Wars. Donde el personaje principal es The Mandalorian
