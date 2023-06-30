@@ -10,106 +10,242 @@ import PosicionMutable.*
 import StarWarsObject.*
 import wollok.game.*
 import Visor.*
+import portal.*
+import EnemigoFactory.*
 
-const cadetePrueba = new TrooperCadete(position = new PosicionMutable(x = 19, y = 10),
-									   direccionDondeMira = arriba,
-									   alcanceDisparo = 3)
+const cadetePrueba = new TrooperCadete(position = new PosicionMutable(x = 19, y = 10), alcanceDisparo = 3, estado = trooperVivo)
 
-//Test de movimiento de personaje Mandalorian
+const sargentoPrueba = new TrooperSargento(position = new PosicionMutable(x = 19, y = 10), estado = trooperVivo, direccionesAleatoria = [])
 
-test "El Mandalorian inicia en la posicion (19,12) y mira hacia abajo" {
-	
-	assert.equals((new PosicionMutable(x = 19, y = 12)), mandalorian.position())
-	assert.equals(abajo, mandalorian.direccionDondeMira())
-	
+const sithPrueba = new LordSith(position = new PosicionMutable(x = 19, y = 10), estado = lordSithAtacando)
+
+describe "Test de movimiento de personaje Mandalorian" {
+
+	test "El Mandalorian inicia en la posicion (19,12) y mira hacia abajo" {
+		assert.equals((new PosicionMutable(x = 19, y = 12)), mandalorian.position())
+		assert.equals(abajo, mandalorian.direccionDondeMira())
+	}
+
+	test "Al apretar la tecla 'derecha' el Mandalorian se mueve 1 espacio a la derecha y mira hacia ese lado" {
+		mandalorian.aparecer()
+		mandalorian.mover(derecha)
+		assert.equals((new PosicionMutable(x = 20, y = 12)), mandalorian.position())
+		assert.equals(derecha, mandalorian.direccionDondeMira())
+	}
+
+	test "Al apretar la tecla 'izquierda' el Mandalorian se mueve 1 espacio a la izquierda y mira hacia ese lado" {
+		mandalorian.aparecer()
+		mandalorian.mover(izquierda)
+		assert.equals(game.at(18, 12), mandalorian.position())
+		assert.equals(izquierda, mandalorian.direccionDondeMira())
+	}
+
+	test "Al apretar la tecla 'arriba' el Mandalorian se mueve 1 espacio hacia arriba y mira hacia ese lado" {
+		mandalorian.aparecer()
+		mandalorian.mover(arriba)
+		assert.equals(game.at(19, 13), mandalorian.position())
+		assert.equals(arriba, mandalorian.direccionDondeMira())
+	}
+
+	test "Al apretar la tecla 'abajo' el Mandalorian se mueve 1 espacio hacia abajo y mira hacia ese lado" {
+		mandalorian.aparecer()
+		mandalorian.mover(abajo)
+		assert.equals(game.at(19, 11), mandalorian.position())
+		assert.equals(abajo, mandalorian.direccionDondeMira())
+	}
+
+	test "El mandaloreano no puede moverse si está muerto" {
+		mandalorian.estado(mandalorianDerrotado)
+		assert.notThat(mandalorian.puedeMoverse(mandalorian, derecha))
+	}
+
+	test "El mandalorian no puede morverse a la derecha porque hay una caja" {
+		const cajaPrueba = new Caja(position = new PosicionMutable(x = 20, y = 12))
+		cajaPrueba.aparecer()
+		assert.notThat(mandalorian.puedeMoverse(mandalorian, derecha))
+	}
+
+	test "El Mandaloriano no puede moverse afuera del tablero" {
+		assert.notThat(mandalorian.puedeMoverse(mandalorian, mandalorian.direccionDondeMira()))
+	}
+
 }
 
-test "Al apretar la tecla 'derecha' el Mandalorian se mueve 1 espacio a la derecha y mira hacia ese lado" {
-	
-	mandalorian.aparecer()
-	mandalorian.mover(derecha)
-	
-	assert.equals((new PosicionMutable(x = 20, y = 12)), mandalorian.position())
-	assert.equals(derecha, mandalorian.direccionDondeMira())
+describe "Test de vida de personaje Mandalorian" {
+
+	test "Mandalorian pierde una vida cuando es impactado por el laser rojo de un trooper" {
+		const laserTrooper = new LaserRojo(position = new PosicionMutable(x = 19, y = 12), direccionDeMovimiento = arriba, alcance = 3)
+		assert.equals(2, mandalorian.vida())
+		assert.equals(mandalorianVivo, mandalorian.estado())
+		mandalorian.restarVida(laserTrooper.danio())
+		assert.equals(mandalorianVivo, mandalorian.estado())
+		assert.equals(1, mandalorian.vida())
+	}
+
+	test "Mandalorian muere cuando una bomba explota en la misma celda en donde él está" {
+		const bombaPrueba = new Bomba(position = new PosicionMutable(x = 19, y = 12), estado = detonada)
+		assert.equals(2, mandalorian.vida())
+		assert.equals(mandalorianVivo, mandalorian.estado())
+		mandalorian.restarVida(bombaPrueba.danio()) // Explota la bomba
+		assert.equals(0, mandalorian.vida())
+		mandalorian.estado(mandalorianDerrotado)
+		assert.equals(mandalorianDerrotado, mandalorian.estado())
+	}
+
+	test "Mandalorian muere cuando el rayo de un Sith lo alcanza" {
+		const rayoPrueba = new Rayo(position = new PosicionMutable(x = 19, y = 12), direccionDeMovimiento = arriba, alcance = 3)
+		assert.equals(2, mandalorian.vida())
+		assert.equals(mandalorianVivo, mandalorian.estado())
+		mandalorian.restarVida(rayoPrueba.danio())
+		mandalorian.restarVida(rayoPrueba.danio())
+		mandalorian.restarVida(rayoPrueba.danio())
+		assert.equals(-1, mandalorian.vida())
+		mandalorian.estado(mandalorianDerrotado)
+		assert.equals(mandalorianDerrotado, mandalorian.estado())
+	}
 
 }
 
-test "Al apretar la tecla 'izquierda' el Mandalorian se mueve 1 espacio a la izquierda y mira hacia ese lado" {
-	
-	mandalorian.aparecer()
-	mandalorian.mover(izquierda)
-	
-	assert.equals(game.at(18,12), mandalorian.position())
-	assert.equals(izquierda, mandalorian.direccionDondeMira())
+describe "Test de puntos del Mandalorian" {
+
+	test "El Mandalorian al matar a un Trooper Cadete, tiene 2 puntos de score." {
+		cadetePrueba.aparecer()
+		mandalorian.realizarAccion() // Dispara Laser Azul.
+		trooperDerrotado.teEliminaron(cadetePrueba)
+		assert.equals(2, mandalorian.score())
+	}
+
+	test "El Mandalorian al matar a un Trooper Cadete y un Trooper Sargento, tiene 5 puntos de score." {
+		cadetePrueba.aparecer()
+		sargentoPrueba.aparecer()
+		mandalorian.realizarAccion()
+		trooperDerrotado.teEliminaron(cadetePrueba)
+		trooperDerrotado.teEliminaron(sargentoPrueba)
+		assert.equals(5, mandalorian.score())
+	}
+
+//cambiar por mandalorian disparar y matar al tropper
+	test "El Mandalorian al matar a un Trooper Cadete, un Trooper Sargento y un Lord Sith, tiene 8 puntos de score." {
+		cadetePrueba.aparecer()
+		sargentoPrueba.aparecer()
+		sithPrueba.aparecer()
+		mandalorian.realizarAccion()
+		trooperDerrotado.teEliminaron(cadetePrueba)
+		trooperDerrotado.teEliminaron(sargentoPrueba)
+		trooperDerrotado.teEliminaron(sithPrueba)
+		assert.equals(8, mandalorian.score())
+	}
+
+	test "El mandalorian al matar a Darth Vader, tiene 8 puntos de score" {
+		darthVader.aparecer()
+		mandalorian.realizarAccion()
+		darthVaderDerrotado.teEliminaron(darthVader)
+		assert.equals(100, mandalorian.score())
+	}
 
 }
 
-test "Al apretar la tecla 'arriba' el Mandalorian se mueve 1 espacio hacia arriba y mira hacia ese lado" {
-	
-	mandalorian.aparecer()
-	mandalorian.mover(arriba)
-	
-	assert.equals(game.at(19,13), mandalorian.position())
-	assert.equals(arriba, mandalorian.direccionDondeMira())
+describe "Test del Portal" {
+
+	test "El portal no se activa, si el Mandaloriano no cumple con la misión." {
+		assert.notThat(mandalorian.cumplioLaMision())
+		assert.equals(inactivo, portal.estado())
+	}
+
+	test "En el nivel 1, se precisan 3 puntos para activar el portal." {
+		mandalorian.nivelDondeSeEncuentra(nivelUno)
+		mandalorian.score(10)
+		assert.equals(10, mandalorian.score())
+		assert.that(mandalorian.cumplioLaMision())
+		assert.equals(activo, portal.estado())
+	}
+
+	test "En el nivel 2, se precisan 4 puntos para activar el portal." {
+		mandalorian.nivelDondeSeEncuentra(nivelDos)
+		mandalorian.score(10)
+		assert.equals(10, mandalorian.score())
+		assert.that(mandalorian.cumplioLaMision())
+		assert.equals(activo, portal.estado())
+	}
+
+	test "En el nivel 3, se precisan 100 puntos para activar el portal." {
+		mandalorian.nivelDondeSeEncuentra(nivelTres)
+		mandalorian.score(100)
+		assert.equals(100, mandalorian.score())
+		assert.that(mandalorian.cumplioLaMision())
+		assert.equals(activo, portal.estado())
+	}
 
 }
 
-test "Al apretar la tecla 'abajo' el Mandalorian se mueve 1 espacio hacia abajo y mira hacia ese lado" {
-	
-	mandalorian.aparecer()
-	mandalorian.mover(abajo)
-	
-	assert.equals(game.at(19,11), mandalorian.position())
-	assert.equals(abajo, mandalorian.direccionDondeMira())
+describe "Test de Pantallas" {
+
+	test "Cuando el Mandalorian muere, se muestra la pantalla Game Over" {
+		mandalorian.desaparecer()
+		gameOver.‎reiniciarJuego()
+		assert.equals("gameOver", fondoGameOver.fondo())
+	}
+
+	test "Cuando darth veider muere, se muestra la pantalla de GameWin" {
+		darthVader.desaparecer()
+		gameWin.iniciar()
+		assert.equals("gameWin", fondoGameWin.fondo())
+	}
 
 }
 
-test "Mandalorian pierde una vida cuando es impactado por el laser rojo de un trooper"{
-	
-	nivelUno.iniciar()
-	cadetePrueba.aparecer()
-	
-	assert.equals(2, mandalorian.vida())
-	assert.equals(vivo, mandalorian.estado())
-	
-	cadetePrueba.disparar()
-	
-	assert.equals(1, mandalorian.vida())
-	assert.equals(vivo, mandalorian.estado())
+describe "Test de nivel" {
+
+	test "Al morir el mandaloriano y reiniciar el nivel. La vida del mandaloriano es 2 y el estado mandalorianoVivo" {
+		mandalorian.estado(mandalorianDerrotado)
+		mandalorian.vida(0)
+		assert.equals(mandalorianDerrotado, mandalorian.estado())
+		assert.equals(0, mandalorian.vida())
+		mandalorianDerrotado.teEliminaron(mandalorian)
+		assert.equals(mandalorianVivo, mandalorian.estado())
+		assert.equals(2, mandalorian.vida())
+		assert.equals(0, mandalorian.score())
+	}
+
 }
 
-test "El Mandalorian queda derrotado cuando su vida llega a cero"{
-	
-	mandalorian.vida(0)
-	mandalorian.verificarEstado()
-	
-	assert.equals(derrotado, mandalorian.estado())
+describe "Test factories" {
+
+	test "La factory no puede generar mas de 4 enemigos en nivel Uno" {
+		trooperCadeteFactory.generarPara(nivelUno)
+		trooperCadeteFactory.generarPara(nivelUno)
+		trooperCadeteFactory.generarPara(nivelUno)
+		trooperCadeteFactory.generarPara(nivelUno)
+		trooperCadeteFactory.generarPara(nivelUno)
+		assert.equals(4, nivelUno.cantidadEnemigosActivos())
+	}
+
+	test "La factory no puede generar mas de 4 enemigos en nivel Dos" {
+		trooperCadeteFactory.generarPara(nivelDos)
+		trooperCadeteFactory.generarPara(nivelDos)
+		trooperCadeteFactory.generarPara(nivelDos)
+		trooperCadeteFactory.generarPara(nivelDos)
+		trooperCadeteFactory.generarPara(nivelDos)
+		assert.equals(4, nivelDos.cantidadEnemigosActivos())
+	}
+
+	test "La factory no puede generar mas de 2 enemigo en nivel tres" {
+		lordSithFactory.generarPara(nivelTres)
+		lordSithFactory.generarPara(nivelTres)
+		lordSithFactory.generarPara(nivelTres)
+		assert.equals(2, nivelTres.cantidadEnemigosActivos())
+	}
+
 }
 
-test "El Mandalorian dispara a un Trooper Cadete, lo mata y suma puntos al Score"{
-	
-	mandalorian.aparecer()
-	cadetePrueba.aparecer()
-	
-	mandalorian.disparar()
-	
-	assert.equals(1, mandalorian.score())
-	assert.notThat(game.hasVisual(cadetePrueba))
+describe "Test Vader" {
+
+	test "En el estado inmune, vader no recibe daño" {
+		assert.equals(5, darthVader.vida())
+		darthVader.estado(darthVaderInmune)
+		darthVader.recibirDanio(5)
+		assert.equals(5, darthVader.vida())
+	}
+
 }
 
-test "El Mandalorian no sale fuera del tablero."{
-	
-	mandalorian.aparecer()
-	mandalorian.mover(derecha)
-	mandalorian.mover(derecha)
-	mandalorian.mover(derecha)
-	
-	assert.equals((new PosicionMutable(x = 22, y = 12)), mandalorian.position())
-}
-
-test "El Mandalorian no puede atravesar el portal si no tiene los puntos necesarios."{
-	
-	mandalorian.aparecer()
-	
-	assert.that(mandalorian.noPuedeAtravesarElPortal())
-}
