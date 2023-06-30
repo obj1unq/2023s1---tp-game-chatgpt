@@ -26,6 +26,10 @@ Una vez que cumplimos con la misión, el portal se abré y nos lleva al segundo 
 
 ![Pantalla de Nivel 2](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/6ce9276faa759c6cf0aa016a6ada37a62f8bd972/assets/screenshot%20nivel%202.png)
 
+Al juntar los puntos necesarios, nuevamente el portal se abré y podemos pasar al tercer y último nivel, en donde nos enfrentaremos a los tembiles Lord Sith y al mismísimo Darth Vader (¡ay, mamita!)
+
+![Pantalla de Nivel 3](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/fa0698ac55fc649b3c84ca023353748633b4b70c/assets/screenshot%20nivel%203a.png)
+
 ## Juego
 
 La idea principal fue crear un juego de disparos basado en la mitica serie de Star Wars. Donde el personaje principal es The Mandalorian
