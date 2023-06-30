@@ -5,12 +5,16 @@ import Nivel.*
 object starWarsGame {
 
 	method iniciar() {
+		self.agregarConfiguracion()
+		fondoInicio.aparecer()
+		keyboard.space().onPressDo({ nivelDos.iniciar()})
+		game.start()
+	}
+
+	method agregarConfiguracion() {
 		game.title("Star Wars Game")
 		game.height(15)
 		game.width(22)
-		fondoInicio.aparecer()
-		keyboard.space().onPressDo({ nivelUno.iniciar()})
-		game.start()
 	}
 
 }

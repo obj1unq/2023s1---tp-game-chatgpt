@@ -12,7 +12,7 @@ class Caja inherits StarWarsObject {
 		objeto.colisionasteConCaja(self)
 	}
 
-	override method colisionasteConLaser(objeto) {
+	override method colisionasteConProyectil(objeto) {
 		objeto.desaparecer()
 	}
 
@@ -42,9 +42,7 @@ class Bomba inherits StarWarsObject {
 	}
 
 	override method colisionasteConMandalorian(objeto) {
-		// TODO: objeto.dañar() implementar en un solo metodo haga las dos cosas.
-		objeto.restarVida(self.danio())
-		objeto.desaparecer()
+		objeto.recibirDanio(self.danio())
 	}
 
 	method tick() {
@@ -63,9 +61,9 @@ class Bomba inherits StarWarsObject {
 
 object colocada {
 
-	method image() = "bomba.png"
-
 	method danio() = 0
+
+	method image() = "bomba.png"
 
 	method expandir() {
 	}
@@ -74,9 +72,9 @@ object colocada {
 
 object detonada {
 
-	method image() = "explosion.png"
-
 	method danio() = 2
+
+	method image() = "explosion.png"
 
 	method expandir() {
 	}

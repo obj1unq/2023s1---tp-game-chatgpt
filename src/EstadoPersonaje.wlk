@@ -1,5 +1,7 @@
+import extras.*
 import Direccion.*
-import Nivel.nivelUno
+import Enemigo.*
+import Nivel.*
 import Personaje.*
 import PosicionMutable.*
 
@@ -37,17 +39,13 @@ object lordSithVivo inherits EstadoVivo {
 
 object darthVaderVivo inherits EstadoVivo {
 
+	method estadoOpuesto() = darthVaderInmune
+
 	method imagenPara(personaje) = personaje.direccionDondeMira().toString()
 
-	method restarVida(vida) {
-		return vida
-	}
+	method restarVida(vida) = vida
 
 	method accion() {
-	}
-
-	method estadoOpuesto() {
-		return darthVaderInmune
 	}
 
 }
@@ -59,9 +57,9 @@ class EstadoDerrotado inherits EstadoPersonaje {
 	override method puedeMoverse() = false
 
 	method teEliminaron(personaje) {
-		personaje.removerEvento()
 		mandalorian.sumarScore(personaje.puntosQueOtorga())
 		mandalorian.nivelDondeSeEncuentra().removerEnemigo(personaje)
+		personaje.removerEvento()
 	}
 
 }
@@ -69,6 +67,7 @@ class EstadoDerrotado inherits EstadoPersonaje {
 object mandalorianDerrotado inherits EstadoDerrotado {
 
 	override method teEliminaron(personaje) {
+		gameOver.reiniciarJuego()
 		self.reiniciar()
 	}
 
@@ -89,23 +88,16 @@ object trooperDerrotado inherits EstadoDerrotado {
 
 object lordSithDerrotado inherits EstadoDerrotado {
 
-	override method teEliminaron(personaje) {
-		mandalorian.sumarScore(personaje.puntosQueOtorga())
-		mandalorian.nivelDondeSeEncuentra().removerEnemigo(personaje)
-		personaje.removerEvento()
-	}
-
 }
 
 object darthVaderDerrotado inherits EstadoDerrotado {
 
-	override method teEliminaron(personaje) {
-		mandalorian.sumarScore(personaje.puntosQueOtorga())
-		mandalorian.nivelDondeSeEncuentra().removerEnemigo(personaje)
-		personaje.removerEvento()
-	}
-
 	method imagenPara(personaje) = personaje.direccionDondeMira().toString()
+
+	override method teEliminaron(personaje) {
+		super(personaje)
+		gameWin.iniciar()
+	}
 
 	method accion() {
 	}
@@ -141,19 +133,15 @@ object darthVaderInmune inherits EstadoPersonaje {
 
 	override method condicion() = true
 
+	method estadoOpuesto() = darthVaderVivo
+
 	method imagenPara(personaje) = "inmune-" + personaje.direccionDondeMira().toString()
 
 	override method puedeMoverse() = true
 
-	method restarVida(vida) {
-		return 0
-	}
+	method restarVida(vida) = 0
 
 	method accion() {
-	}
-
-	method estadoOpuesto() {
-		return darthVaderVivo
 	}
 
 }

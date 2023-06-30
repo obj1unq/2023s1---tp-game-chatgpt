@@ -6,7 +6,21 @@ class StarWarsObject {
 
 	method esColisionable() = true
 
+	method estaDentro(posicionObjeto) = self.estaDentroDeEjeX(posicionObjeto) && self.estaDentroDeEjeY(posicionObjeto)
+
+	method estaDentroDeEjeX(posicionObjeto) = posicionObjeto.x().between(0, self.limiteX())
+
+	method estaDentroDeEjeY(posicionObjeto) = posicionObjeto.y().between(1, self.limiteY())
+
 	method image()
+
+	method limiteX() = game.width() - 2
+
+	method limiteY() = game.height() - 2
+
+	method hayObjetoAdelante(posicion) = game.getObjectsIn(posicion).any{ objeto => not objeto.esColisionable() }
+
+	method puedeMoverse(objeto, direccion) = self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))
 
 	method aparecer() {
 		game.addVisual(self)
@@ -24,13 +38,13 @@ class StarWarsObject {
 	method colisionasteConCaja(objeto) {
 	}
 
-	method colisionasteConLaser(objeto) {
-	}
-
 	method colisionasteConMandalorian(objeto) {
 	}
 
 	method colisionasteConPortal(objeto) {
+	}
+
+	method colisionasteConProyectil(objeto) {
 	}
 
 	method colisionasteConTrooper(objeto) {
@@ -39,22 +53,8 @@ class StarWarsObject {
 	method colisionasteConDarthVader(objeto) {
 	}
 
-	method colisionasteConUnlordSith(objeto) {
+	method colisionasteConLordSith(objeto) {
 	}
-
-	method estaDentro(posicionObjeto) = self.estaDentroDeEjeX(posicionObjeto) && self.estaDentroDeEjeY(posicionObjeto)
-
-	method estaDentroDeEjeX(posicionObjeto) = posicionObjeto.x().between(0, self.limiteX())
-
-	method estaDentroDeEjeY(posicionObjeto) = posicionObjeto.y().between(1, self.limiteY())
-
-	method limiteX() = game.width() - 2
-
-	method limiteY() = game.height() - 2
-
-	method hayObjetoAdelante(posicion) = game.getObjectsIn(posicion).any{ objeto => not objeto.esColisionable() }
-
-	method puedeMoverse(objeto, direccion) = self.estaDentro(direccion.proxima(objeto)) && not self.hayObjetoAdelante(direccion.proxima(objeto))
 
 }
 

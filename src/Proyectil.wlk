@@ -12,12 +12,15 @@ class Proyectil inherits StarWarsObject {
 	override method image() = direccionDeMovimiento.toString() + ".png"
 
 	override method colision(objeto) {
-		objeto.colisionasteConLaser(self)
+		objeto.colisionasteConProyectil(self)
 	}
 
 	override method colisionasteConMandalorian(objeto) {
-		objeto.restarVida(self.danio())
-		objeto.desaparecer()
+		objeto.recibirDanio(self.danio())
+	}
+
+	override method colisionasteConProyectil(objeto) {
+		self.desaparecer()
 	}
 
 	override method desaparecer() {
@@ -53,10 +56,6 @@ class Laser inherits Proyectil {
 
 	override method image() = "laser" + self.sufijo() + super()
 
-	override method colisionasteConTrooper(objeto) {
-		self.desaparecer()
-	}
-
 }
 
 class LaserAzul inherits Laser {
@@ -66,17 +65,16 @@ class LaserAzul inherits Laser {
 	override method sufijo() = "Azul-"
 
 	override method colisionasteConTrooper(objeto) {
-		super(objeto)
+		self.desaparecer()
 		objeto.desaparecer()
 	}
 
 	override method colisionasteConDarthVader(objeto) {
 		objeto.recibirDanio(self.danio())
-		objeto.desaparecer()
 	}
 
-	override method colisionasteConUnlordSith(objeto) {
-		super(objeto)
+	override method colisionasteConLordSith(objeto) {
+		self.desaparecer()
 		objeto.desaparecer()
 	}
 

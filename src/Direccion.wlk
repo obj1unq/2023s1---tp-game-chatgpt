@@ -2,17 +2,19 @@ class Direccion {
 
 	method moverProxima(objeto)
 
+	method opuesto()
+
 	method proxima(objeto)
 
 	method mover(objeto, direccion) {
 		direccion.moverProxima(objeto)
 	}
 
-	method opuesto()
-
 }
 
 object arriba inherits Direccion {
+
+	override method opuesto() = abajo
 
 	override method proxima(objeto) = objeto.position().up(1)
 
@@ -20,13 +22,11 @@ object arriba inherits Direccion {
 		objeto.position().up()
 	}
 
-	override method opuesto() {
-		return abajo
-	}
-
 }
 
 object abajo inherits Direccion {
+
+	override method opuesto() = arriba
 
 	override method proxima(objeto) = objeto.position().down(1)
 
@@ -34,13 +34,11 @@ object abajo inherits Direccion {
 		objeto.position().down()
 	}
 
-	override method opuesto() {
-		return arriba
-	}
-
 }
 
 object derecha inherits Direccion {
+
+	override method opuesto() = izquierda
 
 	override method proxima(objeto) = objeto.position().right(1)
 
@@ -48,22 +46,16 @@ object derecha inherits Direccion {
 		objeto.position().right()
 	}
 
-	override method opuesto() {
-		return izquierda
-	}
-
 }
 
 object izquierda inherits Direccion {
+
+	override method opuesto() = derecha
 
 	override method proxima(objeto) = objeto.position().left(1)
 
 	override method moverProxima(objeto) {
 		objeto.position().left()
-	}
-
-	override method opuesto() {
-		return derecha
 	}
 
 }

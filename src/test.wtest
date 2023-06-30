@@ -1,17 +1,18 @@
-import Personaje.*
+import wollok.game.*
+import extras.*
+import portal.*
 import Background.*
 import Direccion.*
-import EstadoPersonaje.*
-import extras.*
-import Inamovible.*
-import Proyectil.*
-import Nivel.*
-import PosicionMutable.*
-import StarWarsObject.*
-import wollok.game.*
-import Visor.*
-import portal.*
+import Enemigo.*
 import EnemigoFactory.*
+import EstadoPersonaje.*
+import Inamovible.*
+import Nivel.*
+import Personaje.*
+import PosicionMutable.*
+import Proyectil.*
+import StarWarsObject.*
+import Visor.*
 
 const cadetePrueba = new TrooperCadete(position = new PosicionMutable(x = 19, y = 10), alcanceDisparo = 3, estado = trooperVivo)
 
@@ -182,7 +183,7 @@ describe "Test de Pantallas" {
 
 	test "Cuando el Mandalorian muere, se muestra la pantalla Game Over" {
 		mandalorian.desaparecer()
-		gameOver.‎reiniciarJuego()
+		gameOver.reiniciarJuego()
 		assert.equals("gameOver", fondoGameOver.fondo())
 	}
 
