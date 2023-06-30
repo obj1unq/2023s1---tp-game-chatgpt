@@ -65,13 +65,22 @@ class Nivel {
 		personajes.remove(enemigo)
 	}
 
+	method reproducirMusica() {
+		const sonido = new Sound(file = "musica-nivelUno.mp3")
+		game.schedule(1000, { => sonido.play()})
+	}
+
+	method detenerMusica() {
+		sonidoInicio.stop()
+	}
+
 }
 
 object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
 	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20 ]
 
-	override method puntosRequeridos() = 10
+	override method puntosRequeridos() = 1
 
 	override method siguienteNivel() = nivelDos
 
@@ -94,13 +103,29 @@ object nivelUno inherits Nivel(cantMaxEnemigosSoportados = 4) {
 		super()
 	}
 
+	override method iniciar() {
+		starWarsGame.detenerMusica()
+		super()
+		self.reproducirMusica()
+	}
+
+	override method reproducirMusica() {
+		game.schedule(1000, { => self.sonido().play()})
+	}
+
+	override method detenerMusica() {
+		self.sonido().stop()
+	}
+
+	method sonido() = new Sound(file = "musica-nivelUno.mp3")
+
 }
 
 object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 4) {
 
 	method cajasDeNivel() = [ caja1, caja2, caja5, caja6, caja7, caja8, caja9, caja10, caja11, caja12, caja13, caja14, caja15, caja16, caja17, caja18, caja19, caja20, caja21, caja22, caja23, caja24, caja25, caja26, caja27, caja28, caja29, caja30, caja31, caja32, caja33, caja34 ]
 
-	override method puntosRequeridos() = 10
+	override method puntosRequeridos() = 1
 
 	override method siguienteNivel() = nivelTres
 
@@ -124,6 +149,20 @@ object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 4) {
 		super()
 	}
 
+	override method iniciar() {
+		nivelUno.detenerMusica()
+		super()
+		self.reproducirMusica()
+	}
+
+	override method reproducirMusica() {
+		game.schedule(1000, { => sonidoNivelDos.play()})
+	}
+
+	override method detenerMusica() {
+		sonidoNivelDos.stop()
+	}
+
 }
 
 object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 2) {
@@ -142,6 +181,20 @@ object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 2) {
 		game.onTick(2000, self.nroSerialGenerador(), { lordSithFactory.generarPara(self)})
 		darthVader.aparecer()
 		super()
+	}
+
+	override method iniciar() {
+		nivelDos.detenerMusica()
+		super()
+		self.reproducirMusica()
+	}
+
+	override method reproducirMusica() {
+		game.schedule(1000, { => sonidoNivelTres.play()})
+	}
+
+	override method detenerMusica() {
+		sonidoNivelTres.stop()
 	}
 
 }

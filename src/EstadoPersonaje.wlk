@@ -78,6 +78,7 @@ object mandalorianDerrotado inherits EstadoDerrotado {
 		mandalorian.score(0)
 		mandalorian.direccionDondeMira(abajo)
 		mandalorian.estado(mandalorianVivo)
+		mandalorian.nivelDondeSeEncuentra().detenerMusica()
 		mandalorian.nivelDondeSeEncuentra(nivelUno)
 	}
 
