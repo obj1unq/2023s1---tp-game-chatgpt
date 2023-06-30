@@ -7,6 +7,7 @@ import Proyectil.*
 import Nivel.nivelUno
 import PosicionMutable.*
 import StarWarsObject.*
+import Visor.*
 
 class Personaje inherits StarWarsObject {
 
@@ -153,7 +154,7 @@ class TrooperCadete inherits Trooper {
 
 class TrooperSargento inherits Trooper {
 
-	var direccionesAleatoria
+	var direccionesAleatoria = []
 
 	// / drop(3)
 	method moverAleatorio() {
@@ -239,22 +240,22 @@ class LordSith inherits Personaje {
 	method dispararRayo() {
 		const rayoDerecho = new Rayo(position = self.proximoRayoDerecho(1), direccionDeMovimiento = derecha, alcance = 5)
 		const rayoIzquierdo = new Rayo(position = self.proximoRayoIzquierdo(1), direccionDeMovimiento = izquierda, alcance = 5)
-		const rayoDerecho1 = new Rayo(position = self.proximoRayoDerecho(2), direccionDeMovimiento = derecha, alcance = 5)
-		const rayoIzquierdo2 = new Rayo(position = self.proximoRayoIzquierdo(2), direccionDeMovimiento = izquierda, alcance = 5)
-		const rayoDerecho3 = new Rayo(position = self.proximoRayoDerecho(3), direccionDeMovimiento = derecha, alcance = 5)
-		const rayoIzquierdo3 = new Rayo(position = self.proximoRayoIzquierdo(3), direccionDeMovimiento = izquierda, alcance = 5)
+//		const rayoDerecho1 = new Rayo(position = self.proximoRayoDerecho(2), direccionDeMovimiento = derecha, alcance = 5)
+//		const rayoIzquierdo2 = new Rayo(position = self.proximoRayoIzquierdo(2), direccionDeMovimiento = izquierda, alcance = 5)
+//		const rayoDerecho3 = new Rayo(position = self.proximoRayoDerecho(3), direccionDeMovimiento = derecha, alcance = 5)
+//		const rayoIzquierdo3 = new Rayo(position = self.proximoRayoIzquierdo(3), direccionDeMovimiento = izquierda, alcance = 5)
 		rayoIzquierdo.aparecer()
 		rayoIzquierdo.disparar()
 		rayoDerecho.aparecer()
 		rayoDerecho.disparar()
-		rayoDerecho1.aparecer()
-		rayoDerecho1.disparar()
-		rayoIzquierdo2.aparecer()
-		rayoIzquierdo2.disparar()
-		rayoIzquierdo3.aparecer()
-		rayoIzquierdo3.disparar()
-		rayoDerecho3.aparecer()
-		rayoDerecho3.disparar()
+//		rayoDerecho1.aparecer()
+//		rayoDerecho1.disparar()
+//		rayoIzquierdo2.aparecer()
+//		rayoIzquierdo2.disparar()
+//		rayoIzquierdo3.aparecer()
+//		rayoIzquierdo3.disparar()
+//		rayoDerecho3.aparecer()
+//		rayoDerecho3.disparar()
 	}
 
 	override method mover(direccion) {
@@ -268,6 +269,8 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 
 	var property vida = 5
 
+	method posicionBarra() = 100
+
 	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
 
 	method tiempoParaAccion() = 1000
@@ -280,6 +283,7 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 
 	override method aparecer() {
 		super()
+		barraDeVida.aparecer()
 		self.realizarAccionSecuencialmente()
 	}
 
@@ -294,7 +298,6 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 
 	method recibirDanio(danio) {
 		vida -= estado.restarVida(danio)
-		console.println("vida :" + vida)
 	}
 
 	override method realizarAccion() {
@@ -328,4 +331,8 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y =
 	}
 
 }
+
+const sargentoArriba = new TrooperSargento(estado = trooperVivo, position = new PosicionMutable(x = 12, y = 13), direccionDondeMira = arriba)
+
+const sargentoAbajo = new TrooperSargento(estado = trooperVivo, position = new PosicionMutable(x = 8, y = 1), direccionDondeMira = abajo)
 

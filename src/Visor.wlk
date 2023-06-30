@@ -14,6 +14,9 @@ class Visor {
 		game.addVisual(self)
 	}
 
+	method colision(objeto) {
+	}
+
 }
 
 object visorScore inherits Visor(position = new PosicionMutable(x = 2, y = 14)) {
@@ -58,6 +61,26 @@ object puntosRequeridosPorNivel {
 	method text() = "           PtosNivel"
 
 	method textColor() = "#FFFFFF"
+
+	method colision(objeto) {
+	}
+
+}
+
+object barraDeVida {
+
+	method esColisionable() = true
+
+	method image() = "vida-" + darthVader.vida() + ".png"
+
+	method position() = new PosicionMutable(x = darthVader.position().x(), y = darthVader.position().y() + 1)
+
+	method aparecer() {
+		game.addVisual(self)
+	}
+
+	method colision(objeto) {
+	}
 
 }
 

@@ -37,7 +37,6 @@ object trooperSargentoFactory inherits EnemigoFactory {
 	override method posicionAleatoria() = [ new PosicionMutable(x = 12, y = 13), new PosicionMutable(x = 8, y = 1) ].anyOne()
 
 	method respawn(posicionAleatoria) {
-		console.println("position " + posicionAleatoria)
 		return if (posicionAleatoria.y() == 13) direcciones else direcciones.reverse()
 	}
 
