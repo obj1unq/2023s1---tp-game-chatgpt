@@ -24,7 +24,7 @@ Dejamos una breve reseña de los elementos que podemos encontrar en el nivel:
 
 Una vez que cumplimos con la misión, el portal se abré y nos lleva al segundo nivel, donde tenemos un nuevo enemigo:
 
-![Pantalla de Nivel 2](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/master/assets/screenshot%20nivel%201.png)
+![Pantalla de Nivel 2](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/6ce9276faa759c6cf0aa016a6ada37a62f8bd972/assets/screenshot%20nivel%202.png)
 
 ## Juego
 
