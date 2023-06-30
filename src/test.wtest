@@ -203,8 +203,8 @@ describe "Test de nivel" {
 		assert.equals(0, mandalorian.vida())
 		mandalorianDerrotado.teEliminaron(mandalorian)
 		assert.equals(mandalorianVivo, mandalorian.estado())
-		assert.equals(2, mandalorian.vida())
 		assert.equals(0, mandalorian.score())
+		assert.equals(2, mandalorian.vida())
 	}
 
 }
