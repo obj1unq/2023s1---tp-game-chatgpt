@@ -264,13 +264,13 @@ class LordSith inherits Personaje {
 
 }
 
-object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 1), estado = darthVaderVivo) {
+object darthVader inherits Personaje (position = new PosicionMutable(x = 10, y = 7), estado = darthVaderVivo) {
 
 	var property vida = 5
 
 	method direccionAleatoria() = [ abajo, arriba, izquierda, derecha ].anyOne()
 
-	method tiempoParaAccion() = 5000
+	method tiempoParaAccion() = 1000
 
 	method puntosQueOtorga() = 100
 
@@ -289,18 +289,17 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 
 	method realizarAccionSecuencialmente() {
 		game.onTick(self.tiempoParaAccion(), self.nroSerialDarthVader(), { self.realizarAccionSiPuede()})
-		game.onTick(1500, self.nroSerialDarthVader(), { self.moverSiPuede(self.direccionAleatoria())})
+		game.onTick(1500, self.nroSerialDarthVader(), { self.moverSiPuede(mandalorian.direccionDondeMira().opuesto())})
 	}
 
 	method recibirDanio(danio) {
-		console.println(" recibir Danio ")
 		vida -= estado.restarVida(danio)
-		console.println("vida: " + vida)
+		console.println("vida :" + vida)
 	}
 
 	override method realizarAccion() {
-		game.onTick(5000, self.nroSerialDeVader(), { self.estado(darthVaderVivo)})
-		game.onTick(3000, self.nroSerialDeVader(), { self.estado(darthVaderInmune)})
+		game.onTick(1000, self.nroSerialDeVader(), { self.disparar()})
+		game.onTick(5000, self.nroSerialDeVader(), { self.cambiarDeEstado()})
 	}
 
 	override method desaparecer() {
@@ -308,7 +307,18 @@ object darthVader inherits Personaje (position = new PosicionMutable(x = 1, y = 
 			self.estado(darthVaderDerrotado)
 			estado.teEliminaron(self)
 			super()
+			gameWin.iniciar()
 		}
+	}
+
+	method disparar() {
+		const laser = new LaserNegro(position = direccionDondeMira.proxima(self), direccionDeMovimiento = direccionDondeMira, alcance = 5)
+		laser.aparecer()
+		laser.disparar()
+	}
+
+	method cambiarDeEstado() {
+		self.estado(estado.estadoOpuesto())
 	}
 
 	method nroSerialDeVader() = self.identity().toString()
