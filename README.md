@@ -14,7 +14,7 @@ Grupo 8 - Chat Gpt
 Controles del juego:
 
 
-![Controles del juego](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/c3f04a738b3974406b73a7538eded8c7adbc5f9e/assets/background-inicio.png)
+![Controles del juego](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/3689ece92b64b436130ba6d73b61e5adf060c2e1/assets/controles.png))
 
 Al iniciar el juego, aprentando la barra espaciadora, nos aparece el primer nivel.
 Dejamos una breve reseña de los elementos que podemos encontrar en el nivel:
