@@ -22,6 +22,10 @@ Dejamos una breve reseña de los elementos que podemos encontrar en el nivel:
 
 ![Pantalla de Nivel 1](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/master/assets/screenshot%20nivel%201.png)
 
+Una vez que cumplimos con la misión, el portal se abré y nos lleva al segundo nivel, donde tenemos un nuevo enemigo:
+
+![Pantalla de Nivel 2](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/master/assets/screenshot%20nivel%201.png)
+
 ## Juego
 
 La idea principal fue crear un juego de disparos basado en la mitica serie de Star Wars. Donde el personaje principal es The Mandalorian
