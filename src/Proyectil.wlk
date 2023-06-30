@@ -57,9 +57,6 @@ class Laser inherits Proyectil {
 		self.desaparecer()
 	}
 
-	override method colisionasteConMandalorian(objeto) {
-	}
-
 }
 
 class LaserAzul inherits Laser {
@@ -83,6 +80,9 @@ class LaserAzul inherits Laser {
 		objeto.desaparecer()
 	}
 
+	override method colisionasteConMandalorian(objeto) {
+	}
+
 }
 
 class LaserRojo inherits Laser {
@@ -90,6 +90,14 @@ class LaserRojo inherits Laser {
 	override method danio() = 1
 
 	override method sufijo() = "Rojo-"
+
+}
+
+class LaserNegro inherits Laser {
+
+	override method danio() = 1
+
+	override method sufijo() = "Negro-"
 
 }
 

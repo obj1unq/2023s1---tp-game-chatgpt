@@ -43,6 +43,13 @@ object darthVaderVivo inherits EstadoVivo {
 		return vida
 	}
 
+	method accion() {
+	}
+
+	method estadoOpuesto() {
+		return darthVaderInmune
+	}
+
 }
 
 class EstadoDerrotado inherits EstadoPersonaje {
@@ -86,7 +93,6 @@ object lordSithDerrotado inherits EstadoDerrotado {
 
 object darthVaderDerrotado inherits EstadoDerrotado {
 
-	// elimina a vader 
 	override method teEliminaron(personaje) {
 		mandalorian.sumarScore(personaje.puntosQueOtorga())
 		mandalorian.nivelDondeSeEncuentra().removerEnemigo(personaje)
@@ -94,6 +100,9 @@ object darthVaderDerrotado inherits EstadoDerrotado {
 	}
 
 	method imagenPara(personaje) = personaje.direccionDondeMira().toString()
+
+	method accion() {
+	}
 
 }
 
@@ -132,6 +141,13 @@ object darthVaderInmune inherits EstadoPersonaje {
 
 	method restarVida(vida) {
 		return 0
+	}
+
+	method accion() {
+	}
+
+	method estadoOpuesto() {
+		return darthVaderVivo
 	}
 
 }

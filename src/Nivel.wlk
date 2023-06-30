@@ -124,7 +124,7 @@ object nivelDos inherits Nivel(cantMaxEnemigosSoportados = 6) {
 
 }
 
-object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 6) {
+object nivelTres inherits Nivel(cantMaxEnemigosSoportados = 1) {
 
 	override method puntosRequeridos() = 100
 
