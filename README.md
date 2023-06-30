@@ -30,6 +30,9 @@ Al juntar los puntos necesarios, nuevamente el portal se abré y podemos pasar a
 
 ![Pantalla de Nivel 3](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/fa0698ac55fc649b3c84ca023353748633b4b70c/assets/screenshot%20nivel%203a.png)
 
+Si logramos eliminar a Darth Vader, completamos exitosamente el juego!
+En tu cara programadores! (Costó pero dimos vuelta el juego)
+
 ## Juego
 
 La idea principal fue crear un juego de disparos basado en la mitica serie de Star Wars. Donde el personaje principal es The Mandalorian
@@ -37,6 +40,7 @@ y debe disparales a los Troopers, Lord Sith y Darth Veder para poder ganar sin c
 
 El objetivo del juego es sumar la cantidad de puntos requerida por el nivel (sin morir) eliminando a todos los Troopers del escenario hasta habilitar el portal y pasar de nivel.
 
+En el primer nivel nos encontramos dentro una nave intergaláctica y nuestra misión es eliminar los Trooper cadete necesarios para que cumplamos con la misión, el portal se abra y nos permita pasar al segundo nivel.
 
 ## Otros
 
