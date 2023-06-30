@@ -34,7 +34,7 @@ Si logramos eliminar a Darth Vader, completamos exitosamente el juego!
 En tu cara programadores! (Costó pero dimos vuelta el juego)
 
 Personajes del juego:
-![Personajes del juego](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/f4e5c7c935bd606622e950021308906beae6a322/assets/Personajes.png))
+![Personajes del juego](https://github.com/obj1unq/2023s1---tp-game-chatgpt/blob/f4e5c7c935bd606622e950021308906beae6a322/assets/Personajes.png)
 
 ## Juego
 
