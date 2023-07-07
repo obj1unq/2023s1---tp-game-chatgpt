@@ -79,6 +79,7 @@ object mandalorianDerrotado inherits EstadoDerrotado {
 		mandalorian.direccionDondeMira(abajo)
 		mandalorian.estado(mandalorianVivo)
 		mandalorian.nivelDondeSeEncuentra(nivelUno)
+		darthVader.vida(5)
 	}
 
 }
